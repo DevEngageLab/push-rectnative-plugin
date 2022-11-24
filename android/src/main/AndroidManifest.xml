@@ -1,0 +1,44 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="cn.engagelab.plugins.push">
+
+    <!-- 必须，网络权限 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 可选，通知震动 -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <application>
+
+        <service
+            android:name="cn.engagelab.plugins.push.receiver.MTUserService"
+            android:exported="false"
+            android:process=":remote">
+            <!--                android:process="${ENGAGELAB_PRIVATES_PROCESS}">-->
+            <intent-filter>
+                <action android:name="com.engagelab.privates.intent.USER_SERVICE" />
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name="cn.engagelab.plugins.push.receiver.MTPushModuleReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.engagelab.privates.intent.USER_RECEIVER" />
+            </intent-filter>
+        </receiver>
+
+<!--        <receiver-->
+<!--            android:name=".receiver.MTPushBroadcastReceiver"-->
+<!--            android:enabled="true"-->
+<!--            android:exported="false">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />-->
+<!--                <category android:name="${applicationId}" />-->
+<!--            </intent-filter>-->
+<!--        </receiver>-->
+
+    </application>
+
+
+
+</manifest>
