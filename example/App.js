@@ -112,6 +112,12 @@ export default class App extends React.Component {
                 <Button title="removeLocalNotification"
                            onPress={() => MTPush.removeLocalNotification({messageID: '123456789'})}/>
 
+                {/* <Button title="setPushTime"
+                           onPress={() => MTPush.setPushTime({pushTimeDays: [5,6], pushTimeStartHour: 6, pushTimeEndHour: 22})}/>
+
+                <Button title="setSilenceTime"
+                           onPress={() => MTPush.setSilenceTime({silenceTimeStartHour: 5, silenceTimeStartMinute: 1, silenceTimeEndHour: 18, silenceTimeEndMinute: 1})}/>        */}
+
 
             </View>
         );

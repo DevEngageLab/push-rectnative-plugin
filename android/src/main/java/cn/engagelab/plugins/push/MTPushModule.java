@@ -128,13 +128,13 @@ public class MTPushModule extends ReactContextBaseJavaModule {
             }
             days.add(day);
         }
-        Context var10000 = reactContext;
-        int context1;
-        int[] var4 = new int[context1 = days.size()];
-        Integer[] var10001 = new Integer[days.size()];
-        days.toArray(var10001);
-        System.arraycopy(var10001, 0, var4, 0, context1);
-        MTPushPrivatesApi.setNotificationShowTime(var10000.getApplicationContext(), startHour, endHour, var4);
+
+        int[] array=new int[days.size()];
+        Object[] objects = days.toArray();
+        for (int i = 0; i < days.size(); i++) {
+            array[i]= (int) objects[i];
+        }
+        MTPushPrivatesApi.setNotificationShowTime(reactContext, startHour, endHour, array);
     }
 
     @ReactMethod
