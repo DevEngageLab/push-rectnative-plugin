@@ -26,6 +26,16 @@ export default class MTPush {
     }
 
     /*
+    * 设置是否TCP加密连接，默认关闭状态
+    *
+    * 该接口需在 init 接口之前调用，否则无效
+    * @param enable = boolean
+    * */
+     static setTcpSSL(enable) {
+        MTPushModule.setTcpSSL(enable)
+    }
+
+    /*
     * 初始化推送服务
     * {"appKey":"","channel":"dev","production":1}
     * 请在componentDidMount()调用init，否则会影响通知点击事件的回调

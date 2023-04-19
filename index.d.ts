@@ -28,6 +28,14 @@ export default class MTPush {
    */
   static setLoggerEnable(enable: boolean): void;
 
+  /*
+    * 设置是否TCP加密连接，默认关闭状态
+    *
+    * 该接口需在 init 接口之前调用，否则无效
+    * @param enable = boolean
+    * */  
+  static setTcpSSL(enable: boolean): void;
+
   /**
    * 初始化推送服务
    * {"appKey":"","channel":"dev","production":1}

@@ -7,7 +7,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "mtpush-react-native": "1.0.0",
+    "mtpush-react-native": "1.0.1",
     "react": "16.8.6",
     "react-native": "0.60.5",
     "update": "^0.7.4"

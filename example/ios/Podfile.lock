@@ -87,7 +87,7 @@ DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
-  - MTPush (from `../../`)
+  - MTPush (from `../node_modules/mtpush-react-native`)
   - React (from `../node_modules/react-native/`)
   - React-Core (from `../node_modules/react-native/React`)
   - React-cxxreact (from `../node_modules/react-native/ReactCommon/cxxreact`)
@@ -119,7 +119,7 @@ EXTERNAL SOURCES:
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
   MTPush:
-    :path: "../../"
+    :path: "../node_modules/mtpush-react-native"
   React:
     :path: "../node_modules/react-native/"
   React-Core:
@@ -182,6 +182,6 @@ SPEC CHECKSUMS:
   React-RCTWebSocket: cd932a16b7214898b6b7f788c8bddb3637246ac4
   yoga: 312528f5bbbba37b4dcea5ef00e8b4033fdd9411
 
-PODFILE CHECKSUM: e02dbc7c04b1ebcdf447bbc879782ed2108f5124
+PODFILE CHECKSUM: 91fa5d33cb71505b5d8ae3f0a70efd5ad348f318
 
 COCOAPODS: 1.11.2

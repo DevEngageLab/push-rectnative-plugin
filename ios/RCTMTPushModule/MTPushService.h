@@ -2,7 +2,7 @@
  * Copyright (c) 2011 ~ 2017 Shenzhen MT. All rights reserved.
  */
 
-#define MTP_VERSION_NUMBER 3.0.0
+#define MTP_VERSION_NUMBER 3.3.0
 
 #import <Foundation/Foundation.h>
 
@@ -183,6 +183,14 @@ typedef NS_ENUM(NSUInteger, MTPushAuthorizationStatus) {
                 channel:(NSString *)channel
        apsForProduction:(BOOL)isProduction
   advertisingIdentifier:(NSString *)advertisingId;
+
+
+/*!
+ * @abstract 设置是否TCP加密连接
+ * @param isSSL 加密传YES, 不加密传NO
+ * @discussion 此接口必须要在SDK启动前进行设置
+ */
++ (void)setTcpSSL:(BOOL)isSSL;
 
 
 ///----------------------------------------------------
