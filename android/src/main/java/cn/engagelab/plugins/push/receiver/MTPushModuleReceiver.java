@@ -2,7 +2,11 @@ package cn.engagelab.plugins.push.receiver;
 
 import android.content.Context;
 
+import com.engagelab.privates.push.api.AliasMessage;
+import com.engagelab.privates.push.api.TagMessage;
 import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 
 import com.engagelab.privates.common.component.MTCommonReceiver;
@@ -11,6 +15,11 @@ import com.engagelab.privates.push.api.CustomMessage;
 import com.engagelab.privates.push.api.MobileNumberMessage;
 import com.engagelab.privates.push.api.NotificationMessage;
 import com.engagelab.privates.push.api.PlatformTokenMessage;
+import com.facebook.react.bridge.WritableNativeArray;
+
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.engagelab.plugins.push.MTPushModule;
 import cn.engagelab.plugins.push.common.MTLogger;
@@ -66,11 +75,6 @@ public class MTPushModuleReceiver extends MTCommonReceiver {
     MTPushHelper.sendEvent(MTConstants.NOTIFICATION_EVENT, writableMap);
   }
 
-//  @Override
-//  public void onRegister(Context context, String registrationId) {
-//    MTLogger.d("onRegister:" + registrationId);
-//  }
-//
   @Override
   public void onConnectStatus(Context context, boolean state) {
     MTLogger.d("onConnected state:" + state);
@@ -78,17 +82,34 @@ public class MTPushModuleReceiver extends MTCommonReceiver {
     writableMap.putBoolean(MTConstants.CONNECT_ENABLE, state);
     MTPushHelper.sendEvent(MTConstants.CONNECT_EVENT, writableMap);
   }
-//
-//  @Override
-//  public void onCommandResult(Context context, CmdMessage message) {
-//    MTLogger.d("onCommandResult:" + message.toString());
-//    WritableMap writableMap = Arguments.createMap();
-//    writableMap.putInt(MTConstants.COMMAND, message.cmd);
-//    writableMap.putString(MTConstants.COMMAND_EXTRA, message.extra.toString());
-//    writableMap.putString(MTConstants.COMMAND_MESSAGE, message.msg);
-//    writableMap.putInt(MTConstants.COMMAND_RESULT, message.errorCode);
-//    MTPushHelper.sendEvent(MTConstants.COMMAND_EVENT, writableMap);
-//  }
+
+  @Override
+  public void onTagMessage(Context context, TagMessage tagMessage) {
+    MTLogger.d("onTagMessage:" + tagMessage.toString());
+    WritableMap writableMap = Arguments.createMap();
+    writableMap.putInt(MTConstants.CODE,tagMessage.getCode());
+    WritableArray writableArray = new WritableNativeArray();
+    writableMap.putInt(MTConstants.SEQUENCE,tagMessage.getSequence());
+    if (tagMessage.getQueryTag().equals("1")) {
+      writableMap.putBoolean(MTConstants.TAG_ENABLE, tagMessage.isQueryTagValid());
+    }else {
+      for (String value : tagMessage.getTags()) {
+        writableArray.pushString(value);
+      }
+      writableMap.putArray(MTConstants.TAGS,writableArray);
+    }
+    MTPushHelper.sendEvent(MTConstants.TAG_ALIAS_EVENT, writableMap);
+  }
+
+  @Override
+  public void onAliasMessage(Context context, AliasMessage aliasMessage) {
+    MTLogger.d("onAliasMessage:" + aliasMessage.toString());
+    WritableMap writableMap = Arguments.createMap();
+    writableMap.putInt(MTConstants.CODE,aliasMessage.getCode());
+    writableMap.putString(MTConstants.ALIAS,aliasMessage.getAlias());
+    writableMap.putInt(MTConstants.SEQUENCE,aliasMessage.getSequence());
+    MTPushHelper.sendEvent(MTConstants.TAG_ALIAS_EVENT, writableMap);
+  }
 
   @Override
   public void onMobileNumber(Context context, MobileNumberMessage mobileNumberMessage) {

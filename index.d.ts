@@ -12,6 +12,32 @@ export type Sequence = {
   sequence: number;
 };
 
+export type Tag = {
+  /**
+   * 有效的标签组成：字母（区分大小写）、数字、下划线、汉字、特殊字符@!#$&*+=.|
+   * 限制：每个 tag 命名长度限制为 40 字节,最多支持设置 1000 个 tag,且单次操作总长度不得超过 5000 字节
+   *（判断长度需采用 UTF-8 编码）单个设备最多支持设置 1000 个 tag。App 全局 tag 数量无限制
+   */
+  tag: string;
+};
+
+type Tags = {
+  /**
+   * 有效的标签组成：字母（区分大小写）、数字、下划线、汉字、特殊字符@!#$&*+=.|
+   * 限制：每个 tag 命名长度限制为 40 字节,最多支持设置 1000 个 tag,且单次操作总长度不得超过 5000 字节
+   *（判断长度需采用 UTF-8 编码）单个设备最多支持设置 1000 个 tag。App 全局 tag 数量无限制
+   */
+  tags: string[];
+};
+
+type Alias = {
+  /**
+   * 有效的别名组成：字母（区分大小写）、数字、下划线、汉字、特殊字符@!#$&*+=.|
+   * 限制：alias 命名长度限制为 40 字节。（判断长度需采用 UTF-8 编码）
+   */
+  alias: string;
+};
+
 type NotificationId = {
     /**
      * 通知 ID
@@ -36,6 +62,14 @@ export default class MTPush {
     * */  
   static setTcpSSL(enable: boolean): void;
 
+  /*
+    * 设置数据中心
+    *
+    * 该接口需在 init 接口之前调用，否则无效。 不调用的话默认新加坡数据中心
+    * @param siteName 数据中心的名称
+    * */  
+  static setSiteName(siteName: string): void;
+
   /**
    * 初始化推送服务
    * {"appKey":"","channel":"dev","production":1}
@@ -56,6 +90,60 @@ export default class MTPush {
    *
    */
   static getRegistrationID(callback: Callback<{ registerID: string }>): void;
+
+
+  //***************************************tags/alias*******************************
+
+  /**
+   * 新增标签
+   *
+   * 这个接口是增加逻辑,而不是覆盖逻辑
+   */
+  static addTags(params: Sequence & Tags): void;
+
+  /**
+   * 覆盖标签
+   *
+   * 需要理解的是,这个接口是覆盖逻辑,而不是增量逻辑。即新的调用会覆盖之前的设置
+   */
+  static updateTags(params: Sequence & Tags): void;
+
+  /**
+   * 删除指定标签
+   *
+   */
+  static deleteTag(params: Sequence & Tags): void;
+
+  /**
+   * 清除所有标签
+   */
+  static deleteTags(params: Sequence): void;
+
+  /**
+   * 查询指定 tag 与当前用户绑定的状态
+   */
+  static queryTag(params: Sequence & Tag): void;
+
+  /**
+   * 查询所有标签
+   */
+  static queryTags(params: Sequence): void;
+
+  /**
+   * 设置别名
+   * 需要理解的是,这个接口是覆盖逻辑,而不是增量逻辑。即新的调用会覆盖之前的设置
+   */
+  static setAlias(params: Sequence & Alias): void;
+
+  /**
+   * 删除别名
+   */
+  static deleteAlias(params: Sequence): void;
+
+  /**
+   * 查询别名
+   */
+  static queryAlias(params: Sequence): void;
 
   //***************************************统计***************************************
 

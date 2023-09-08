@@ -2,7 +2,7 @@
  * Copyright (c) 2011 ~ 2017 Shenzhen MT. All rights reserved.
  */
 
-#define MTP_VERSION_NUMBER 3.3.0
+#define MTP_VERSION_NUMBER 4.3.0
 
 #import <Foundation/Foundation.h>
 
@@ -14,6 +14,10 @@
 @class UNNotificationRequest;
 @class UNNotification;
 @protocol MTPushRegisterDelegate;
+
+typedef void (^MTPushTagsOperationCompletion)(NSInteger iResCode, NSSet *iTags, NSInteger seq);
+typedef void (^MTPushTagValidOperationCompletion)(NSInteger iResCode, NSSet *iTags, NSInteger seq, BOOL isBind);
+typedef void (^MTPushAliasOperationCompletion)(NSInteger iResCode, NSString *iAlias, NSInteger seq);
 
 extern NSString *const kMTCNetworkIsConnectingNotification; // 正在连接中
 extern NSString *const kMTCNetworkDidSetupNotification;     // 建立连接
@@ -147,6 +151,14 @@ typedef NS_ENUM(NSUInteger, MTPushAuthorizationStatus) {
 /// @name Setup 启动相关
 ///----------------------------------------------------
 
+/*!
+ * @abstract 设置数据中心
+ *
+ * @param siteName 数据中心的名称.
+ *
+ * @discussion 不设置的话使用默认的数据中心。此接口必须在 初始化函数之前 调用.
+ */
++ (void)setSiteName:(NSString *)siteName;
 
 /*!
  * @abstract 启动SDK
@@ -233,6 +245,110 @@ typedef NS_ENUM(NSUInteger, MTPushAuthorizationStatus) {
 * @abstract 跳转至系统设置页面，iOS8及以上有效
 */
 + (void)openSettingsForNotification:(void (^)(BOOL success))completionHandler NS_AVAILABLE_IOS(8_0);
+
+/*!
+ * Tags操作接口
+ * 支持增加/覆盖/删除/清空/查询操作
+ */
+
+/**
+ 增加tags
+
+ @param tags 需要增加的tags集合
+ @param completion 响应回调
+ @param seq 请求序列号
+ */
++ (void)addTags:(NSSet<NSString *> *)tags
+     completion:(MTPushTagsOperationCompletion)completion
+            seq:(NSInteger)seq;
+
+/**
+ 覆盖tags
+ 调用该接口会覆盖用户所有的tags
+
+ @param tags 需要设置的tags集合
+ @param completion 响应回调
+ @param seq 请求序列号
+ */
++ (void)setTags:(NSSet<NSString *> *)tags
+     completion:(MTPushTagsOperationCompletion)completion
+            seq:(NSInteger)seq;
+
+/**
+ 删除指定tags
+
+ @param tags 需要删除的tags集合
+ @param completion 响应回调
+ @param seq 请求序列号
+ */
++ (void)deleteTags:(NSSet<NSString *> *)tags
+        completion:(MTPushTagsOperationCompletion)completion
+               seq:(NSInteger)seq;
+
+/**
+ 清空所有tags
+ @param completion 响应回调
+ @param seq 请求序列号
+ */
++ (void)cleanTags:(MTPushTagsOperationCompletion)completion
+              seq:(NSInteger)seq;
+
+/**
+ 查询全部tags
+
+ @param completion 响应回调，请在回调中获取查询结果
+ @param seq 请求序列号
+ */
++ (void)getAllTags:(MTPushTagsOperationCompletion)completion
+               seq:(NSInteger)seq;
+
+/**
+ 验证tag是否绑定
+ 
+ @param completion 响应回调，回调中查看是否绑定
+ @param seq 请求序列号
+ */
++ (void)validTag:(NSString *)tag
+      completion:(MTPushTagValidOperationCompletion)completion
+             seq:(NSInteger)seq;
+
+/**
+ 设置Alias
+
+ @param alias 需要设置的alias
+ @param completion 响应回调
+ @param seq 请求序列号
+ */
++ (void)setAlias:(NSString *)alias
+      completion:(MTPushAliasOperationCompletion)completion
+             seq:(NSInteger)seq;
+
+/**
+ 删除alias
+
+ @param completion 响应回调
+ @param seq 请求序列号
+ */
++ (void)deleteAlias:(MTPushAliasOperationCompletion)completion
+                seq:(NSInteger)seq;
+
+/**
+ 查询当前alias
+
+ @param completion 响应回调
+ @param seq 请求序列号
+ */
++ (void)getAlias:(MTPushAliasOperationCompletion)completion
+             seq:(NSInteger)seq;
+
+
+/*!
+ * @abstract 过滤掉无效的 tags
+ *
+ * @discussion 如果 tags 数量超过限制数量, 则返回靠前的有效的 tags.
+ * 建议设置 tags 前用此接口校验. SDK 内部也会基于此接口来做过滤.
+ */
++ (NSSet *)filterValidTags:(NSSet *)tags;
 
 
 ///----------------------------------------------------

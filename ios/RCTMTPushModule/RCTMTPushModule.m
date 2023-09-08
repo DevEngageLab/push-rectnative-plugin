@@ -20,6 +20,13 @@
 //本地角标
 #define APP_BADGE @"appBadge"
 
+//tagAlias
+#define TAG         @"tag"
+#define TAGS        @"tags"
+#define TAG_ENABLE  @"tagEnable"
+
+#define ALIAS       @"alias"
+
 //通知事件类型
 #define NOTIFICATION_EVENT_TYPE   @"notificationEventType"
 #define NOTIFICATION_ARRIVED      @"notificationArrived"
@@ -33,6 +40,8 @@
 #define LOCAL_NOTIFICATION_EVENT  @"LocalNotificationEvent"
 //连接状态
 #define CONNECT_EVENT             @"ConnectEvent"
+//tag alias
+#define TAG_ALIAS_EVENT           @"TagAliasEvent"
 //phoneNumber
 #define MOBILE_NUMBER_EVENT       @"MobileNumberEvent"
 
@@ -99,11 +108,22 @@ RCT_EXPORT_MODULE(MTPushModule);
     return self;
 }
 
+RCT_EXPORT_METHOD(setTcpSSL: (BOOL *)enable)
+{
+    [MTPushService setTcpSSL:enable];
+}
+
+
 RCT_EXPORT_METHOD(setDebugMode: (BOOL *)enable)
 {
     if(enable){
         [MTPushService setDebugMode];
     }
+}
+
+RCT_EXPORT_METHOD(setSiteName: (NSString *)siteName)
+{
+    [MTPushService setSiteName:siteName];
 }
 
 RCT_EXPORT_METHOD(setupWithConfig:(NSDictionary *)params)
@@ -262,10 +282,119 @@ RCT_EXPORT_METHOD(clearLocalNotifications)
 }
 
 
+// tags/alias
+RCT_EXPORT_METHOD(addTags:(NSDictionary *)params)
+{
+    if([params[@"tags"] isKindOfClass:[NSArray class]]){
+        NSArray *tags = [params[TAGS] copy];
+        if (tags != NULL) {
+            NSSet *tagSet = [NSSet setWithArray:tags];
+            NSInteger sequence = params[SEQUENCE]?[params[SEQUENCE] integerValue]:-1;
+            [MTPushService addTags:tagSet completion:^(NSInteger iResCode, NSSet *iTags, NSInteger seq) {
+                NSDictionary *data = @{CODE:@(iResCode),SEQUENCE:@(seq),TAGS:[iTags allObjects]};
+                [self sendTagAliasEvent:data];
+            } seq:sequence];
+        }
+    }
+}
+
+RCT_EXPORT_METHOD(setTags:(NSDictionary *)params)
+{
+    if([params[@"tags"] isKindOfClass:[NSArray class]]){
+        NSArray *tags = [params[TAGS] copy];
+        if (tags != NULL) {
+            NSSet *tagSet = [NSSet setWithArray:tags];
+            NSInteger sequence = params[SEQUENCE]?[params[SEQUENCE] integerValue]:-1;
+            [MTPushService setTags:tagSet completion:^(NSInteger iResCode, NSSet *iTags, NSInteger seq) {
+                NSDictionary *data = @{CODE:@(iResCode),SEQUENCE:@(seq),TAGS:[iTags allObjects]};
+                [self sendTagAliasEvent:data];
+            } seq:sequence];
+        }
+    }
+}
+
+RCT_EXPORT_METHOD(deleteTags:(NSDictionary *)params)
+{
+    if([params[@"tags"] isKindOfClass:[NSArray class]]){
+        NSArray *tags = [params[TAGS] copy];
+        if (tags != NULL) {
+            NSSet *tagSet = [NSSet setWithArray:tags];
+            NSInteger sequence = params[SEQUENCE]?[params[SEQUENCE] integerValue]:-1;
+            [MTPushService deleteTags:tagSet completion:^(NSInteger iResCode, NSSet *iTags, NSInteger seq) {
+                NSDictionary *data = @{CODE:@(iResCode),SEQUENCE:@(seq),TAGS:[iTags allObjects]};
+                [self sendTagAliasEvent:data];
+            } seq:sequence];
+        }
+    }
+}
+
+RCT_EXPORT_METHOD(cleanTags:(NSDictionary *)params)
+{
+    NSInteger sequence = params[SEQUENCE]?[params[SEQUENCE] integerValue]:-1;
+    [MTPushService cleanTags:^(NSInteger iResCode, NSSet *iTags, NSInteger seq) {
+        NSDictionary *data = @{CODE:@(iResCode),SEQUENCE:@(seq)};
+        [self sendTagAliasEvent:data];
+    } seq:sequence];
+}
+
+RCT_EXPORT_METHOD(getAllTags:(NSDictionary *)params)
+{
+    NSInteger sequence = params[SEQUENCE]?[params[SEQUENCE] integerValue]:-1;
+    [MTPushService getAllTags:^(NSInteger iResCode, NSSet *iTags, NSInteger seq) {
+        NSDictionary *data = @{CODE:@(iResCode),SEQUENCE:@(seq),TAGS:[iTags allObjects]};
+        [self sendTagAliasEvent:data];
+    } seq:sequence];
+}
+
+RCT_EXPORT_METHOD(validTag:(NSDictionary *)params)
+{
+    if(params[TAG]){
+        NSString *tag = params[TAG];
+        NSInteger sequence = params[SEQUENCE]?[params[SEQUENCE] integerValue]:-1;
+        [MTPushService validTag:(tag)
+                    completion:^(NSInteger iResCode, NSSet *iTags, NSInteger seq, BOOL isBind) {
+            NSDictionary *data = @{CODE:@(iResCode),SEQUENCE:@(seq),TAG_ENABLE:@(isBind),TAG:tag};
+            [self sendTagAliasEvent:data];
+        } seq:sequence];
+    }
+}
+
+//alias
+RCT_EXPORT_METHOD(setAlias:(NSDictionary *)params) {
+    if(params[ALIAS]){
+        NSString *alias = params[ALIAS];
+        NSInteger sequence = params[SEQUENCE]?[params[SEQUENCE] integerValue]:-1;
+        [MTPushService setAlias:alias
+                    completion:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
+            NSDictionary *data = @{CODE:@(iResCode),SEQUENCE:@(seq),ALIAS:iAlias};
+            [self sendTagAliasEvent:data];
+        }
+                           seq:sequence];
+    }
+}
+
+RCT_EXPORT_METHOD(deleteAlias:(NSDictionary *)params) {
+    NSInteger sequence = params[SEQUENCE]?[params[SEQUENCE] integerValue]:-1;
+    [MTPushService deleteAlias:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
+        NSDictionary *data = @{CODE:@(iResCode),SEQUENCE:@(seq)};
+        [self sendTagAliasEvent:data];
+    } seq:sequence];
+}
+
+RCT_EXPORT_METHOD(getAlias:(NSDictionary *)params) {
+    NSInteger sequence = params[SEQUENCE]?[params[SEQUENCE] integerValue]:-1;
+    [MTPushService getAlias:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
+        NSDictionary *data = @{CODE:@(iResCode),SEQUENCE:@(seq),ALIAS:iAlias};
+        [self sendTagAliasEvent:data];
+    } seq:sequence];
+}
+
+
+
 //事件处理
 - (NSArray<NSString *> *)supportedEvents
 {
-    return @[CONNECT_EVENT,NOTIFICATION_EVENT,CUSTOM_MESSAGE_EVENT,LOCAL_NOTIFICATION_EVENT,MOBILE_NUMBER_EVENT];
+    return @[CONNECT_EVENT,NOTIFICATION_EVENT,CUSTOM_MESSAGE_EVENT,LOCAL_NOTIFICATION_EVENT,MOBILE_NUMBER_EVENT,TAG_ALIAS_EVENT];
 }
 
 //长连接登录
@@ -341,6 +470,15 @@ RCT_EXPORT_METHOD(clearLocalNotifications)
     [self.bridge enqueueJSCall:@"RCTDeviceEventEmitter"
                         method:@"emit"
                           args:@[MOBILE_NUMBER_EVENT, data]
+                    completion:NULL];
+}
+
+//TagAlias
+- (void)sendTagAliasEvent:(NSDictionary *)data
+{
+    [self.bridge enqueueJSCall:@"RCTDeviceEventEmitter"
+                        method:@"emit"
+                          args:@[TAG_ALIAS_EVENT, data]
                     completion:NULL];
 }
 

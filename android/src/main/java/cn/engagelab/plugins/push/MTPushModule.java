@@ -60,6 +60,16 @@ public class MTPushModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void configSiteName(String siteName) {
+        MTCorePrivatesApi.configAppSiteName(reactContext,siteName);
+    }
+
+    @ReactMethod
+    public void setTcpSSL(boolean enable) {
+        MTCorePrivatesApi.setTcpSSl(enable);
+    }
+
+    @ReactMethod
     public void init() {
         MTPushPrivatesApi.init(reactContext);
 //        if (MTPushBroadcastReceiver.NOTIFICATION_BUNDLE != null) {
@@ -69,6 +79,135 @@ public class MTPushModule extends ReactContextBaseJavaModule {
 //        }
 
     }
+
+    @ReactMethod
+    public void addTags(ReadableMap readableMap) {
+        if (readableMap == null) {
+            MTLogger.w(MTConstants.PARAMS_NULL);
+            return;
+        }
+        if (readableMap.hasKey(MTConstants.TAGS)) {
+            ReadableArray tags = readableMap.getArray(MTConstants.TAGS);
+            int sequence = readableMap.getInt(MTConstants.SEQUENCE);
+            Set<String> tagSet = new HashSet<>();
+            for (int i = 0; i < tags.size(); i++) {
+                String tag = tags.getString(i);
+                tagSet.add(tag);
+            }
+            String[] arr = tagSet.toArray(new String[0]);
+            MTPushPrivatesApi.addTag(reactContext, sequence, arr);
+        } else {
+            MTLogger.w("there are no " + MTConstants.TAGS);
+        }
+    }
+
+    @ReactMethod
+    public void updateTags(ReadableMap readableMap) {
+        if (readableMap == null) {
+            MTLogger.w(MTConstants.PARAMS_NULL);
+            return;
+        }
+        if (readableMap.hasKey(MTConstants.TAGS)) {
+            ReadableArray tags = readableMap.getArray(MTConstants.TAGS);
+            int sequence = readableMap.getInt(MTConstants.SEQUENCE);
+            Set<String> tagSet = new HashSet<>();
+            for (int i = 0; i < tags.size(); i++) {
+                String tag = tags.getString(i);
+                tagSet.add(tag);
+            }
+            String[] arr = tagSet.toArray(new String[0]);
+            MTPushPrivatesApi.updateTag(reactContext, sequence, arr);
+        } else {
+            MTLogger.w("there are no " + MTConstants.TAGS);
+        }
+    }
+
+    @ReactMethod
+    public void deleteTags(ReadableMap readableMap) {
+        if (readableMap == null) {
+            MTLogger.w(MTConstants.PARAMS_NULL);
+            return;
+        }
+        if (readableMap.hasKey(MTConstants.TAGS)) {
+            ReadableArray tags = readableMap.getArray(MTConstants.TAGS);
+            int sequence = readableMap.getInt(MTConstants.SEQUENCE);
+            Set<String> tagSet = new HashSet<>();
+            for (int i = 0; i < tags.size(); i++) {
+                String tag = tags.getString(i);
+                tagSet.add(tag);
+            }
+            String[] arr = tagSet.toArray(new String[0]);
+            MTPushPrivatesApi.deleteTag(reactContext, sequence, arr);
+        } else {
+            MTLogger.w("there are no " + MTConstants.TAGS);
+        }
+    }
+
+    @ReactMethod
+    public void cleanTags(ReadableMap readableMap) {
+        if (readableMap == null) {
+            MTLogger.w(MTConstants.PARAMS_NULL);
+            return;
+        }
+        int sequence = readableMap.getInt(MTConstants.SEQUENCE);
+        MTPushPrivatesApi.deleteAllTag(reactContext, sequence);
+    }
+
+    @ReactMethod
+    public void getAllTags(ReadableMap readableMap) {
+        if (readableMap == null) {
+            MTLogger.w(MTConstants.PARAMS_NULL);
+            return;
+        }
+        int sequence = readableMap.getInt(MTConstants.SEQUENCE);
+        MTPushPrivatesApi.queryAllTag(reactContext, sequence);
+    }
+
+    @ReactMethod
+    public void queryTag(ReadableMap readableMap) {
+        if (readableMap == null) {
+            MTLogger.w(MTConstants.PARAMS_NULL);
+            return;
+        }
+        int sequence = readableMap.getInt(MTConstants.SEQUENCE);
+        String tag = readableMap.getString(MTConstants.TAG);
+        MTPushPrivatesApi.queryTag(reactContext, sequence, tag);
+    }
+
+    @ReactMethod
+    public void setAlias(ReadableMap readableMap) {
+        if (readableMap == null) {
+            MTLogger.w(MTConstants.PARAMS_NULL);
+            return;
+        }
+        int sequence = readableMap.getInt(MTConstants.SEQUENCE);
+        String alias = readableMap.getString(MTConstants.ALIAS);
+        MTPushPrivatesApi.setAlias(reactContext, sequence, alias);
+    }
+
+    @ReactMethod
+    public void deleteAlias(ReadableMap readableMap) {
+        if (readableMap == null) {
+            MTLogger.w(MTConstants.PARAMS_NULL);
+            return;
+        }
+        int sequence = readableMap.getInt(MTConstants.SEQUENCE);
+        MTPushPrivatesApi.clearAlias(reactContext, sequence);
+    }
+
+    @ReactMethod
+    public void getAlias(ReadableMap readableMap) {
+        if (readableMap == null) {
+            MTLogger.w(MTConstants.PARAMS_NULL);
+            return;
+        }
+        int sequence = readableMap.getInt(MTConstants.SEQUENCE);
+        MTPushPrivatesApi.getAlias(reactContext, sequence);
+    }
+
+
+
+
 
     @ReactMethod
     public void stopPush() {

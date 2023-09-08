@@ -11,9 +11,20 @@ const ConnectEvent           = 'ConnectEvent'            //连接状态
 const NotificationEvent      = 'NotificationEvent'       //通知事件
 const LocalNotificationEvent = 'LocalNotificationEvent'  //本地通知事件
 const CustomMessageEvent     = 'CustomMessageEvent'      //自定义消息事件
+const TagAliasEvent          = 'TagAliasEvent'           //TagAlias/Pros事件
 const MobileNumberEvent      = 'MobileNumberEvent'       //电话号码事件
 
 export default class MTPush {
+
+    /*
+    * 设置是否TCP加密连接，默认关闭状态
+    *
+    * 该接口需在 init 接口之前调用，否则无效
+    * @param enable = boolean
+    * */
+    static setTcpSSL(enable) {
+        MTPushModule.setTcpSSL(enable)
+    }
 
     /*
     * 设置调试模式，默认关闭状态
@@ -26,13 +37,17 @@ export default class MTPush {
     }
 
     /*
-    * 设置是否TCP加密连接，默认关闭状态
+    * 设置数据中心
     *
-    * 该接口需在 init 接口之前调用，否则无效
-    * @param enable = boolean
-    * */
-     static setTcpSSL(enable) {
-        MTPushModule.setTcpSSL(enable)
+    * 该接口需在 init 接口之前调用，否则无效。 不调用的话默认新加坡数据中心
+    * @param siteName 数据中心的名称
+    * */  
+    static setSiteName(siteName) {
+        if (Platform.OS == "android") {
+            MTPushModule.configSiteName(siteName)
+        } else {
+            MTPushModule.setSiteName(siteName)
+        }
     }
 
     /*
@@ -61,6 +76,187 @@ export default class MTPush {
             MTPushModule.getRegistrationID(callback)
         } else {
             MTPushModule.getRegisterId(callback)
+        }
+    }
+
+
+    //*************************tags alias ********************/
+    /*
+    * 新增标签
+    *
+    * 这个接口是增加逻辑，而不是覆盖逻辑
+    *
+    * @param params = {"sequence":int,"tags":StringArray}
+    *
+    * sequence:
+    * 请求时传入的序列号，会在回调时原样返回
+    * tag:
+    * 有效的标签组成：字母（区分大小写）、数字、下划线、汉字、特殊字符@!#$&*+=.|
+    * 限制：每个 tag 命名长度限制为 40 字节，最多支持设置 1000 个 tag，且单次操作总长度不得超过 5000 字节
+    *（判断长度需采用 UTF-8 编码）单个设备最多支持设置 1000 个 tag。App 全局 tag 数量无限制
+    * */
+    static addTags(params) {
+        if (Platform.OS == "android") {
+            MTPushModule.addTags(params)
+        } else {
+            MTPushModule.addTags(params)
+        }
+    }
+
+    /*
+    * 覆盖标签
+    *
+    * 需要理解的是，这个接口是覆盖逻辑，而不是增量逻辑。即新的调用会覆盖之前的设置
+    *
+    * @param params = {"sequence":int,"tags":StringArray}
+    *
+    * sequence:
+    * 请求时传入的序列号，会在回调时原样返回
+    * tag:
+    * 有效的标签组成：字母（区分大小写）、数字、下划线、汉字、特殊字符@!#$&*+=.|
+    * 限制：每个 tag 命名长度限制为 40 字节，最多支持设置 1000 个 tag，且单次操作总长度不得超过 5000 字节
+    *（判断长度需采用 UTF-8 编码）单个设备最多支持设置 1000 个 tag。App 全局 tag 数量无限制
+    * */
+    static updateTags(params) {
+        if (Platform.OS == "android") {
+            MTPushModule.updateTags(params)
+        } else {
+            MTPushModule.setTags(params)
+        }
+    }
+
+    /*
+    * 删除指定标签
+    *
+    * @param params = {"sequence":int,"tag":StringArray}
+    *
+    * sequence:
+    * 请求时传入的序列号，会在回调时原样返回
+    * tag:
+    * 有效的标签组成：字母（区分大小写）、数字、下划线、汉字、特殊字符@!#$&*+=.|
+    * 限制：每个 tag 命名长度限制为 40 字节，最多支持设置 1000 个 tag，且单次操作总长度不得超过 5000 字节
+    *（判断长度需采用 UTF-8 编码）单个设备最多支持设置 1000 个 tag。App 全局 tag 数量无限制
+    * */
+    static deleteTag(params) {
+        if (Platform.OS == "android") {
+            MTPushModule.deleteTags(params)
+        } else {
+            MTPushModule.deleteTags(params)
+        }
+    }
+
+    /*
+    * 清除所有标签
+    *
+    * @param params = {"sequence":int}
+    *
+    * sequence:
+    * 请求时传入的序列号，会在回调时原样返回
+    * */
+    static deleteTags(params) {
+        if (Platform.OS == "android") {
+            MTPushModule.cleanTags(params)
+        } else {
+            MTPushModule.cleanTags(params)
+        }
+    }
+
+    /*
+    * 查询指定 tag 与当前用户绑定的状态
+    *
+    * @param params = {"sequence":int,"tag":String}
+    *
+    * sequence:
+    * 请求时传入的序列号，会在回调时原样返回
+    * tag:
+    * 有效的标签组成：字母（区分大小写）、数字、下划线、汉字、特殊字符@!#$&*+=.|
+    * 限制：每个 tag 命名长度限制为 40 字节，最多支持设置 1000 个 tag，且单次操作总长度不得超过 5000 字节
+    *（判断长度需采用 UTF-8 编码）单个设备最多支持设置 1000 个 tag。App 全局 tag 数量无限制
+    * */
+    static queryTag(params) {
+        if (Platform.OS == "android") {
+            MTPushModule.queryTag(params)
+        } else {
+            MTPushModule.validTag(params)
+        }
+    }
+
+    /*
+    * 查询所有标签
+    *
+    * @param params = {"sequence":int}
+    *
+    * sequence:
+    * 请求时传入的序列号，会在回调时原样返回
+    * */
+    static queryTags(params) {
+        if (Platform.OS == "android") {
+            MTPushModule.getAllTags(params)
+        } else {
+            MTPushModule.getAllTags(params)
+        }
+    }
+
+    /*
+    * 设置别名
+    * 需要理解的是，这个接口是覆盖逻辑，而不是增量逻辑。即新的调用会覆盖之前的设置
+    *
+    * @param params = {"sequence":int,"alias":String}
+    *
+    * sequence:
+    * 请求时传入的序列号，会在回调时原样返回
+    * alias:
+    * 每次调用设置有效的别名，覆盖之前的设置
+    * 有效的别名组成：字母（区分大小写）、数字、下划线、汉字、特殊字符@!#$&*+=.|
+    * 限制：alias 命名长度限制为 40 字节。（判断长度需采用 UTF-8 编码）
+    * */
+    static setAlias(params) {
+        if (Platform.OS == "android") {
+            MTPushModule.setAlias(params)
+        } else {
+            MTPushModule.setAlias(params)
+        }
+    }
+
+    /*
+    * 删除别名
+    *
+    * @param params = {"sequence":int}
+    *
+    * sequence:
+    * 请求时传入的序列号，会在回调时原样返回
+    * */
+    static deleteAlias(params) {
+        if (Platform.OS == "android") {
+            MTPushModule.deleteAlias(params)
+        } else {
+            MTPushModule.deleteAlias(params)
+        }
+    }
+
+    /*
+    * 查询别名
+    *
+    * @param params = {"sequence":int}
+    *
+    * sequence:
+    * 请求时传入的序列号，会在回调时原样返回
+    * */
+    static queryAlias(params) {
+        if (Platform.OS == "android") {
+            MTPushModule.getAlias(params)
+        } else {
+            MTPushModule.getAlias(params)
+        }
+    }
+   /*
+    * 设置推送个性化属性/更新用户指定推送个性化属性
+    * */
+    static setProperties(params) {
+        if (Platform.OS == "android") {
+            MTPushModule.setProperties(params)
+        } else {
+            MTPushModule.setProperties(params)
         }
     }
 
@@ -261,6 +457,30 @@ export default class MTPush {
                 callback(message)
             })
     }
+
+    /*
+    * tag alias事件
+    *
+    * @param {Function} callback = (result) => {"code":int,"sequence":int，"tags":String,"tag":String,"tagEnable":boolean,"alias":String}
+    *
+    * code:结果，0为操作成功
+    *
+    * sequence:请求时传入的序列号，会在回调时原样返回
+    *
+    * tags:执行tag数组操作时返回
+    *
+    * tag:执行查询指定tag(queryTag)操作时会返回,tagEnable:执行查询指定tag(queryTag)操作时会返回是否可用
+    *
+    * alias：对alias进行操作时返回
+    *
+    * */
+    static addTagAliasListener(callback) {
+        listeners[callback] = DeviceEventEmitter.addListener(
+            TagAliasEvent, result => {
+                callback(result)
+            })
+    }
+
 
     //移除事件
     static removeListener(callback) {

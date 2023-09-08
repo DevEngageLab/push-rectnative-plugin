@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View, TouchableHighlight} from 'react-native';
+import {StyleSheet, Text, View, TouchableHighlight, ScrollView} from 'react-native';
 import MTPush from 'mtpush-react-native';
 
 const styles = StyleSheet.create({
@@ -52,7 +52,10 @@ export default class App extends React.Component {
     }
 
     componentDidMount() {
-        MTPush.init({"appKey":"c571017eb5459d84170c8bf0","channel":"dev","production":1});
+        MTPush.setLoggerEnable(false);
+        MTPush.setTcpSSL(true); 
+        MTPush.setSiteName("Singapore");
+        MTPush.init({"appKey":"fcc545917674d6f06c141704","channel":"dev","production":1});
         //连接状态
         this.connectListener = result => {
             console.log("connectListener:" + JSON.stringify(result))
@@ -75,6 +78,11 @@ export default class App extends React.Component {
             alert(JSON.stringify(result))
         };
         MTPush.addCustomMessageListener(this.customMessageListener);
+        //tags/alias回调
+        this.addTagAliasListener = result => {
+            console.log("addTagAliasListener:" + JSON.stringify(result))
+        };
+        MTPush.addTagAliasListener(this.addTagAliasListener);
          //手机号码事件回调
          this.mobileNumberListener = result => {
              console.log("mobileNumberListener:" + JSON.stringify(result))
@@ -84,12 +92,12 @@ export default class App extends React.Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <ScrollView >
                 <Button title="setLoggerEnable"
                         onPress={() => MTPush.setLoggerEnable(true)
                         }/>
 
-                <Button title="getRegisterID"
+                <Button title="getRegisterID" 
                         onPress={() => MTPush.getRegistrationID(result =>
                             console.log("registerID:" + JSON.stringify(result))
                         )}/>
@@ -112,6 +120,34 @@ export default class App extends React.Component {
                 <Button title="removeLocalNotification"
                            onPress={() => MTPush.removeLocalNotification({messageID: '123456789'})}/>
 
+                <Button title="addTags"
+                        onPress={() => MTPush.addTags({sequence: 1, tags: ["1", "2", "3"]})}/>
+
+                <Button title="updateTags"
+                        onPress={() => MTPush.updateTags({sequence: 2, tags: ["4", "5", "6"]})}/>
+
+                <Button title="deleteTag"
+                        onPress={() => MTPush.deleteTag({sequence: 3, tags: ["4", "5", "6"]})}/>
+
+                <Button title="deleteTags"
+                        onPress={() => MTPush.deleteTags({sequence: 4})}/>
+
+                <Button title="queryTag"
+                        onPress={() => MTPush.queryTag({sequence: 4, tag: "1"})}/>
+
+                <Button title="queryTags"
+                        onPress={() => MTPush.queryTags({sequence: 5})}/>
+
+                <Button title="setAlias"
+                        onPress={() => MTPush.setAlias({sequence: 6,alias:"xxx"})}/>
+
+                <Button title="deleteAlias"
+                        onPress={() => MTPush.deleteAlias({sequence: 7})}/>
+
+                <Button title="queryAlias"
+                        onPress={() => MTPush.queryAlias({sequence: 8})}/>
+
+
                 {/* <Button title="setPushTime"
                            onPress={() => MTPush.setPushTime({pushTimeDays: [5,6], pushTimeStartHour: 6, pushTimeEndHour: 22})}/>
 
@@ -119,7 +155,7 @@ export default class App extends React.Component {
                            onPress={() => MTPush.setSilenceTime({silenceTimeStartHour: 5, silenceTimeStartMinute: 1, silenceTimeEndHour: 18, silenceTimeEndMinute: 1})}/>        */}
 
 
-            </View>
+            </ScrollView>
         );
     }
 

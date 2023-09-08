@@ -26,7 +26,8 @@ react-native link mtpush-react-native<br/>
             manifestPlaceholders = [
                     ENGAGELAB_PRIVATES_APPKEY: "yourAppKey", //在此替换你的APPKey
                     ENGAGELAB_PRIVATES_CHANNEL: "yourChannel", //在此替换你的channel
-                    ENGAGELAB_PRIVATES_PROCESS: ":remote" // 在此填写Engagelabsdk工作所在的进程
+                    ENGAGELAB_PRIVATES_PROCESS: ":remote", // 在此填写Engagelabsdk工作所在的进程
+                    ENGAGELAB_PRIVATES_SITE_NAME: "" // 数据中心的名称，可不填，不填默认为新加坡数据中心
             ]
         }
     }
