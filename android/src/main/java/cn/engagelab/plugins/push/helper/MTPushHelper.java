@@ -10,9 +10,14 @@ import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
+import java.util.Collection;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 import cn.engagelab.plugins.push.MTPushModule;
@@ -39,57 +44,24 @@ public class MTPushHelper {
         writableMap.putString(MTConstants.MESSAGE_ID, message.getMessageId());
         writableMap.putString(MTConstants.TITLE, message.getTitle());
         writableMap.putString(MTConstants.CONTENT, message.getContent());
-        convertExtras(message.getExtras().toString(), writableMap);
+        if (message.getExtras() != null) {
+//            writableMap.putString(MTConstants.EXTRAS, bundleToJson(message.getExtras()));
+           convertExtras(bundleToJson(message.getExtras()), writableMap);
+        }
         return writableMap;
     }
-
-//    public static WritableMap convertNotificationBundleToMap(String eventType, Bundle bundle) {
-//        WritableMap writableMap = Arguments.createMap();
-//        writableMap.putString(MTConstants.NOTIFICATION_EVENT_TYPE, eventType);
-//        writableMap.putString(MTConstants.MESSAGE_ID, bundle.getString("cn.jpush.android.MSG_ID",""));
-//        writableMap.putString(MTConstants.TITLE, bundle.getString("cn.jpush.android.NOTIFICATION_CONTENT_TITLE",""));
-//        writableMap.putString(MTConstants.CONTENT, bundle.getString("cn.jpush.android.ALERT",""));
-//        convertExtras(bundle.getString("cn.jpush.android.EXTRA",""), writableMap);
-//        return writableMap;
-//    }
 
     public static WritableMap convertCustomMessage(CustomMessage customMessage) {
         WritableMap writableMap = Arguments.createMap();
         writableMap.putString(MTConstants.MESSAGE_ID, customMessage.getMessageId());
         writableMap.putString(MTConstants.TITLE, customMessage.getTitle());
         writableMap.putString(MTConstants.CONTENT, customMessage.getContent());
-        convertExtras(customMessage.getExtras().toString(), writableMap);
+        if (customMessage.getExtras() != null) {
+//            writableMap.putString(MTConstants.EXTRAS, bundleToJson(customMessage.getExtras()));
+            convertExtras(bundleToJson(customMessage.getExtras()), writableMap);
+        }
         return writableMap;
     }
-
-//    public static WritableMap convertJPushMessageToMap(int type, JPushMessage message) {
-//        WritableMap writableMap = Arguments.createMap();
-//
-//        writableMap.putInt(MTConstants.CODE, message.getErrorCode());
-//        writableMap.putInt(MTConstants.SEQUENCE, message.getSequence());
-//        switch (type) {
-//            case 1:
-//                Set<String> tags = message.getTags();
-//                WritableArray tagsArray = Arguments.createArray();
-//                if(tags==null || tags.isEmpty()){
-//                    MTLogger.d("tags is empty");
-//                }else {
-//                    for (String tag : tags) {
-//                        tagsArray.pushString(tag);
-//                    }
-//                }
-//                writableMap.putArray(MTConstants.TAGS, tagsArray);
-//                break;
-//            case 2:
-//                writableMap.putBoolean(MTConstants.TAG_ENABLE, message.getTagCheckStateResult());
-//                writableMap.putString(MTConstants.TAG, message.getCheckTag());
-//                break;
-//            case 3:
-//                writableMap.putString(MTConstants.ALIAS, message.getAlias());
-//                break;
-//        }
-//        return writableMap;
-//    }
 
     public static void convertExtras(String extras, WritableMap writableMap) {
         if (TextUtils.isEmpty(extras) || extras.equals("{}")) return;
@@ -116,6 +88,72 @@ public class MTPushHelper {
         }catch (Throwable throwable){
             MTLogger.e("");
         }
+    }
+
+
+    private static String bundleToJson(final Bundle bundle) {
+        if (bundle == null) return null;
+        JSONObject jsonObject = new JSONObject();
+
+        for (String key : bundle.keySet()) {
+            Object obj = bundle.get(key);
+            try {
+                jsonObject.put(key, wrap(bundle.get(key)));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return jsonObject.toString();
+    }
+
+    public static Object wrap(Object o) {
+        if (o == null) {
+            return JSONObject.NULL;
+        }
+        if (o instanceof JSONArray || o instanceof JSONObject) {
+            return o;
+        }
+        if (o.equals(JSONObject.NULL)) {
+            return o;
+        }
+        try {
+            if (o instanceof Collection) {
+                return new JSONArray((Collection) o);
+            } else if (o.getClass().isArray()) {
+                return toJSONArray(o);
+            }
+            if (o instanceof Map) {
+                return new JSONObject((Map) o);
+            }
+            if (o instanceof Boolean ||
+                    o instanceof Byte ||
+                    o instanceof Character ||
+                    o instanceof Double ||
+                    o instanceof Float ||
+                    o instanceof Integer ||
+                    o instanceof Long ||
+                    o instanceof Short ||
+                    o instanceof String) {
+                return o;
+            }
+            if (o.getClass().getPackage().getName().startsWith("java.")) {
+                return o.toString();
+            }
+        } catch (Exception ignored) {
+        }
+        return null;
+    }
+
+    public static JSONArray toJSONArray(Object array) throws JSONException {
+        JSONArray result = new JSONArray();
+        if (!array.getClass().isArray()) {
+            throw new JSONException("Not a primitive array: " + array.getClass());
+        }
+        final int length = Array.getLength(array);
+        for (int i = 0; i < length; ++i) {
+            result.put(wrap(Array.get(array, i)));
+        }
+        return result;
     }
 
 }

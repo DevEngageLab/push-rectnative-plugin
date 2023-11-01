@@ -102,7 +102,7 @@ android {
         versionName "1.0"
 
         manifestPlaceholders = [
-                ENGAGELAB_PRIVATES_APPKEY: "30dbb9be9384faa197ee6148", //在此替换你的APPKey
+                ENGAGELAB_PRIVATES_APPKEY: "2a6abafd2883893f011cdc41", //在此替换你的APPKey
                 ENGAGELAB_PRIVATES_CHANNEL: "developer", //在此替换你的channel
                 ENGAGELAB_PRIVATES_PROCESS: ":remote", // 在此填写Engagelabsdk工作所在的进程
                 ENGAGELAB_PRIVATES_SITE_NAME: "" // 数据中心的名称，可不填，不填默认为新加坡数据中心
