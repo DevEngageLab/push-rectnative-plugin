@@ -64,6 +64,24 @@ export default class MTPush {
     }
 
     /*
+    * 上传厂商token 走tcp上传
+    *
+    * @param params = {"platform":0,"token":"dev","region":""}
+    * platform 厂商，取值范围（1:mi、2:huawei、3:meizu、4:oppo、5:vivo、7:honor、8:google）
+    * token    厂商返回的token，不为空
+    * region    海外版小米和oppo需要设置region，根据使用地区等填如：“US”等，非海外版的填null
+    * 
+    * 请在componentDidMount()调用init，否则会影响通知点击事件的回调
+    * 请先[init](#init)，否则调用无效
+    * 由于走tcp上传，需要长连接成功即[onConnectStatus](#onConnectStatus)回调结果为ture后调用此接口
+    * */
+    static uploadPlatformToken(params) {
+        if (Platform.OS = "android") {
+            MTPushModule.uploadPlatformToken(params)
+        }
+    }
+
+    /*
     * 获取 RegistrationID
     *
     * 调用此 API 来取得应用程序对应的 RegistrationID。

@@ -147,6 +147,9 @@ export default class App extends React.Component {
                 <Button title="queryAlias"
                         onPress={() => MTPush.queryAlias({sequence: 8})}/>
 
+                {/* <Button title="uploadPlatformToken"
+                        onPress={() => MTPush.uploadPlatformToken({platform:1, token: "MI-6476s-afs-afs-afaR-HT25", region: "null"})}/> */}
+
 
                 {/* <Button title="setPushTime"
                            onPress={() => MTPush.setPushTime({pushTimeDays: [5,6], pushTimeStartHour: 6, pushTimeEndHour: 22})}/>
