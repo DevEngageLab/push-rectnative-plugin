@@ -17,7 +17,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.engagelab:engagelab:4.3.3'
+    implementation 'com.engagelab:engagelab:4.3.5'
 //    implementation fileTree(dir: 'libs', include: ['*.aar'])
 //    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.facebook.react:react-native:+'
