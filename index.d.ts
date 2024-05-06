@@ -70,6 +70,13 @@ export default class MTPush {
     * */  
   static setSiteName(siteName: string): void;
 
+   /*
+    * 调试fcm
+    *
+    * 该接口用来测试fcm, 仅使用在测试环境，正式环境请不要调用。
+    * */  
+  static testConfigGoogle(enable: boolean): void;
+
   /**
    * 初始化推送服务
    * {"appKey":"","channel":"dev","production":1}

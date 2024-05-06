@@ -1,6 +1,8 @@
 package cn.engagelab.plugins.push.receiver;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.util.Log;
 
 import com.engagelab.privates.push.api.AliasMessage;
 import com.engagelab.privates.push.api.TagMessage;
@@ -33,6 +35,8 @@ import cn.engagelab.plugins.push.helper.MTPushHelper;
  */
 public class MTPushModuleReceiver extends MTCommonReceiver {
 
+  public static NotificationMessage NOTIFICATION_BUNDLE;
+
   @Override
   public void onNotificationStatus(Context context, boolean enable) {
     MTLogger.d("onNotificationStatus:" + enable);
@@ -58,12 +62,22 @@ public class MTPushModuleReceiver extends MTCommonReceiver {
 
   @Override
   public void onNotificationClicked(Context context, NotificationMessage notificationMessage) {
+    Log.i("TAG", "onNotificationClicked:" + notificationMessage.toString());
     MTLogger.d("onNotificationClicked:" + notificationMessage.toString());
     if (MTPushModule.reactContext != null) {
-      if (!MTPushModule.isAppForeground) MTPushHelper.launchApp(context);
+      if (!MTPushModule.isAppForeground) {
+        Log.i("TAG", "onNotificationClicked: - is not AppForeground");
+        MTPushHelper.launchApp(context);
+      }
       WritableMap writableMap = MTPushHelper.convertNotificationToMap(MTConstants.NOTIFICATION_OPENED, notificationMessage);
       MTPushHelper.sendEvent(MTConstants.NOTIFICATION_EVENT, writableMap);
     } else {
+      Log.i("TAG", "onNotificationClicked: - reactContext null");
+      MTLogger.e("onNotificationClicked: - reactContext null");
+      if (!MTPushModule.isAppForeground) {
+        Log.i("TAG", "onNotificationClicked: - is not AppForeground");
+        NOTIFICATION_BUNDLE = notificationMessage;
+      }
       super.onNotificationClicked(context, notificationMessage);
     }
   }

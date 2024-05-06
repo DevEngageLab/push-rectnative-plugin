@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.engagelab.privates.common.global.MTGlobal;
 import com.engagelab.privates.push.api.NotificationMessage;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
@@ -66,17 +67,34 @@ public class MTPushModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void setTcpSSL(boolean enable) {
-        MTCorePrivatesApi.setTcpSSl(enable);
+        MTCorePrivatesApi.setTcpSSl(reactContext,enable);
+    }
+
+    @ReactMethod
+    public void setCountryCode(String countryCode) {
+        MTGlobal.setCountryCode(countryCode);
+    }
+
+    @ReactMethod
+    public void testConfigGoogle(boolean enable){
+        if (!enable) {
+            MTGlobal.setCountryCode("CN");
+        } else {
+            MTGlobal.setCountryCode("US");
+        }
     }
 
     @ReactMethod
     public void init() {
         MTPushPrivatesApi.init(reactContext);
-//        if (MTPushBroadcastReceiver.NOTIFICATION_BUNDLE != null) {
-//            WritableMap writableMap = MTPushHelper.convertNotificationBundleToMap(MTConstants.NOTIFICATION_OPENED, MTPushBroadcastReceiver.NOTIFICATION_BUNDLE);
-//            MTPushHelper.sendEvent(MTConstants.NOTIFICATION_EVENT, writableMap);
-//            MTPushBroadcastReceiver.NOTIFICATION_BUNDLE = null;
-//        }
+        if (MTPushModuleReceiver.NOTIFICATION_BUNDLE != null) {
+            MTLogger.e("init: - NOTIFICATION_BUNDLE  not null");
+            WritableMap writableMap = MTPushHelper.convertNotificationToMap(MTConstants.NOTIFICATION_OPENED, MTPushModuleReceiver.NOTIFICATION_BUNDLE);
+            MTPushHelper.sendEvent(MTConstants.NOTIFICATION_EVENT, writableMap);
+            MTPushModuleReceiver.NOTIFICATION_BUNDLE = null;
+        }else  {
+            MTLogger.e("init: - NOTIFICATION_BUNDLE null");
+        }
 
     }
 

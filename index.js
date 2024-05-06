@@ -50,6 +50,17 @@ export default class MTPush {
         }
     }
 
+   /*
+    * 调试fcm
+    *
+    * 该接口用来测试fcm, 仅使用在测试环境，正式环境请不要调用。
+    * */  
+    static testConfigGoogle(enable) {
+        if (Platform.OS == "android") {
+            MTPushModule.testConfigGoogle(enable)
+        }
+    }
+
     /*
     * 初始化推送服务
     * {"appKey":"","channel":"dev","production":1}

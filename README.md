@@ -18,8 +18,64 @@ react-native link mtpush-react-native<br/>
 
 * build.gradle
 
+```
+
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+        // huawei push need，不需要 huawei 通道，则删除
+        maven { url 'https://developer.huawei.com/repo/' }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.1.0'
+        // google push need，and google push need AndroidX，不需要 google 通道，则删除
+        // 请在gradle.properties中加入android.useAndroidX=true
+        classpath 'com.google.gms:google-services:4.3.15'
+        // huawei push need，不需要 huawei 通道，则删除
+        classpath 'com.huawei.agconnect:agcp:1.6.0.300'
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        // huawei push need，不需要 huawei 通道，则删除
+        maven { url 'https://developer.huawei.com/repo/' }
+    }
+}
+```
+
+
   ```
+  plugins {
+    id 'com.android.application'
+    id 'com.facebook.react'
+    // google push need，不需要 google 通道，则删除
+    id 'com.google.gms.google-services'
+    // huawei push need，不需要 huawei 通道，则删除
+    id 'com.huawei.agconnect'
+}
+
   android {
+        // google/huawei push need，it needs to be the same as the one on google/huawei console.
+    signingConfigs {
+        debug {
+            storeFile file("android.keystore")
+            storePassword "123456"
+            keyAlias "keyAlias"
+            keyPassword "123456"
+        }
+        release {
+            storeFile file("android.keystore")
+            storePassword "123456"
+            keyAlias "keyAlias"
+            keyPassword "123456"
+        }
+    }
+
         defaultConfig {
             applicationId "yourApplicationId"           //在此替换你的应用包名
             ...
@@ -28,7 +84,27 @@ react-native link mtpush-react-native<br/>
                     ENGAGELAB_PRIVATES_CHANNEL: "yourChannel", //在此替换你的channel
                     ENGAGELAB_PRIVATES_PROCESS: ":remote", // 在此填写Engagelabsdk工作所在的进程
                     ENGAGELAB_PRIVATES_SITE_NAME: "" // 数据中心的名称，可不填，不填默认为新加坡数据中心
+                     // mi global client 配置，需要与小米控制台上的一样，还需要在Portal控制台配置 server 配置
+                    XIAOMI_GLOBAL_APPID            : "MI-您的，对应平台信息",
+                    XIAOMI_GLOBAL_APPKEY           : "MI-您的，对应平台信息",
+                    // mz client 配置，需要与魅族控制台上的一样，还需要在Portal控制台配置 server 配置
+                    MEIZU_APPID             : "MZ-您的，对应平台信息",
+                    MEIZU_APPKEY            : "MZ-您的，对应平台信息",
+                    // oppo client 配置，需要与oppo控制台上的一样，还需要在Portal控制台配置 server 配置
+                    OPPO_APPID              : "OP-您的，对应平台信息",
+                    OPPO_APPKEY             : "OP-您的，对应平台信息",
+                    OPPO_APPSECRET          : "OP-您的，对应平台信息",
+                    // vivo client 配置，需要与vivo控制台上的一样，还需要在Portal控制台配置 server 配置
+                    VIVO_APPID              : "您的，对应平台信息",
+                    VIVO_APPKEY             : "您的，对应平台信息",
+                    HONOR_APPID             : "您的，对应平台信息",
             ]
+        }
+
+        // google push need java 1.8，不需要 google 通道，则删除
+        compileOptions {
+          sourceCompatibility JavaVersion.VERSION_1_8
+          targetCompatibility JavaVersion.VERSION_1_8
         }
     }
   ```
@@ -46,6 +122,10 @@ react-native link mtpush-react-native<br/>
   include ':mtpush-react-native'
   project(':mtpush-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/mtpush-react-native/android')
   ```
+
+* huawei通道需要`agconnect-services.json`文件，配置在应用的 module 目录下，请在[huawei通道控制台](https://developer.huawei.com/consumer/cn/console#/serviceCards/)获取
+* google通道需要`google-services.json`文件，配置在应用的 module 目录下，请在[google通道控制台](https://console.firebase.google.com) 获取
+* meizu通道获取不到token，尝试在 gradle.properties 中添加 android.enableR8 = false 进行关闭 R8
 
 
 ### 2.2 iOS
