@@ -32,6 +32,7 @@ import java.util.Set;
 import cn.engagelab.plugins.push.common.MTConstants;
 import cn.engagelab.plugins.push.common.MTLogger;
 import cn.engagelab.plugins.push.helper.MTPushHelper;
+import cn.engagelab.plugins.push.receiver.MTPushModuleReceiver;
 //import cn.engagelab.plugins.push.receiver.MTPushBroadcastReceiver;
 
 import com.engagelab.privates.core.api.MTCorePrivatesApi;
