@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		5C103CA7236041E7000AD3DA /* RCTMTPushEventQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C103CA6236041E7000AD3DA /* RCTMTPushEventQueue.m */; };
+		622E26BF2C1849D3003B2FF8 /* libmtpush-ios-4.3.5.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 622E26BE2C1849D3003B2FF8 /* libmtpush-ios-4.3.5.a */; };
 		624386D81E096B8800F69E07 /* RCTMTPushModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 624386D41E096B8800F69E07 /* RCTMTPushModule.m */; };
-		62D8F8222AFDD5F700A54915 /* libmtpush-ios-4.3.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 62D8F8212AFDD5F700A54915 /* libmtpush-ios-4.3.2.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,10 +28,10 @@
 		2AE49ADE292B61AE0024F49C /* MTPushService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPushService.h; sourceTree = "<group>"; };
 		5C103CA5236041E7000AD3DA /* RCTMTPushEventQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTMTPushEventQueue.h; sourceTree = "<group>"; };
 		5C103CA6236041E7000AD3DA /* RCTMTPushEventQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTMTPushEventQueue.m; sourceTree = "<group>"; };
+		622E26BE2C1849D3003B2FF8 /* libmtpush-ios-4.3.5.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libmtpush-ios-4.3.5.a"; path = "RCTMTPushModule/libmtpush-ios-4.3.5.a"; sourceTree = "<group>"; };
 		624386D31E096B8800F69E07 /* RCTMTPushModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTMTPushModule.h; sourceTree = "<group>"; };
 		624386D41E096B8800F69E07 /* RCTMTPushModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTMTPushModule.m; sourceTree = "<group>"; };
 		6280980A1CEDC407000D3A81 /* libRCTMTPushModule.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRCTMTPushModule.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		62D8F8212AFDD5F700A54915 /* libmtpush-ios-4.3.2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libmtpush-ios-4.3.2.a"; path = "RCTMTPushModule/libmtpush-ios-4.3.2.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,7 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				62D8F8222AFDD5F700A54915 /* libmtpush-ios-4.3.2.a in Frameworks */,
+				622E26BF2C1849D3003B2FF8 /* libmtpush-ios-4.3.5.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -49,7 +49,7 @@
 		5CF8E647231E3A9200B12200 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				62D8F8212AFDD5F700A54915 /* libmtpush-ios-4.3.2.a */,
+				622E26BE2C1849D3003B2FF8 /* libmtpush-ios-4.3.5.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

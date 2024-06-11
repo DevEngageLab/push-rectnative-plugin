@@ -2,7 +2,7 @@
  * Copyright (c) 2011 ~ 2017 Shenzhen MT. All rights reserved.
  */
 
-#define MTP_VERSION_NUMBER 4.3.2
+#define MTP_VERSION_NUMBER 4.3.5
 
 #import <Foundation/Foundation.h>
 
@@ -150,15 +150,6 @@ typedef NS_ENUM(NSUInteger, MTPushAuthorizationStatus) {
 ///----------------------------------------------------
 /// @name Setup 启动相关
 ///----------------------------------------------------
-
-/*!
- * @abstract 设置数据中心
- *
- * @param siteName 数据中心的名称.
- *
- * @discussion 不设置的话使用默认的数据中心。此接口必须在 初始化函数之前 调用.
- */
-+ (void)setSiteName:(NSString *)siteName;
 
 /*!
  * @abstract 启动SDK
@@ -478,6 +469,30 @@ typedef NS_ENUM(NSUInteger, MTPushAuthorizationStatus) {
  * 建议在登录成功之后再上报
  */
 + (void)setUserLanguage:(NSString *)language completionHandler:(void(^)(int resCode, NSError *error))handler;
+
+
+/**
+ * 设置 App Groups Id
+ * @param appGroupId App Groups Id
+ * 如有使用语音播报功能，请设置该值
+ */
++ (void)setAppGroupId:(NSString *)appGroupId;
+
+/**
+ * 是否开启语音播报功能
+ * @param enable 是否开启语音播报功能 YES:打开，NO:关闭，默认为NO
+ */
++ (void)enablePushTextToSpeech:(BOOL)enable;
+
+
+/*!
+ * @abstract 设置数据中心
+ *
+ * @param siteName 数据中心的名称.
+ *
+ * @discussion 不设置的话使用默认的数据中心。此接口必须在 初始化函数之前 调用.
+ */
++ (void)setSiteName:(NSString *)siteName __attribute__((deprecated("MTPush 4.3.5 版本已过期")));
 
 
 @end

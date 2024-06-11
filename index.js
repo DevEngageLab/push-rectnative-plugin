@@ -40,6 +40,9 @@ export default class MTPush {
     * 设置数据中心
     *
     * 该接口需在 init 接口之前调用，否则无效。 不调用的话默认新加坡数据中心
+    * 
+    * ！！！ 该接口在1.0.8版本及以上不要求设置。SDK会通过appkey主动寻找对应的数据中心。
+    * 
     * @param siteName 数据中心的名称
     * */  
     static setSiteName(siteName) {
