@@ -52,10 +52,11 @@ export default class App extends React.Component {
     }
 
     componentDidMount() {
-        MTPush.setLoggerEnable(false);
-        MTPush.setTcpSSL(true); 
-        MTPush.setSiteName("Singapore");
-        MTPush.init({"appKey":"fcc545917674d6f06c141704","channel":"dev","production":1});
+        MTPush.setLoggerEnable(true);
+        // MTPush.setTcpSSL(true); 
+        // MTPush.testConfigGoogle(true);
+        // MTPush.setSiteName("USA_Virginia"); // 该接口在1.0.8版本不再需要设置。只需设置appkey就行。
+        MTPush.init({"appKey":"5645a6e0c6ef00bb71facf21","channel":"dev","production":1});
         //连接状态
         this.connectListener = result => {
             console.log("connectListener:" + JSON.stringify(result))
