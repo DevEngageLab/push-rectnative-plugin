@@ -84,9 +84,9 @@ allprojects {
                     ENGAGELAB_PRIVATES_CHANNEL: "yourChannel", //在此替换你的channel
                     ENGAGELAB_PRIVATES_PROCESS: ":remote", // 在此填写Engagelabsdk工作所在的进程
                     ENGAGELAB_PRIVATES_SITE_NAME: "" // 数据中心的名称，可不填，不填默认为新加坡数据中心
-                     // mi global client 配置，需要与小米控制台上的一样，还需要在Portal控制台配置 server 配置
-                    XIAOMI_GLOBAL_APPID            : "MI-您的，对应平台信息",
-                    XIAOMI_GLOBAL_APPKEY           : "MI-您的，对应平台信息",
+                     // mi client 配置，需要与小米控制台上的一样，还需要在Portal控制台配置 server 配置
+                    XIAOMI_APPID            : "MI-您的，对应平台信息",
+                    XIAOMI_APPKEY           : "MI-您的，对应平台信息",
                     // mz client 配置，需要与魅族控制台上的一样，还需要在Portal控制台配置 server 配置
                     MEIZU_APPID             : "MZ-您的，对应平台信息",
                     MEIZU_APPKEY            : "MZ-您的，对应平台信息",
