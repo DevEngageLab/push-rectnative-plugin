@@ -18,6 +18,6 @@ Pod::Spec.new do |s|
   s.frameworks      = 'UIKit','CFNetwork','CoreFoundation','CoreTelephony','SystemConfiguration','CoreGraphics','Foundation','Security'
   s.weak_frameworks = 'UserNotifications'
   s.libraries       = 'z','resolv'
-  s.vendored_libraries = "ios/RCTMTPushModule/*.a"
+  s.vendored_frameworks = "ios/RCTMTPushModule/*.xcframework"
   s.dependency 'React'
 end
