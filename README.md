@@ -1,20 +1,23 @@
 # MTPush-React-Native
 
-## 1. 安装
+## 1. Setup
+
+Add the mtpush-react-native package to your project.
 
 ```
 npm install mtpush-react-native --save
 ```
 
-安装完成后连接原生库
-进入到根目录执行<br/>
-react-native link<br/>
-或<br/>
-react-native link mtpush-react-native<br/>
+If using React Native version higher than0.60 skip to step 2 because [Autolinking is now done automatically](https://reactnative.dev/blog/2019/07/03/version-60#native-modules-are-now-autolinked) .
 
-## 2. 配置
+If using React Native 0.60 or lower, run: 
 
-### 2.1 Android
+```
+react-native link mtpush-react-native
+```
+
+
+### 2. Android Setup
 
 * build.gradle
 
@@ -25,15 +28,15 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        // huawei push need，不需要 huawei 通道，则删除
+        // huawei push need. If you do not need huawei channel，delete it.
         maven { url 'https://developer.huawei.com/repo/' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.1.0'
-        // google push need，and google push need AndroidX，不需要 google 通道，则删除
-        // 请在gradle.properties中加入android.useAndroidX=true
+        // google push need，and google push need AndroidX. If you do not need google channel，delete it.
+        // Please add android.useAndroidX=true in gradle.properties
         classpath 'com.google.gms:google-services:4.3.15'
-        // huawei push need，不需要 huawei 通道，则删除
+        // huawei push need，if you do not need huawei channel，delete it.
         classpath 'com.huawei.agconnect:agcp:1.6.0.300'
     }
 }
@@ -42,7 +45,7 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        // huawei push need，不需要 huawei 通道，则删除
+        // huawei push need，if you do not need huawei channel，delete it.
         maven { url 'https://developer.huawei.com/repo/' }
     }
 }
@@ -53,9 +56,9 @@ allprojects {
   plugins {
     id 'com.android.application'
     id 'com.facebook.react'
-    // google push need，不需要 google 通道，则删除
+    // google push need. If you do not need google channel，delete it.
     id 'com.google.gms.google-services'
-    // huawei push need，不需要 huawei 通道，则删除
+    // huawei push need，if you do not need huawei channel，delete it.
     id 'com.huawei.agconnect'
 }
 
@@ -77,31 +80,31 @@ allprojects {
     }
 
         defaultConfig {
-            applicationId "yourApplicationId"           //在此替换你的应用包名
+            applicationId "yourApplicationId"           //Replace your app package name here
             ...
             manifestPlaceholders = [
-                    ENGAGELAB_PRIVATES_APPKEY: "yourAppKey", //在此替换你的APPKey
-                    ENGAGELAB_PRIVATES_CHANNEL: "yourChannel", //在此替换你的channel
-                    ENGAGELAB_PRIVATES_PROCESS: ":remote", // 在此填写Engagelabsdk工作所在的进程
-                    ENGAGELAB_PRIVATES_SITE_NAME: "" // 数据中心的名称，可不填，不填默认为新加坡数据中心
-                     // mi client 配置，需要与小米控制台上的一样，还需要在Portal控制台配置 server 配置
-                    XIAOMI_APPID            : "MI-您的，对应平台信息",
-                    XIAOMI_APPKEY           : "MI-您的，对应平台信息",
-                    // mz client 配置，需要与魅族控制台上的一样，还需要在Portal控制台配置 server 配置
-                    MEIZU_APPID             : "MZ-您的，对应平台信息",
-                    MEIZU_APPKEY            : "MZ-您的，对应平台信息",
-                    // oppo client 配置，需要与oppo控制台上的一样，还需要在Portal控制台配置 server 配置
-                    OPPO_APPID              : "OP-您的，对应平台信息",
-                    OPPO_APPKEY             : "OP-您的，对应平台信息",
-                    OPPO_APPSECRET          : "OP-您的，对应平台信息",
-                    // vivo client 配置，需要与vivo控制台上的一样，还需要在Portal控制台配置 server 配置
-                    VIVO_APPID              : "您的，对应平台信息",
-                    VIVO_APPKEY             : "您的，对应平台信息",
-                    HONOR_APPID             : "您的，对应平台信息",
+                    ENGAGELAB_PRIVATES_APPKEY: "yourAppKey", //Replace your APPKey here
+                    ENGAGELAB_PRIVATES_CHANNEL: "yourChannel", //Replace your channel here
+                    ENGAGELAB_PRIVATES_PROCESS: ":remote", // Fill in the process where Engagelab sdk works here
+                    ENGAGELAB_PRIVATES_SITE_NAME: "" // The name of the data center is optional. If not filled in, it defaults to the Singapore data center.
+                     // The mi client configuration needs to be the same as that on the Xiaomi console, and the server configuration needs to be configured on the Portal console.
+                    XIAOMI_APPID            : "MI-xxx",
+                    XIAOMI_APPKEY           : "MI-xxx",
+                    // The meizu client configuration needs to be the same as that on the Meizu console. It also needs to be configured on the Portal console.
+                    MEIZU_APPID             : "MZ-xxx",
+                    MEIZU_APPKEY            : "MZ-xxx",
+                    // The oppo client configuration needs to be the same as that on the oppo console. You also need to configure the server configuration in the Portal console.
+                    OPPO_APPID              : "OP-xxx",
+                    OPPO_APPKEY             : "OP-xxx",
+                    OPPO_APPSECRET          : "OP-xxx",
+                    // The vivo client configuration needs to be the same as that on the vivo console, and the server configuration needs to be configured in the Portal console.
+                    VIVO_APPID              : "xxx",
+                    VIVO_APPKEY             : "xxx",
+                    HONOR_APPID             : "xxx",
             ]
         }
 
-        // google push need java 1.8，不需要 google 通道，则删除
+        // google push need java 1.8. If you do not need google channel，delete it.
         compileOptions {
           sourceCompatibility JavaVersion.VERSION_1_8
           targetCompatibility JavaVersion.VERSION_1_8
@@ -112,7 +115,7 @@ allprojects {
   ```
   dependencies {
         ...
-        implementation project(':mtpush-react-native')  // 添加 mtpush 依赖
+        implementation project(':mtpush-react-native')  // Add mtpush dependency
     }
   ```
 
@@ -123,27 +126,27 @@ allprojects {
   project(':mtpush-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/mtpush-react-native/android')
   ```
 
-* huawei通道需要`agconnect-services.json`文件，配置在应用的 module 目录下，请在[huawei通道控制台](https://developer.huawei.com/consumer/cn/console#/serviceCards/)获取
-* google通道需要`google-services.json`文件，配置在应用的 module 目录下，请在[google通道控制台](https://console.firebase.google.com) 获取
-* meizu通道获取不到token，尝试在 gradle.properties 中添加 android.enableR8 = false 进行关闭 R8
+* The huawei channel requires the `agconnect-services.json` file, which is configured in the module directory of the application. Please obtain it from [huawei channel console](https://developer.huawei.com/consumer/cn/console#/serviceCards/)
+* Google channel requires the `google-services.json` file, which is configured in the module directory of the application. Please obtain it from [google channel console](https://console.firebase.google.com)
+* If the meizu channel cannot obtain the token, try adding android.enableR8 = false in gradle.properties to close R8.
 
 
-### 2.2 iOS
-注意：您需要打开ios目录下的.xcworkspace文件修改您的包名
+### 3. iOS Setup
+Note: You need to open the .xcworkspace file in the ios directory to modify your package name
 
-### 2.2.1 pod
+### 3.1 pod
 
 ```
 pod install
 ```
 
-* 注意：如果项目里使用pod安装过，请先执行命令
+* Note: If the project has been installed using pod, please execute the command first
 
   ```
   pod deintegrate
   ```
 
-### 2.2.2 手动方式
+### 3.2 Manual
 
 * Libraries
 
@@ -174,29 +177,28 @@ pod install
   libRCTMTPushModule.a
   ```
 
-## 3. 引用
+## 4. Quote
 
-### 3.1 Android
+### 4.1 Android
 
-参考：[MainApplication.java](https://github.com/DevEngageLab/push-rectnative-plugin/tree/master/example/android/app/src/main/java/com/example/MainApplication.java)
+refer to：[MainApplication.java](https://github.com/DevEngageLab/push-rectnative-plugin/tree/master/example/android/app/src/main/java/com/example/MainApplication.java)
 
-### 3.2 iOS
+### 4.2 iOS
 
-参考：[AppDelegate.m](https://github.com/DevEngageLab/push-rectnative-plugin/tree/master/example/ios/example/AppDelegate.m) 
+refer to：[AppDelegate.m](https://github.com/DevEngageLab/push-rectnative-plugin/tree/master/example/ios/example/AppDelegate.m) 
 
-### 3.3 js
+### 4.3 js
 
-参考：[App.js](https://github.com/DevEngageLab/push-rectnative-plugin/blob/main/example/App.js) 
+refer to：[App.js](https://github.com/DevEngageLab/push-rectnative-plugin/blob/main/example/App.js) 
 
-## 4. API
+## 5. API
 
-详见：[index.js](https://github.com/DevEngageLab/push-rectnative-plugin/blob/master/index.js)
+refer to：[index.js](https://github.com/DevEngageLab/push-rectnative-plugin/blob/master/index.js)
 
-## 5.  其他
-DevEngageLab
-* 集成前务必将example工程跑通
-* 如有紧急需求请前往[EngageLab社区](https://www.engagelab.com/)
-* 上报问题还麻烦先调用MTPush.setLoggerEnable(true}，拿到debug日志
+## 6.  Other
+* Be sure to run the example project before integration.
+* If you have urgent needs, please go to [EngageLab Community](https://www.engagelab.com/)
+* If you want to report a problem, please call `MTPush.setLoggerEnable(true}` first to get the debug log.
 
  
 
