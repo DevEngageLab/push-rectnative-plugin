@@ -185,7 +185,7 @@ refer to：[MainApplication.java](https://github.com/DevEngageLab/push-rectnativ
 
 ### 4.2 iOS
 
-refer to：[AppDelegate.m](https://github.com/DevEngageLab/push-rectnative-plugin/tree/master/example/ios/example/AppDelegate.m) 
+refer to：[AppDelegate.m](https://github.com/DevEngageLab/push-rectnative-plugin/tree/master/example/ios/example/AppDelegate.mm) 
 
 ### 4.3 js
 
