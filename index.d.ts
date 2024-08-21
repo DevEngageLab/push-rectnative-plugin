@@ -277,9 +277,9 @@ export default class MTPush {
        */
       extras: Extra;
       /**
-       *  notificationEventType：分为notificationArrived和notificationOpened两种
+       *  notificationEventType：ios只有notificationArrived和notificationOpened两种，android有notificationArrived和notificationOpened和notificationDismissed三种
        */
-      notificationEventType: "notificationArrived" | "notificationOpened";
+      notificationEventType: "notificationArrived" | "notificationOpened" | "notificationDismissed";
     }>
   ): void;
 
@@ -306,7 +306,7 @@ export default class MTPush {
        * 对应“附加内容”字段
        */
       extras: Extra;
-      notificationEventType: "notificationArrived" | "notificationOpened";
+      notificationEventType: "notificationArrived" | "notificationOpened" | "notificationDismissed";
     }>
   ): void;
 

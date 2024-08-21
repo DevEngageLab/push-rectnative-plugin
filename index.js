@@ -415,7 +415,7 @@ export default class MTPush {
     *
     * extras:对应 Portal 推送消息界面上的“可选设置”里的附加字段
     *
-    * notificationEventType：分为notificationArrived和notificationOpened两种
+    * notificationEventType：ios分为notificationArrived和notificationOpened两种,android有notificationArrived和notificationOpened和notificationDismissed三种
     *
     * 注意：应用在存活状态下点击通知不会有跳转行为，应用在被杀死状态下点击通知会启动应用
     *
@@ -440,7 +440,7 @@ export default class MTPush {
     *
     * extras:对应“附加内容”字段
     *
-    * notificationEventType：分为notificationArrived和notificationOpened两种
+    * notificationEventType：ios分为notificationArrived和notificationOpened两种,android有notificationArrived和notificationOpened和notificationDismissed三种
     *
     * 注意：应用在存活状态下点击通知不会有跳转行为，应用在被杀死状态下点击通知会启动应用
     *
