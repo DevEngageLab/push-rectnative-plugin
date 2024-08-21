@@ -12,8 +12,7 @@
         <service
             android:name="cn.engagelab.plugins.push.receiver.MTUserService"
             android:exported="false"
-            android:process=":remote">
-            <!--                android:process="${ENGAGELAB_PRIVATES_PROCESS}">-->
+            android:process="${ENGAGELAB_PRIVATES_PROCESS}">
             <intent-filter>
                 <action android:name="com.engagelab.privates.intent.USER_SERVICE" />
             </intent-filter>
