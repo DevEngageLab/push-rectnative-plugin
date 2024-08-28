@@ -291,7 +291,7 @@ RCT_EXPORT_METHOD(addTags:(NSDictionary *)params)
             NSSet *tagSet = [NSSet setWithArray:tags];
             NSInteger sequence = params[SEQUENCE]?[params[SEQUENCE] integerValue]:-1;
             [MTPushService addTags:tagSet completion:^(NSInteger iResCode, NSSet *iTags, NSInteger seq) {
-                NSDictionary *data = @{CODE:@(iResCode),SEQUENCE:@(seq),TAGS:[iTags allObjects]};
+                NSDictionary *data = @{CODE:@(iResCode),SEQUENCE:@(seq),TAGS:[iTags allObjects]?:@[]};
                 [self sendTagAliasEvent:data];
             } seq:sequence];
         }
@@ -306,7 +306,7 @@ RCT_EXPORT_METHOD(setTags:(NSDictionary *)params)
             NSSet *tagSet = [NSSet setWithArray:tags];
             NSInteger sequence = params[SEQUENCE]?[params[SEQUENCE] integerValue]:-1;
             [MTPushService setTags:tagSet completion:^(NSInteger iResCode, NSSet *iTags, NSInteger seq) {
-                NSDictionary *data = @{CODE:@(iResCode),SEQUENCE:@(seq),TAGS:[iTags allObjects]};
+                NSDictionary *data = @{CODE:@(iResCode),SEQUENCE:@(seq),TAGS:[iTags allObjects]?:@[]};
                 [self sendTagAliasEvent:data];
             } seq:sequence];
         }
@@ -321,7 +321,7 @@ RCT_EXPORT_METHOD(deleteTags:(NSDictionary *)params)
             NSSet *tagSet = [NSSet setWithArray:tags];
             NSInteger sequence = params[SEQUENCE]?[params[SEQUENCE] integerValue]:-1;
             [MTPushService deleteTags:tagSet completion:^(NSInteger iResCode, NSSet *iTags, NSInteger seq) {
-                NSDictionary *data = @{CODE:@(iResCode),SEQUENCE:@(seq),TAGS:[iTags allObjects]};
+                NSDictionary *data = @{CODE:@(iResCode),SEQUENCE:@(seq),TAGS:[iTags allObjects]?:@[]};
                 [self sendTagAliasEvent:data];
             } seq:sequence];
         }
@@ -341,7 +341,7 @@ RCT_EXPORT_METHOD(getAllTags:(NSDictionary *)params)
 {
     NSInteger sequence = params[SEQUENCE]?[params[SEQUENCE] integerValue]:-1;
     [MTPushService getAllTags:^(NSInteger iResCode, NSSet *iTags, NSInteger seq) {
-        NSDictionary *data = @{CODE:@(iResCode),SEQUENCE:@(seq),TAGS:[iTags allObjects]};
+        NSDictionary *data = @{CODE:@(iResCode),SEQUENCE:@(seq),TAGS:[iTags allObjects]?:@[]};
         [self sendTagAliasEvent:data];
     } seq:sequence];
 }
