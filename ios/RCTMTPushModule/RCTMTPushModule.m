@@ -140,11 +140,11 @@ RCT_EXPORT_METHOD(setupWithConfig:(NSDictionary *)params)
                if (@available(iOS 12.0, *)) {
                  entity.types = MTPushAuthorizationOptionAlert|MTPushAuthorizationOptionBadge|MTPushAuthorizationOptionSound|MTPushAuthorizationOptionProvidesAppNotificationSettings;
                }
-               [MTPushService registerForRemoteNotificationConfig:entity delegate:self.bridge.delegate];
+               [MTPushService registerForRemoteNotificationConfig:entity delegate:[UIApplication sharedApplication].delegate];
                [launchOptions objectForKey: UIApplicationLaunchOptionsRemoteNotificationKey];
                // 自定义消息
                NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
-               [defaultCenter addObserver:self.bridge.delegate selector:@selector(networkDidReceiveMessage:) name:kMTCNetworkDidReceiveMessageNotification object:nil];
+               [defaultCenter addObserver:[UIApplication sharedApplication].delegate selector:@selector(networkDidReceiveMessage:) name:kMTCNetworkDidReceiveMessageNotification object:nil];
            });
 
            NSMutableArray *notificationList = [RCTMTPushEventQueue sharedInstance]._notificationQueue;
