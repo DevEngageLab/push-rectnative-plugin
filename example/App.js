@@ -148,6 +148,9 @@ export default class App extends React.Component {
                 <Button title="queryAlias"
                         onPress={() => MTPush.queryAlias({sequence: 8})}/>
 
+                <Button title="goToAppNotificationSetting"
+                        onPress={() => MTPush.goToAppNotificationSettings()}/>
+
                 {/* <Button title="uploadPlatformToken"
                         onPress={() => MTPush.uploadPlatformToken({platform:1, token: "MI-6476s-afs-afs-afaR-HT25", region: "null"})}/> */}
 

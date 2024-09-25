@@ -225,7 +225,10 @@ public class MTPushModule extends ReactContextBaseJavaModule {
     }
 
 
-
+    @ReactMethod
+    public void goToAppNotificationSettings() {
+        MTPushPrivatesApi.goToAppNotificationSettings(reactContext);
+    }
 
 
     @ReactMethod

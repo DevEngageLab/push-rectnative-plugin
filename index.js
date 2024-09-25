@@ -292,6 +292,14 @@ export default class MTPush {
         }
     }
 
+  //***************************************设置***************************************
+  /**
+   * 跳转到通知设置界面
+   */
+  static goToAppNotificationSettings() {
+    MTPushModule.goToAppNotificationSettings()
+  }
+
     //***************************************统计***************************************
 
     /*

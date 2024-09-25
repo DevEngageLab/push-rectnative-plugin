@@ -389,6 +389,12 @@ RCT_EXPORT_METHOD(getAlias:(NSDictionary *)params) {
     } seq:sequence];
 }
 
+// setting
+RCT_EXPORT_METHOD(goToAppNotificationSettings) {
+    [MTPushService openSettingsForNotification:^(BOOL success) {
+        
+    }];
+}
 
 
 //事件处理
@@ -481,6 +487,7 @@ RCT_EXPORT_METHOD(getAlias:(NSDictionary *)params) {
                           args:@[TAG_ALIAS_EVENT, data]
                     completion:NULL];
 }
+
 
 //工具类
 -(NSDictionary *)convertConnect:(NSNotification *)data {

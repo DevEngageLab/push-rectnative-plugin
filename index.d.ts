@@ -170,6 +170,12 @@ export default class MTPush {
    */
   static queryAlias(params: Sequence): void;
 
+//***************************************设置***************************************
+  /**
+   * 跳转到通知设置界面
+   */
+    static goToAppNotificationSettings(): void;
+
   //***************************************统计***************************************
 
   /**
