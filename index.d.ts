@@ -169,7 +169,17 @@ export default class MTPush {
    * 查询别名
    */
   static queryAlias(params: Sequence): void;
+  
+  /**
+   * 进入页面
+   */
+  static pageEnterTo(params: String): void;
 
+  /**
+   * 离开页面
+   */
+  static pageLeave(params: String): void;
+  
 //***************************************设置***************************************
   /**
    * 跳转到通知设置界面
@@ -342,6 +352,42 @@ export default class MTPush {
   static addMobileNumberListener(
     callback: Callback<{ code: number } & Sequence>
   ): void;
+
+/**
+   * inapp消息事件
+   */
+static addInappMessageListener(
+  callback: Callback<{
+    /**
+     * 唯一标识inapp消息的 ID
+     */
+    mesageId: string;
+    /**
+     * 标题
+     */
+    title: string;
+    /**
+     * 内容
+     */
+    content: string;
+    /**
+     * 目标页面
+     */
+    target: string[];
+    /**
+     * 跳转地址
+     */
+    clickAction: string;
+    /**
+     * 附加字段
+     */
+    extras: Extra;
+    /**
+     * 类型，inappShow：展示，inappClick：点击
+     */
+    inappEventType: "inappShow" | "inappClick";
+  }>
+): void;
 
   //移除事件
   static removeListener(callback: Function): void;

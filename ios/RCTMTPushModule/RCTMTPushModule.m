@@ -36,6 +36,12 @@
 #define NOTIFICATION_EVENT        @"NotificationEvent"
 //自定义消息
 #define CUSTOM_MESSAGE_EVENT      @"CustomMessageEvent"
+//应用内消息事件类型
+#define INAPP_MESSAGE_EVENT_TYPE   @"inappEventType"
+#define INAPP_MESSAGE_SHOW         @"inappShow"
+#define INAPP_MESSAGE_CLICK        @"inappClick"
+//应用内消息
+#define INAPP_MESSAGE_EVENT       @"InappMessageEvent"
 //本地通知
 #define LOCAL_NOTIFICATION_EVENT  @"LocalNotificationEvent"
 //连接状态
@@ -45,7 +51,7 @@
 //phoneNumber
 #define MOBILE_NUMBER_EVENT       @"MobileNumberEvent"
 
-@interface RCTMTPushModule ()
+@interface RCTMTPushModule ()<MTPushInAppMessageDelegate>
 
 @end
 
@@ -145,6 +151,8 @@ RCT_EXPORT_METHOD(setupWithConfig:(NSDictionary *)params)
                // 自定义消息
                NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
                [defaultCenter addObserver:[UIApplication sharedApplication].delegate selector:@selector(networkDidReceiveMessage:) name:kMTCNetworkDidReceiveMessageNotification object:nil];
+               // 应用内消息
+               [MTPushService setInAppMessageDelegate:self];
            });
 
            NSMutableArray *notificationList = [RCTMTPushEventQueue sharedInstance]._notificationQueue;
@@ -396,11 +404,22 @@ RCT_EXPORT_METHOD(goToAppNotificationSettings) {
     }];
 }
 
+// 应用内消息
+RCT_EXPORT_METHOD(pageEnterTo:(NSString *)pageName)
+{
+    [MTPushService pageEnterTo:pageName];
+}
+
+RCT_EXPORT_METHOD(pageLeave:(NSString *)pageName)
+{
+    [MTPushService pageLeave:pageName];
+}
+
 
 //事件处理
 - (NSArray<NSString *> *)supportedEvents
 {
-    return @[CONNECT_EVENT,NOTIFICATION_EVENT,CUSTOM_MESSAGE_EVENT,LOCAL_NOTIFICATION_EVENT,MOBILE_NUMBER_EVENT,TAG_ALIAS_EVENT];
+    return @[CONNECT_EVENT,NOTIFICATION_EVENT,CUSTOM_MESSAGE_EVENT,LOCAL_NOTIFICATION_EVENT,MOBILE_NUMBER_EVENT,TAG_ALIAS_EVENT, INAPP_MESSAGE_EVENT];
 }
 
 //长连接登录
@@ -485,6 +504,24 @@ RCT_EXPORT_METHOD(goToAppNotificationSettings) {
     [self.bridge enqueueJSCall:@"RCTDeviceEventEmitter"
                         method:@"emit"
                           args:@[TAG_ALIAS_EVENT, data]
+                    completion:NULL];
+}
+
+//应用内消息 代理
+- (void)mtPushInAppMessageDidShow:(MTPushInAppMessage *)inAppMessage {
+    NSDictionary *responseData = [self convertInappMsg:inAppMessage isShow:YES];
+    [self.bridge enqueueJSCall:@"RCTDeviceEventEmitter"
+                        method:@"emit"
+                          args:@[INAPP_MESSAGE_EVENT,responseData ]
+                    completion:NULL];
+    
+}
+
+- (void)mtPushInAppMessageDidClick:(MTPushInAppMessage *)inAppMessage {
+    NSDictionary *responseData = [self convertInappMsg:inAppMessage isShow:NO];
+    [self.bridge enqueueJSCall:@"RCTDeviceEventEmitter"
+                        method:@"emit"
+                          args:@[INAPP_MESSAGE_EVENT,responseData ]
                     completion:NULL];
 }
 
@@ -592,6 +629,19 @@ RCT_EXPORT_METHOD(goToAppNotificationSettings) {
         responseData = @{MESSAGE_ID:messageID,TITLE:title,CONTENT:content};
     }
     return responseData;
+}
+
+- (NSDictionary *)convertInappMsg:(MTPushInAppMessage *)inAppMessage isShow:(BOOL)isShow{
+    NSDictionary *result = @{
+        @"mesageId": inAppMessage.mesageId ?: @"",    // 消息id
+        @"title": inAppMessage.title ?:@"",       // 标题
+        @"content": inAppMessage.content ?: @"",    // 内容
+        @"target": inAppMessage.target ?: @[],      // 目标页面
+        @"clickAction": inAppMessage.clickAction ?: @"", // 跳转地址
+        @"extras": inAppMessage.extras ?: @{}, // 附加字段
+        INAPP_MESSAGE_EVENT_TYPE: isShow ? INAPP_MESSAGE_SHOW : INAPP_MESSAGE_CLICK // 类型
+    };
+    return result;
 }
 
 @end

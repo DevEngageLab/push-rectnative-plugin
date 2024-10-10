@@ -56,7 +56,7 @@ export default class App extends React.Component {
         // MTPush.setTcpSSL(true); 
         // MTPush.testConfigGoogle(true);
         // MTPush.setSiteName("USA_Virginia"); // 该接口在1.0.8版本不再需要设置。只需设置appkey就行。
-        MTPush.init({"appKey":"5645a6e0c6ef00bb71facf21","channel":"dev","production":1});
+        MTPush.init({"appKey":"fcc545917674d6f06c141704","channel":"dev","production":1});
         //连接状态
         this.connectListener = result => {
             console.log("connectListener:" + JSON.stringify(result))
@@ -79,6 +79,13 @@ export default class App extends React.Component {
             alert(JSON.stringify(result))
         };
         MTPush.addCustomMessageListener(this.customMessageListener);
+        //应用内消息回调
+        MTPush.pageEnterTo("HomePage") // 进入首页，当页面退出时请调用 JPush.pageLeave('HomePage')
+        this.inappMessageListener = result => {
+            console.log("inappMessageListener:" + JSON.stringify(result))
+            alert(JSON.stringify(result))
+        };
+        MTPush.addInappMessageListener(this.inappMessageListener);
         //tags/alias回调
         this.addTagAliasListener = result => {
             console.log("addTagAliasListener:" + JSON.stringify(result))

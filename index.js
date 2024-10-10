@@ -13,6 +13,7 @@ const LocalNotificationEvent = 'LocalNotificationEvent'  //本地通知事件
 const CustomMessageEvent     = 'CustomMessageEvent'      //自定义消息事件
 const TagAliasEvent          = 'TagAliasEvent'           //TagAlias/Pros事件
 const MobileNumberEvent      = 'MobileNumberEvent'       //电话号码事件
+const InappMessageEvent      = 'InappMessageEvent'       //应用内消息事件
 
 export default class MTPush {
 
@@ -292,6 +293,28 @@ export default class MTPush {
         }
     }
 
+     /* 应用内消息，请配置pageEnterTo 和 pageLeave 方法，请配套使用
+    * 进入页面，pageName:页面名 String
+    * */
+     static pageEnterTo(pageName) {
+        if (Platform.OS == "android") {
+            
+        } else {
+            MTPushModule.pageEnterTo(pageName)
+        }
+    }
+
+    /* 应用内消息，请配置pageEnterTo 和 pageLeave 方法，请配套使用
+    * 离开页面，pageName:页面名 String 
+    * */
+    static pageLeave(pageName) {
+        if (Platform.OS == "android") {
+            
+        } else {
+            MTPushModule.pageLeave(pageName)
+        }
+    }
+
   //***************************************设置***************************************
   /**
    * 跳转到通知设置界面
@@ -520,6 +543,32 @@ export default class MTPush {
                 callback(result)
             })
     }
+
+    /*
+    * 应用内消息事件
+    *
+    * @param {Function} callback = (result) => {"mesageId":String，"title":String, "content":String, "target":String, "clickAction":String, extras":{String:String}}}
+    *
+    * messageID:唯一标识自定义消息的 ID
+    *
+    * title: 标题
+    *
+    * content:内容
+    *
+    * target:目标页面
+    *
+    * clickAction:跳转地址
+    *
+    * extras:附加字段
+    *
+    * */
+    static addInappMessageListener(callback) {
+        listeners[callback] = DeviceEventEmitter.addListener(
+            InappMessageEvent, result => {
+                callback(result)
+            })
+    }
+
 
 
     //移除事件
