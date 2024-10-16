@@ -40,8 +40,14 @@
 #define INAPP_MESSAGE_EVENT_TYPE   @"inappEventType"
 #define INAPP_MESSAGE_SHOW         @"inappShow"
 #define INAPP_MESSAGE_CLICK        @"inappClick"
+//增强提醒事件类型
+#define NOTI_INAPP_MESSAGE_EVENT_TYPE   @"notiInappEventType"
+#define NOTI_INAPP_MESSAGE_SHOW         @"notiInappShow"
+#define NOTI_INAPP_MESSAGE_CLICK        @"notiInappClick"
 //应用内消息
 #define INAPP_MESSAGE_EVENT       @"InappMessageEvent"
+//增强提醒消息
+#define NOTI_INAPP_MESSAGE_EVENT  @"NotiInappMessageEvent"
 //本地通知
 #define LOCAL_NOTIFICATION_EVENT  @"LocalNotificationEvent"
 //连接状态
@@ -51,7 +57,7 @@
 //phoneNumber
 #define MOBILE_NUMBER_EVENT       @"MobileNumberEvent"
 
-@interface RCTMTPushModule ()<MTPushInAppMessageDelegate>
+@interface RCTMTPushModule ()<MTPushInAppMessageDelegate,MTPushNotiInMessageDelegate>
 
 @end
 
@@ -153,6 +159,8 @@ RCT_EXPORT_METHOD(setupWithConfig:(NSDictionary *)params)
                [defaultCenter addObserver:[UIApplication sharedApplication].delegate selector:@selector(networkDidReceiveMessage:) name:kMTCNetworkDidReceiveMessageNotification object:nil];
                // 应用内消息
                [MTPushService setInAppMessageDelegate:self];
+               // 增强消息提醒
+               [MTPushService setNotiInMessageDelegate:self];
            });
 
            NSMutableArray *notificationList = [RCTMTPushEventQueue sharedInstance]._notificationQueue;
@@ -229,9 +237,9 @@ RCT_EXPORT_METHOD(addNotification:(NSDictionary *)params)
     content.title = notificationTitle;
     content.body = notificationContent;
     if(params[EXTRAS]){
-        content.userInfo = @{MESSAGE_ID:messageID,TITLE:notificationTitle,CONTENT:notificationContent,EXTRAS:params[EXTRAS],@"_j_private_cloud" : @"EngageLab"};
+        content.userInfo = @{MESSAGE_ID:messageID,TITLE:notificationTitle,CONTENT:notificationContent,EXTRAS:params[EXTRAS],@"_j_engagel_cloud" : @"EngageLab"};
     }else{
-        content.userInfo = @{MESSAGE_ID:messageID,TITLE:notificationTitle,CONTENT:notificationContent,@"_j_private_cloud" : @"EngageLab"};
+        content.userInfo = @{MESSAGE_ID:messageID,TITLE:notificationTitle,CONTENT:notificationContent,@"_j_engagel_cloud" : @"EngageLab"};
     }
     if (@available(iOS 15.0, *)) {
         content.interruptionLevel = 1;
@@ -419,7 +427,7 @@ RCT_EXPORT_METHOD(pageLeave:(NSString *)pageName)
 //事件处理
 - (NSArray<NSString *> *)supportedEvents
 {
-    return @[CONNECT_EVENT,NOTIFICATION_EVENT,CUSTOM_MESSAGE_EVENT,LOCAL_NOTIFICATION_EVENT,MOBILE_NUMBER_EVENT,TAG_ALIAS_EVENT, INAPP_MESSAGE_EVENT];
+    return @[CONNECT_EVENT,NOTIFICATION_EVENT,CUSTOM_MESSAGE_EVENT,LOCAL_NOTIFICATION_EVENT,MOBILE_NUMBER_EVENT,TAG_ALIAS_EVENT, INAPP_MESSAGE_EVENT, NOTI_INAPP_MESSAGE_EVENT];
 }
 
 //长连接登录
@@ -507,6 +515,7 @@ RCT_EXPORT_METHOD(pageLeave:(NSString *)pageName)
                     completion:NULL];
 }
 
+#pragma mark - MTPushInAppMessageDelegate
 //应用内消息 代理
 - (void)mtPushInAppMessageDidShow:(MTPushInAppMessage *)inAppMessage {
     NSDictionary *responseData = [self convertInappMsg:inAppMessage isShow:YES];
@@ -525,7 +534,25 @@ RCT_EXPORT_METHOD(pageLeave:(NSString *)pageName)
                     completion:NULL];
 }
 
+#pragma mark - MTPushNotiInMessageDelegate
+- (void)mtPushNotiInMessageDidShowWithContent:(NSDictionary *)content {
+    NSDictionary *responseData = [self convertNotiInappMsg:content isShow:YES];
+    [self.bridge enqueueJSCall:@"RCTDeviceEventEmitter"
+                        method:@"emit"
+                          args:@[NOTI_INAPP_MESSAGE_EVENT,responseData ]
+                    completion:NULL];
+}
 
+- (void)mtPushNotiInMessageDidClickWithContent:(NSDictionary *)content {
+    NSDictionary *responseData = [self convertNotiInappMsg:content isShow:NO];
+    [self.bridge enqueueJSCall:@"RCTDeviceEventEmitter"
+                        method:@"emit"
+                          args:@[NOTI_INAPP_MESSAGE_EVENT,responseData ]
+                    completion:NULL];
+}
+
+
+#pragma mark - tools
 //工具类
 -(NSDictionary *)convertConnect:(NSNotification *)data {
     NSNotificationName notificationName = data.name;
@@ -572,6 +599,9 @@ RCT_EXPORT_METHOD(pageLeave:(NSString *)pageName)
     [copyData removeObjectForKey:@"_j_msgid"];
     if (copyData[@"aps"]) {
         [copyData removeObjectForKey:@"aps"];
+    }
+    if (copyData[@"_j_engagel_cloud"]) {
+        [copyData removeObjectForKey:@"_j_engagel_cloud"];
     }
     NSMutableDictionary * extrasData = [[NSMutableDictionary alloc] init];
     
@@ -642,6 +672,66 @@ RCT_EXPORT_METHOD(pageLeave:(NSString *)pageName)
         INAPP_MESSAGE_EVENT_TYPE: isShow ? INAPP_MESSAGE_SHOW : INAPP_MESSAGE_CLICK // 类型
     };
     return result;
+}
+
+- (NSDictionary *)convertNotiInappMsg:(NSDictionary *)msg isShow:(BOOL)isShow{
+    if (!msg || ![msg isKindOfClass:[NSDictionary class]]) {
+        return @{};
+    }
+    
+    NSDictionary *objectData = msg;
+    id alertData =  objectData[@"aps"][@"alert"];
+    NSString *badge = objectData[@"aps"][@"badge"]?[objectData[@"aps"][@"badge"] stringValue]:@"";
+    NSString *sound = objectData[@"aps"][@"sound"]?objectData[@"aps"][@"sound"]:@"";
+    
+    NSString *title = @"";
+    NSString *content = @"";
+    if([alertData isKindOfClass:[NSString class]]){
+        content = alertData;
+    }else if([alertData isKindOfClass:[NSDictionary class]]){
+        title = alertData[@"title"]?alertData[@"title"]:@"";
+        content = alertData[@"body"]?alertData[@"body"]:@"";
+    }
+    NSDictionary *responseData;
+    NSMutableDictionary * copyData = [[NSMutableDictionary alloc] initWithDictionary:objectData];
+    if (copyData[@"_j_business"]) {
+        [copyData removeObjectForKey:@"_j_business"];
+    }
+    if (copyData[@"_j_uid"]) {
+        [copyData removeObjectForKey:@"_j_uid"];
+    }
+    [copyData removeObjectForKey:@"_j_msgid"];
+    if (copyData[@"aps"]) {
+        [copyData removeObjectForKey:@"aps"];
+    }
+    if (copyData[@"_j_private_cloud"]) {
+        [copyData removeObjectForKey:@"_j_private_cloud"];
+    }
+    if (copyData[@"_j_engagel_cloud"]) {
+        [copyData removeObjectForKey:@"_j_engagel_cloud"];
+    }
+    NSMutableDictionary * extrasData = [[NSMutableDictionary alloc] init];
+    
+    NSArray * allkeys = [copyData allKeys];
+    for (int i = 0; i < allkeys.count; i++)
+    {
+        NSString *key = [allkeys objectAtIndex:i];
+        NSString *value = [copyData objectForKey:key];
+        [extrasData setObject:value forKey:key];
+    };
+    NSString *messageID = objectData[@"_j_msgid"]?[objectData[@"_j_msgid"] stringValue]:@"";
+    NSString *type = NOTI_INAPP_MESSAGE_SHOW;
+    if (!isShow){
+        type = NOTI_INAPP_MESSAGE_CLICK;
+    }
+    if (extrasData.count > 0) {
+        responseData = @{MESSAGE_ID:messageID,TITLE:title,CONTENT:content,BADGE:badge,RING:sound,EXTRAS:extrasData,NOTI_INAPP_MESSAGE_EVENT_TYPE:type};
+    }
+    else {
+        responseData = @{MESSAGE_ID:messageID,TITLE:title,CONTENT:content,BADGE:badge,RING:sound,NOTI_INAPP_MESSAGE_EVENT_TYPE:type};
+    }
+    return responseData;
+    
 }
 
 @end

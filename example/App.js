@@ -86,6 +86,12 @@ export default class App extends React.Component {
             alert(JSON.stringify(result))
         };
         MTPush.addInappMessageListener(this.inappMessageListener);
+        //增强提醒消息回调 iOS only
+        this.notiInappMessageListener = result => {
+            console.log("notiInappMessageListener:" + JSON.stringify(result))
+            alert(JSON.stringify(result))
+        };
+        MTPush.addNotiInappMessageListener(this.notiInappMessageListener);
         //tags/alias回调
         this.addTagAliasListener = result => {
             console.log("addTagAliasListener:" + JSON.stringify(result))

@@ -389,6 +389,43 @@ static addInappMessageListener(
   }>
 ): void;
 
+
+/**
+   * 增强提醒消息事件 iOS only
+   */
+static addNotiInappMessageListener(
+  callback: Callback<{
+    /**
+       *  messageID:唯一标识通知消息的 ID
+       */
+    messageID: string;
+    /**
+     *  title:对应 Portal 推送通知界面上的“通知标题”字段
+     */
+    title: string;
+    /**
+     *  content:对应 Portal 推送通知界面上的“通知内容”字段
+     */
+    content: string;
+    /**
+     *  badge:对应 Portal 推送通知界面上的可选设置里面的“badge”字段 (ios only)
+     */
+    badge: string;
+    /**
+     *  ring:对应 Portal 推送通知界面上的可选设置里面的“sound”字段 (ios only)
+     */
+    ring: string;
+    /**
+     *  extras:对应 Portal 推送消息界面上的“可选设置”里的附加字段
+     */
+    extras: Extra;
+    /**
+     *  notiInappEventType：有notiInappShow和notiInappClick两种
+     */
+    notiInappEventType: "notiInappShow" | "notiInappClick";
+  }>
+): void;
+
   //移除事件
   static removeListener(callback: Function): void;
 

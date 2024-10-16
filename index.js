@@ -14,6 +14,7 @@ const CustomMessageEvent     = 'CustomMessageEvent'      //自定义消息事件
 const TagAliasEvent          = 'TagAliasEvent'           //TagAlias/Pros事件
 const MobileNumberEvent      = 'MobileNumberEvent'       //电话号码事件
 const InappMessageEvent      = 'InappMessageEvent'       //应用内消息事件
+const NotiInappMessageEvent  = 'NotiInappMessageEvent'   //增强提醒消息事件
 
 export default class MTPush {
 
@@ -569,7 +570,34 @@ export default class MTPush {
             })
     }
 
-
+    /*
+    * 增强提醒事件 iOS only
+    *
+    * @param {Function} callback = (result) => {"messageID":String,"title":String，"content":String,"badge":String,"ring":String,"extras":{String:String},"notiInappEventType":String}
+    *
+    * messageID:唯一标识通知消息的 ID
+    *
+    * title:对应 Portal 推送通知界面上的“通知标题”字段
+    *
+    * content:对应 Portal 推送通知界面上的“通知内容”字段
+    *
+    * badge:对应 Portal 推送通知界面上的可选设置里面的“badge”字段 (ios only)
+    *
+    * ring:对应 Portal 推送通知界面上的可选设置里面的“sound”字段 (ios only)
+    *
+    * extras:对应 Portal 推送消息界面上的“可选设置”里的附加字段
+    *
+    * notiInappEventType：有notiInappShow和notiInappClick两种
+    *
+    * 注意：应用在存活状态下点击通知不会有跳转行为，应用在被杀死状态下点击通知会启动应用
+    *
+    * */
+    static addNotiInappMessageListener(callback) {
+        listeners[callback] = DeviceEventEmitter.addListener(
+            NotiInappMessageEvent, result => {
+                callback(result)
+            })
+    }
 
     //移除事件
     static removeListener(callback) {
