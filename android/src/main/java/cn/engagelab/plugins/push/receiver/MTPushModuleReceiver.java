@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.engagelab.privates.push.api.AliasMessage;
+import com.engagelab.privates.push.api.InAppMessage;
 import com.engagelab.privates.push.api.TagMessage;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReadableArray;
@@ -139,4 +140,17 @@ public class MTPushModuleReceiver extends MTCommonReceiver {
     MTLogger.d("onWake:" + wakeMessage.toString());
   }
 
+  @Override
+  public void onInAppMessageShow(Context context, InAppMessage inAppMessage) {
+    MTLogger.d("onInAppMessageShow:" + inAppMessage.toString());
+    WritableMap writableMap = MTPushHelper.convertInappToMap(MTConstants.INAPP_ARRIVED, inAppMessage);
+    MTPushHelper.sendEvent(MTConstants.INAPPMESSAGE_EVENT, writableMap);
+  }
+
+  @Override
+  public void onInAppMessageClick(Context context, InAppMessage inAppMessage) {
+    MTLogger.d("onInAppMessageClick:" + inAppMessage.toString());
+    WritableMap writableMap = MTPushHelper.convertInappToMap(MTConstants.INAPP_OPENED, inAppMessage);
+    MTPushHelper.sendEvent(MTConstants.INAPPMESSAGE_EVENT, writableMap);
+  }
 }

@@ -26,6 +26,8 @@ public class MTConstants {
     public static final String TITLE = "title";
     public static final String CONTENT = "content";
     public static final String EXTRAS = "extras";
+    public static final String CLICK = "clickAction";
+    public static final String TARGET = "target";
     //消息事件
     public static final String NOTIFICATION_ARRIVED = "notificationArrived";
     public static final String NOTIFICATION_OPENED = "notificationOpened";
@@ -34,6 +36,9 @@ public class MTConstants {
     public static final String NOTIFICATION_EVENT_TYPE = "notificationEventType";
     public static final String NOTIFICATION_MAX_NUMBER = "notificationMaxNumber";
     public static final String NOTIFICATION_ID = "notificationId";
+    public static final String INAPP_ARRIVED = "inappShow";
+    public static final String INAPP_OPENED = "inappClick";
+    public static final String INAPP_EVENT_TYPE = "inappEventType";
     //cmd消息
     public static final String COMMAND = "command";
     public static final String COMMAND_EXTRA = "commandExtra";
@@ -55,6 +60,7 @@ public class MTConstants {
     //event
     public static final String CONNECT_EVENT = "ConnectEvent";
     public static final String NOTIFICATION_EVENT = "NotificationEvent";
+    public static final String INAPPMESSAGE_EVENT = "InappMessageEvent"
     public static final String CUSTOM_MESSAGE_EVENT = "CustomMessageEvent";
     public static final String LOCAL_NOTIFICATION_EVENT = "LocalNotificationEvent";
     public static final String TAG_ALIAS_EVENT = "TagAliasEvent";
