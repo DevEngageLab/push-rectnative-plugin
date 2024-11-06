@@ -60,7 +60,7 @@ public class MTConstants {
     //event
     public static final String CONNECT_EVENT = "ConnectEvent";
     public static final String NOTIFICATION_EVENT = "NotificationEvent";
-    public static final String INAPPMESSAGE_EVENT = "InappMessageEvent"
+    public static final String INAPPMESSAGE_EVENT = "InappMessageEvent";
     public static final String CUSTOM_MESSAGE_EVENT = "CustomMessageEvent";
     public static final String LOCAL_NOTIFICATION_EVENT = "LocalNotificationEvent";
     public static final String TAG_ALIAS_EVENT = "TagAliasEvent";
