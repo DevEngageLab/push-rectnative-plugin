@@ -663,7 +663,7 @@ RCT_EXPORT_METHOD(pageLeave:(NSString *)pageName)
 
 - (NSDictionary *)convertInappMsg:(MTPushInAppMessage *)inAppMessage isShow:(BOOL)isShow{
     NSDictionary *result = @{
-        @"mesageId": inAppMessage.mesageId ?: @"",    // 消息id
+        MESSAGE_ID: inAppMessage.mesageId ?: @"",    // 消息id
         @"title": inAppMessage.title ?:@"",       // 标题
         @"content": inAppMessage.content ?: @"",    // 内容
         @"target": inAppMessage.target ?: @[],      // 目标页面

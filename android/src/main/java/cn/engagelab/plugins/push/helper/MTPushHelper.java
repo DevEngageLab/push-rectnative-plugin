@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import com.engagelab.privates.push.api.InAppMessage;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
@@ -48,6 +49,17 @@ public class MTPushHelper {
 //            writableMap.putString(MTConstants.EXTRAS, bundleToJson(message.getExtras()));
            convertExtras(bundleToJson(message.getExtras()), writableMap);
         }
+        return writableMap;
+    }
+
+    public static WritableMap convertInappToMap(String eventType, InAppMessage message) {
+        WritableMap writableMap = Arguments.createMap();
+        writableMap.putString(MTConstants.INAPP_EVENT_TYPE, eventType);
+        writableMap.putString(MTConstants.MESSAGE_ID, message.getMessageId());
+        writableMap.putString(MTConstants.CONTENT, message.getContent());
+        writableMap.putString(MTConstants.CLICK, message.getClick());
+        writableMap.putString(MTConstants.TARGET, message.getTarget());
+        writableMap.putString(MTConstants.EXTRAS, message.getExtras());
         return writableMap;
     }
 
