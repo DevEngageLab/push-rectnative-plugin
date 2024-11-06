@@ -16,7 +16,7 @@ PODS:
   - hermes-engine/Pre-built (0.71.8)
   - libevent (2.1.12)
   - MTPush (4.5.1)
-  - MTPusha (1.1.6):
+  - MTPushRN (1.1.6):
     - MTPush (= 4.5.1)
     - React
   - RCT-Folly (2021.07.22.00):
@@ -364,7 +364,7 @@ DEPENDENCIES:
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - hermes-engine (from `../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec`)
   - libevent (~> 2.1.12)
-  - MTPusha (from `../node_modules/mtpush-react-native`)
+  - MTPushRN (from `../node_modules/mtpush-react-native`)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
@@ -414,7 +414,7 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
   hermes-engine:
     :podspec: "../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec"
-  MTPusha:
+  MTPushRN:
     :path: "../node_modules/mtpush-react-native"
   RCT-Folly:
     :podspec: "../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec"
@@ -483,7 +483,7 @@ SPEC CHECKSUMS:
   hermes-engine: 47986d26692ae75ee7a17ab049caee8864f855de
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   MTPush: d3a7638d399a6aeed9db15b5b354de6513216ace
-  MTPusha: 513bdba1a6d4d6aab7f54cfcaceb8c10b1f1bae1
+  MTPushRN: f26971f7abaa7807b80ef924394f3d2a47b961f8
   RCT-Folly: 424b8c9a7a0b9ab2886ffe9c3b041ef628fd4fb1
   RCTRequired: 8af6a32dfc2b65ec82193c2dee6e1011ff22ac2a
   RCTTypeSafety: bee9dd161c175896c680d47ef1d9eaacf2b587f4
