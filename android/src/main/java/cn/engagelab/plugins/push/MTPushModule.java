@@ -100,6 +100,33 @@ public class MTPushModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void uploadPlatformToken(ReadableMap readableMap) {
+        if (readableMap == null) {
+            MTLogger.w(MTConstants.PARAMS_NULL);
+            return;
+        }
+
+        if (readableMap.hasKey(MTConstants.PLATFORM) && readableMap.hasKey(MTConstants.TOKEN) && readableMap.hasKey(MTConstants.REGIN) ) {
+            byte platform = (byte)readableMap.getInt(MTConstants.PLATFORM);
+            String token = readableMap.getString(MTConstants.TOKEN);
+            String region = readableMap.getString(MTConstants.REGION);
+            MTPushPrivatesApi.uploadPlatformToken(reactContext, platform, token, region);
+        }
+    }
+
+    @ReactMethod
+    public void configAppKey(ReadableMap readableMap) {
+        if (readableMap == null) {
+            MTLogger.w(MTConstants.PARAMS_NULL);
+            return;
+        }
+        if (readableMap.hasKey(MTConstants.APPKEY) ) {
+            String appkey = readableMap.getString(MTConstants.APPKEY);
+            MTCorePrivatesApi.configAppKey(reactContext, appkey);
+        }
+    }
+
+    @ReactMethod
     public void addTags(ReadableMap readableMap) {
         if (readableMap == null) {
             MTLogger.w(MTConstants.PARAMS_NULL);

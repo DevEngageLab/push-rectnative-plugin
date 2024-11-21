@@ -685,6 +685,27 @@ export default class MTPush {
         }
     }
 
+     /*
+    * 配置 appkey，优先级比 AndroidManifest 里配置的高
+    * */
+     static configAppKey(params) {
+        if (Platform.OS == "android") {
+            MTPushModule.configAppKey(params)
+        } else {
+           
+        }
+    }
+
+     /*
+    * 上报厂商token
+    * */
+     static uploadPlatformToken(params) {
+        if (Platform.OS == "android") {
+            MTPushModule.uploadPlatformToken(params)
+        } else {
+           
+        }
+    }
 
 
 }
