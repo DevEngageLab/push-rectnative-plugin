@@ -502,6 +502,38 @@ static addNotiInappMessageListener(
    */
   static setChannel(params: { channel: string }): void;
 
+   /*
+    * 配置 appkey，优先级比 AndroidManifest 里配置的高
+    * */
+   static configAppKey(params:{ appkey: string }): void;
+
+ /*
+* 上报厂商token
+
+* */
+ static uploadPlatformToken(params:{
+   /**
+     * 厂商, 各个厂商取值： 
+     * 小米通道：1  
+     * 华为通道：2
+     * 魅族通道：3
+     * oppo通道：4
+     * vivo通道：5
+     * honor通道：7
+     * google通道：8
+     */
+  platform: number, 
+  
+  /**
+   * 厂商返回的token
+   */
+  token: string, 
+  
+  /**
+   *  海外版小米和oppo需要设置region，根据使用地区等填如：“US”等，非海外版的填""
+   */
+  region: string}) : void;
+
   //***************************************iOS Only***************************************
 
   /**

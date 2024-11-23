@@ -53,6 +53,12 @@ public class MTConstants {
     public static final String TAGS = "tags";
     public static final String ALIAS = "alias";
     public static final String TAG_ENABLE = "tagEnable";
+
+    public static final String PLATFORM = "platform";
+    public static final String TOKEN = "token";
+    public static final String REGION = "region";
+    public static final String APPKEY = "appkey";
+
     //error
     public static final String PARAMS_NULL = "params cant be null";
     public static final String PARAMS_ILLEGAL = "params illegal";
