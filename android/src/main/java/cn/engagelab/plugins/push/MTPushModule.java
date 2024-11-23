@@ -106,7 +106,7 @@ public class MTPushModule extends ReactContextBaseJavaModule {
             return;
         }
 
-        if (readableMap.hasKey(MTConstants.PLATFORM) && readableMap.hasKey(MTConstants.TOKEN) && readableMap.hasKey(MTConstants.REGIN) ) {
+        if (readableMap.hasKey(MTConstants.PLATFORM) && readableMap.hasKey(MTConstants.TOKEN) && readableMap.hasKey(MTConstants.REGION) ) {
             byte platform = (byte)readableMap.getInt(MTConstants.PLATFORM);
             String token = readableMap.getString(MTConstants.TOKEN);
             String region = readableMap.getString(MTConstants.REGION);
@@ -115,7 +115,7 @@ public class MTPushModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void clearPlatformToken(ReadableMap readableMap) {
+    public void clearPlatformToken() {
         MTPushPrivatesApi.clearPlatformToken(reactContext);
     }
 
