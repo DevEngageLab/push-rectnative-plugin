@@ -534,6 +534,13 @@ static addNotiInappMessageListener(
    */
   region: string}) : void;
 
+   /**
+   * 清空厂商token
+   *
+   * @platform Android
+   */
+   static clearPlatformToken(): void;
+
   //***************************************iOS Only***************************************
 
   /**

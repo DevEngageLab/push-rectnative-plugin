@@ -115,6 +115,11 @@ public class MTPushModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void clearPlatformToken(ReadableMap readableMap) {
+        MTPushPrivatesApi.clearPlatformToken(reactContext);
+    }
+
+    @ReactMethod
     public void configAppKey(ReadableMap readableMap) {
         if (readableMap == null) {
             MTLogger.w(MTConstants.PARAMS_NULL);

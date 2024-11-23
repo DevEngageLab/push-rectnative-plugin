@@ -707,5 +707,16 @@ export default class MTPush {
         }
     }
 
+    /*
+    * 清空厂商token
+    * */
+    static clearPlatformToken() {
+        if (Platform.OS == "android") {
+            MTPushModule.clearPlatformToken()
+        } else {
+           
+        }
+    }
+
 
 }
