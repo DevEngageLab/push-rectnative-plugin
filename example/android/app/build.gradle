@@ -130,7 +130,7 @@ android {
         manifestPlaceholders = [
                 ENGAGELAB_PRIVATES_APPKEY: "5645a6e0c6ef00bb71facf21", //在此替换你的APPKey
                 ENGAGELAB_PRIVATES_CHANNEL: "developer", //在此替换你的channel
-                ENGAGELAB_PRIVATES_PROCESS: "", // 在此填写Engagelabsdk工作所在的进程
+                ENGAGELAB_PRIVATES_PROCESS: ":remote", // 在此填写Engagelabsdk工作所在的进程
                 XIAOMI_APPID            : "",//MI-您的，对应平台信息
                 XIAOMI_APPKEY           : "",//MI-您的，对应平台信息
                 MEIZU_APPID            : "",
