@@ -141,6 +141,15 @@ public class MTPushModuleReceiver extends MTCommonReceiver {
   }
 
   @Override
+  public void onPlatformToken(Context context, PlatformTokenMessage platformMessage) {
+    MTLogger.d("onPlatformToken:" + platformMessage.toString());
+    WritableMap writableMap = Arguments.createMap();
+    writableMap.putInt(MTConstants.PLATFORM, platformMessage.getPlatform());
+    writableMap.putString(MTConstants.TOKEN, platformMessage.getToken());
+    MTPushHelper.sendEvent(MTConstants.PLATFORM_TOKEN_EVENT, writableMap);
+  }
+
+  @Override
   public void onInAppMessageShow(Context context, InAppMessage inAppMessage) {
     MTLogger.d("onInAppMessageShow:" + inAppMessage.toString());
     WritableMap writableMap = MTPushHelper.convertInappToMap(MTConstants.INAPP_ARRIVED, inAppMessage);

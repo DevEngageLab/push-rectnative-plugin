@@ -541,6 +541,22 @@ static addNotiInappMessageListener(
    */
    static clearPlatformToken(): void;
 
+   /**
+   * 厂商token回调
+   */
+  static addPlatformListener(
+    callback: Callback<{
+      /**
+       * 厂商对应的数字标识
+       */
+      platform: int;
+      /**
+       * 返回的厂商token
+       */
+      token: string;
+    }>
+  ): void;
+
   //***************************************iOS Only***************************************
 
   /**

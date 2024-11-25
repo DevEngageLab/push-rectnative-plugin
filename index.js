@@ -15,6 +15,7 @@ const TagAliasEvent          = 'TagAliasEvent'           //TagAlias/Pros事件
 const MobileNumberEvent      = 'MobileNumberEvent'       //电话号码事件
 const InappMessageEvent      = 'InappMessageEvent'       //应用内消息事件
 const NotiInappMessageEvent  = 'NotiInappMessageEvent'   //增强提醒消息事件
+const PlatformTokenEvent     = 'PlatformTokenEvent'  // 安卓厂商token回调
 
 export default class MTPush {
 
@@ -717,6 +718,24 @@ export default class MTPush {
            
         }
     }
+
+    /*
+    * 厂商token回调
+    *
+    * @param {Function} callback = (result) => {"platform":int,"token":String}}
+    *
+    * platform:厂商对应的数字标识
+    *
+    * token:返回的厂商token
+    *
+    *
+    * */
+        static addPlatformListener(callback) {
+            listeners[callback] = DeviceEventEmitter.addListener(
+                PlatformTokenEvent, result => {
+                    callback(result)
+                })
+        }
 
 
 }
