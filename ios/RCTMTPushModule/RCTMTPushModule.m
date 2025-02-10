@@ -120,13 +120,13 @@ RCT_EXPORT_MODULE(MTPushModule);
     return self;
 }
 
-RCT_EXPORT_METHOD(setTcpSSL: (BOOL *)enable)
+RCT_EXPORT_METHOD(setTcpSSL: (BOOL )enable)
 {
     [MTPushService setTcpSSL:enable];
 }
 
 
-RCT_EXPORT_METHOD(setDebugMode: (BOOL *)enable)
+RCT_EXPORT_METHOD(setDebugMode: (BOOL )enable)
 {
     if(enable){
         [MTPushService setDebugMode];
