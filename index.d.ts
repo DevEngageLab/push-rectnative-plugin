@@ -116,6 +116,11 @@ export default class MTPush {
    */
   static getRegistrationID(callback: Callback<{ registerID: string }>): void;
 
+  /**
+   * 获取 冷启动通知内容
+   */
+  static getLaunchNoti(callback: Callback<{ launchNoti: Extra }>): void;
+
 
   //***************************************tags/alias*******************************
 

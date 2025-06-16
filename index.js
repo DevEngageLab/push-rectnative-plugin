@@ -115,6 +115,19 @@ export default class MTPush {
     }
 
 
+    /**
+    * 获取 冷启动通知内容
+    * 
+    * @param {Function} callback = (result) => {"launchNoti":String}
+    */
+    static getLaunchNoti(callback) {
+        if (Platform.OS == "android") {
+        } else {
+            MTPushModule.getLaunchNoti(callback)
+        }
+    }
+
+
     //*************************tags alias ********************/
     /*
     * 新增标签

@@ -59,6 +59,8 @@
 
 @interface RCTMTPushModule ()<MTPushInAppMessageDelegate,MTPushNotiInMessageDelegate>
 
+@property (nonatomic, strong) NSDictionary *launchNoti;
+
 @end
 
 @implementation RCTMTPushModule
@@ -153,7 +155,9 @@ RCT_EXPORT_METHOD(setupWithConfig:(NSDictionary *)params)
                  entity.types = MTPushAuthorizationOptionAlert|MTPushAuthorizationOptionBadge|MTPushAuthorizationOptionSound|MTPushAuthorizationOptionProvidesAppNotificationSettings;
                }
                [MTPushService registerForRemoteNotificationConfig:entity delegate:[UIApplication sharedApplication].delegate];
-               [launchOptions objectForKey: UIApplicationLaunchOptionsRemoteNotificationKey];
+               self.launchNoti = [launchOptions objectForKey: UIApplicationLaunchOptionsRemoteNotificationKey];
+               NSLog(@"launchnoti - %@", self.launchNoti);
+               NSLog(@"delegate - %@", [UIApplication sharedApplication].delegate);
                // 自定义消息
                NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
                [defaultCenter addObserver:[UIApplication sharedApplication].delegate selector:@selector(networkDidReceiveMessage:) name:kMTCNetworkDidReceiveMessageNotification object:nil];
@@ -185,6 +189,26 @@ RCT_EXPORT_METHOD(loadJS)
         [self sendLocalNotificationEventByDictionary:localNotificationList[0]];
     }
 }
+
+RCT_EXPORT_METHOD(getLaunchNoti:(RCTResponseSenderBlock) callback)
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSLog(@"getLaunchNoti - %@", self.launchNoti);
+        if (self.launchNoti) {
+            NSDictionary *responseData = [self convertApnsMessage:self.launchNoti];
+            NSMutableDictionary *response = [[NSMutableDictionary alloc] init];
+            [response setValue:responseData?responseData:@{} forKey:@"launchNoti"];
+            NSLog(@"getLaunchNoti - %@", response);
+            callback(@[response]);
+        }else {
+            NSMutableDictionary *response = [[NSMutableDictionary alloc] init];
+            [response setValue:@{} forKey:@"launchNoti"];
+            callback(@[response]);
+        }
+       
+    });
+}
+
 
 RCT_EXPORT_METHOD(getRegisterId:(RCTResponseSenderBlock) callback)
 {
