@@ -72,6 +72,13 @@ public class MTPushModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void setEnableResetOnDeviceChange(boolean enable) {
+        MTCorePrivatesApi.setEnableResetOnDeviceChange(reactContext, enable);
+    }
+
+
+
+    @ReactMethod
     public void setCountryCode(String countryCode) {
         MTGlobal.setCountryCode(countryCode);
     }

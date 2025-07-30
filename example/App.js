@@ -54,6 +54,7 @@ export default class App extends React.Component {
     componentDidMount() {
         MTPush.setLoggerEnable(true);
         // MTPush.setTcpSSL(true); 
+        // MTPush.setEnableResetOnDeviceChange(true); // 启用设备更换时重置RegistrationID功能
         // MTPush.testConfigGoogle(true);
         // MTPush.setSiteName("USA_Virginia"); // 该接口在1.0.8版本不再需要设置。只需设置appkey就行。
         MTPush.init({"appKey":"fcc545917674d6f06c141704","channel":"dev","production":1});
@@ -110,6 +111,12 @@ export default class App extends React.Component {
                 <Button title="setLoggerEnable"
                         onPress={() => MTPush.setLoggerEnable(true)
                         }/>
+
+                <Button title="setEnableResetOnDeviceChange"
+                        onPress={() => MTPush.setEnableResetOnDeviceChange(true)
+                        }/>
+
+
 
                 <Button title="getRegisterID" 
                         onPress={() => MTPush.getRegistrationID(result =>

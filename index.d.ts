@@ -63,6 +63,16 @@ export default class MTPush {
   static setTcpSSL(enable: boolean): void;
 
   /*
+    * 设置设备更换时是否重置RegistrationID
+    *
+    * 该接口需在 init 接口之前调用，否则无效
+    * @param enable = boolean
+    * */  
+  static setEnableResetOnDeviceChange(enable: boolean): void;
+
+
+
+  /*
     * 设置数据中心
     *
     * 该接口需在 init 接口之前调用，否则无效。 不调用的话默认新加坡数据中心
@@ -102,7 +112,7 @@ export default class MTPush {
     * 由于走tcp上传，需要长连接成功即[onConnectStatus](#onConnectStatus)回调结果为ture后调用此接口
     * */
   static uploadPlatformToken(params: {
-    platform: int;
+    platform: number;
     token: string;
     region: string;
   }): void;
@@ -554,7 +564,7 @@ static addNotiInappMessageListener(
       /**
        * 厂商对应的数字标识
        */
-      platform: int;
+      platform: number;
       /**
        * 返回的厂商token
        */

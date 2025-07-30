@@ -30,6 +30,16 @@ export default class MTPush {
     }
 
     /*
+    * 设置设备更换时是否重置RegistrationID
+    *
+    * 该接口需在 init 接口之前调用，否则无效
+    * @param enable = boolean
+    * */
+    static setEnableResetOnDeviceChange(enable) {
+        MTPushModule.setEnableResetOnDeviceChange(enable)
+    }
+
+    /*
     * 设置调试模式，默认关闭状态
     *
     * 该接口需在 init 接口之前调用，避免出现部分日志没打印的情况

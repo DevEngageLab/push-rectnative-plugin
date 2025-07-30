@@ -127,6 +127,13 @@ RCT_EXPORT_METHOD(setTcpSSL: (BOOL )enable)
     [MTPushService setTcpSSL:enable];
 }
 
+RCT_EXPORT_METHOD(setEnableResetOnDeviceChange: (BOOL )enable)
+{
+    [MTPushService enableResetOnDeviceChange:enable];
+}
+
+
+
 
 RCT_EXPORT_METHOD(setDebugMode: (BOOL )enable)
 {
