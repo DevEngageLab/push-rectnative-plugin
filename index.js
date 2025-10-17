@@ -40,6 +40,16 @@ export default class MTPush {
     }
 
     /*
+    * 设置是否启用UDP
+    *
+    * 该接口需在 init 接口之前调用，否则无效
+    * @param enable = boolean
+    * */
+    static setEnableUdp(enable) {
+        MTPushModule.setEnableUdp(enable)
+    }
+
+    /*
     * 设置调试模式，默认关闭状态
     *
     * 该接口需在 init 接口之前调用，避免出现部分日志没打印的情况
@@ -441,6 +451,29 @@ export default class MTPush {
             MTPushModule.setBadge(params)
         }else if (Platform.OS == "android") {
             MTPushModule.setBadgeNumber(params)
+        }
+    }
+
+    /*
+    * 设置 Badge（带回调）
+    *
+    * @param params = {"badge":int,"appBadge":int}
+    * @param callback 回调函数，成功时返回null，失败时返回错误信息
+    *
+    * badge:iOS MTPush封装badge功能，允许应用上传 badge 值至 MTPush 服务器，由 MTPush 后台帮助管理每个用户所对应的推送 badge 值，简化了设置推送 badge 的操作。
+    *
+    * appBadge: iOS/Android 用来标记应用程序状态的一个数字，出现在程序图标右上角。设置的值小于0时，sdk不作处理。(安卓仅华为/荣耀生效)
+    * 
+    * */
+    static setBadgeWithCallback(params, callback) {
+        if (Platform.OS == "ios") {
+            MTPushModule.setBadgeWithCallback(params, callback)
+        } else {
+            // Android平台不支持此方法，直接调用普通setBadge
+            MTPushModule.setBadgeNumber(params)
+            if (callback) {
+                callback({code: 0, message: "Badge set successfully"})
+            }
         }
     }
 

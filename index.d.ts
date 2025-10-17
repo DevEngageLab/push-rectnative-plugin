@@ -70,6 +70,14 @@ export default class MTPush {
     * */  
   static setEnableResetOnDeviceChange(enable: boolean): void;
 
+  /*
+    * 设置是否启用UDP
+    *
+    * 该接口需在 init 接口之前调用，否则无效
+    * @param enable = boolean
+    * */  
+  static setEnableUdp(enable: boolean): void;
+
 
 
   /*
@@ -589,4 +597,26 @@ static addNotiInappMessageListener(
      */
     appBadge: number;
   }): void;
+
+  /**
+   * 设置 Badge（带回调）- iOS Only
+   *
+   * @platform iOS
+   */
+  static setBadgeWithCallback(
+    params: {
+      /**
+       * iOS Push封装badge功能,允许应用上传 badge 值至 MTPush 服务器,由 MTPush 后台帮助管理每个用户所对应的推送 badge 值,简化了设置推送 badge 的操作。
+       */
+      badge: number;
+      /**
+       * iOS/Android 用来标记应用程序状态的一个数字,出现在程序图标右上角。设置的值小于0时，sdk不作处理。(安卓仅华为/荣耀生效)
+       */
+    appBadge: number;
+    },
+    /**
+     * 回调函数，成功时返回{code: 0, message: "Badge set successfully"}，失败时返回{code: -1, message: "失败原因"}
+     */
+    callback: (result: { code: number; message: string } ) => void
+  ): void;
 }

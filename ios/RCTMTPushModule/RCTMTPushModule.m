@@ -132,6 +132,11 @@ RCT_EXPORT_METHOD(setEnableResetOnDeviceChange: (BOOL )enable)
     [MTPushService enableResetOnDeviceChange:enable];
 }
 
+RCT_EXPORT_METHOD(setEnableUdp: (BOOL )enable)
+{
+    [MTPushService setEnableUdp:enable];
+}
+
 
 
 
@@ -242,6 +247,36 @@ RCT_EXPORT_METHOD(setBadge:(NSDictionary *)params)
             [UIApplication sharedApplication].applicationIconBadgeNumber = [number integerValue];
         });
     }
+}
+
+//badge 角标带回调
+RCT_EXPORT_METHOD(setBadgeWithCallback:(NSDictionary *)params callback:(RCTResponseSenderBlock)callback)
+{
+    if(params[BADGE]){
+        NSNumber *number = params[BADGE];
+        if(number < 0) {
+            NSDictionary *error = @{CODE: @(-1), @"message": @"Badge value must be non-negative"};
+            callback(@[error]);
+            return;
+        }
+        [MTPushService setBadge:[number integerValue] completion:^(NSError *error) {
+            if (error) {
+                NSDictionary *errorDict = @{CODE: @(error.code), @"message": error.localizedDescription};
+                callback(@[errorDict]);
+            } else {
+                callback(@[@{CODE: @(0), @"message": @"Badge set successfully"}]);
+            }
+        }];
+    } 
+
+ if (params[APP_BADGE]) {
+        NSNumber *number = params[APP_BADGE];
+        if(number < 0) return;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [UIApplication sharedApplication].applicationIconBadgeNumber = [number integerValue];
+        });
+    }
+
 }
 
 

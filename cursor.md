@@ -3,8 +3,8 @@
 
 
 需求：
-1. 更新iOS MTPush SDK 到 5.1.0 版本。
-2. 更新Android MTPush SDK 到 5.1.0 版本。
+1. 更新iOS MTPush SDK 到 5.2.0 版本。
+2. 更新Android MTPush SDK 到 5.2.0 版本。
 3. 将原生iOS、Android SDK 新增的方法，封装在插件中。
    原生SDK新增方法一：
    iOS ：
@@ -37,6 +37,7 @@
             ...
 
     ```
+6. 在CHANGELOG.md中添加本次更新的内容
 
 
 

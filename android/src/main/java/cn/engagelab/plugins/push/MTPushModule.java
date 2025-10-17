@@ -76,6 +76,11 @@ public class MTPushModule extends ReactContextBaseJavaModule {
         MTCorePrivatesApi.setEnableResetOnDeviceChange(reactContext, enable);
     }
 
+    @ReactMethod
+    public void setEnableUdp(boolean enable) {
+        MTCorePrivatesApi.setEnableUdp(reactContext, enable);
+    }
+
 
 
     @ReactMethod

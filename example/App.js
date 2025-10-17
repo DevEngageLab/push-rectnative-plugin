@@ -130,6 +130,18 @@ export default class App extends React.Component {
                 <Button title="setBadge"
                           onPress={() => MTPush.setBadge({"badge":3,"appBadge":3})}/>
 
+                <Button title="setBadgeWithCallback"
+                          onPress={() => MTPush.setBadgeWithCallback({"badge":5}, (result) => {
+                              console.log("setBadgeWithCallback result:", JSON.stringify(result));
+                              if (result.code != 0) {
+                                  console.log("setBadgeWithCallback error:", result);
+                                  alert("设置Badge失败: " + result.message);
+                              } else {
+                                  console.log("setBadgeWithCallback success");
+                                  alert("设置Badge成功");
+                              }
+                          })}/>
+
                 <Button title="addLocalNotification"
                            onPress={() => MTPush.addLocalNotification({
                                  messageID: "123456789",
