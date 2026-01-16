@@ -50,6 +50,20 @@ export default class MTPush {
     }
 
     /*
+    * 设置数据采集控制
+    *
+    * 该接口需在 init 接口之前调用，否则无效
+    * 用于控制是否采集 AndroidId（GAID 和 AID）
+    * 默认情况下 gaid 和 aid 均为 true（默认采集），设置为 false 可关闭对应数据采集
+    * @param params = {gaid?: boolean, aid?: boolean}
+    * */
+    static setCollectControl(params) {
+        if (Platform.OS === 'android') {
+            MTPushModule.setCollectControl(params)
+        }
+    }
+
+    /*
     * 设置调试模式，默认关闭状态
     *
     * 该接口需在 init 接口之前调用，避免出现部分日志没打印的情况

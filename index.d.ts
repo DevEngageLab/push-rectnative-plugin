@@ -78,7 +78,15 @@ export default class MTPush {
     * */  
   static setEnableUdp(enable: boolean): void;
 
-
+  /*
+    * 设置数据采集控制
+    *
+    * 该接口需在 init 接口之前调用，否则无效
+    * 用于控制是否采集 AndroidId（GAID 和 AID）
+    * 默认情况下 gaid 和 aid 均为 true（默认采集），设置为 false 可关闭对应数据采集
+    * @param params = {gaid?: boolean, aid?: boolean}
+    * */  
+  static setCollectControl(params: {gaid?: boolean, aid?: boolean}): void;
 
   /*
     * 设置数据中心

@@ -10,7 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "mtpush-react-native": "^1.2.7",
+    "mtpush-react-native": "^1.2.8",
     "react": "18.2.0",
     "react-native": "0.71.8"
   },

@@ -37,6 +37,7 @@ import cn.engagelab.plugins.push.receiver.MTPushModuleReceiver;
 
 import com.engagelab.privates.core.api.MTCorePrivatesApi;
 import com.engagelab.privates.push.api.MTPushPrivatesApi;
+import com.engagelab.privates.push.api.MTPushCollectControl;
 
 
 public class MTPushModule extends ReactContextBaseJavaModule {
@@ -81,7 +82,20 @@ public class MTPushModule extends ReactContextBaseJavaModule {
         MTCorePrivatesApi.setEnableUdp(reactContext, enable);
     }
 
-
+    @ReactMethod
+    public void setCollectControl(ReadableMap params) {
+        if (params == null) {
+            return;
+        }
+        MTPushCollectControl control = new MTPushCollectControl();
+        if (params.hasKey("gaid")) {
+            control.setGaid(params.getBoolean("gaid"));
+        }
+        if (params.hasKey("aid")) {
+            control.setAid(params.getBoolean("aid"));
+        }
+        MTPushPrivatesApi.setCollectControl(control);
+    }
 
     @ReactMethod
     public void setCountryCode(String countryCode) {

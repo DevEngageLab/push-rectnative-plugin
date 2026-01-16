@@ -1,5 +1,43 @@
 # Changelog
 
+## [1.2.8] - 2025-01-27
+
+### Added
+- 更新iOS MTPush SDK到5.3.0版本
+- 更新Android MTPush SDK到5.3.0版本
+- 新增`setCollectControl`方法（Android），用于控制是否采集AndroidId（GAID和AID）
+
+### New Features
+
+#### setCollectControl (Android)
+设置数据采集控制，用于控制是否采集AndroidId（GAID和AID）。默认情况下 gaid 和 aid 均为 true（默认采集），通过此接口可以关闭部分或全部采集。
+
+**使用示例：**
+```javascript
+// 关闭GAID和AID的采集
+MTPush.setCollectControl({
+    gaid: false,
+    aid: false
+});
+
+// 仅关闭GAID采集，保留AID采集（AID默认为true，继续采集）
+MTPush.setCollectControl({
+    gaid: false
+});
+```
+
+**注意事项：**
+- 仅Android平台支持
+- 该接口需在init接口之前调用，否则无效
+- gaid参数控制是否采集Google Advertising ID，默认为true（采集）
+- aid参数控制是否采集AndroidId，默认为true（采集）
+- 只有显式设置为false时才会关闭对应数据采集
+
+### Migration Guide
+从1.2.7升级到1.2.8版本时，需要：
+1. 如果需要控制AndroidId数据采集，可在初始化前调用`setCollectControl`方法
+2. 重新构建项目以应用新的依赖版本
+
 ## [1.2.7] - 2025-01-27
 
 ### Added
@@ -35,9 +73,8 @@ MTPush.setBadgeWithCallback({badge: 5}, (result) => {
 
 ### Migration Guide
 从1.2.6升级到1.2.7版本时，需要：
-1. 更新iOS和Android的MTPush SDK到5.2.0版本
-2. 如果需要获取Badge设置结果，可使用新的`setBadgeWithCallback`方法
-3. 重新构建项目以应用新的依赖版本
+1. 如果需要获取Badge设置结果，可使用新的`setBadgeWithCallback`方法
+2. 重新构建项目以应用新的依赖版本
 
 
 ## [1.2.6] - 2025-07-30
@@ -72,5 +109,4 @@ MTPush.setEnableResetOnDeviceChange(false);
 
 ### Migration Guide
 从1.2.5升级到1.2.6版本时，需要：
-1. 更新iOS和Android的MTPush SDK到5.1.0版本
-2. 如果需要使用设备迁移功能，请在初始化前调用`setEnableResetOnDeviceChange(true)` 
+1. 如果需要使用设备迁移功能，请在初始化前调用`setEnableResetOnDeviceChange(true)` 
