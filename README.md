@@ -177,6 +177,10 @@ pod install
   libRCTMTPushModule.a
   ```
 
+### 3.3 Swift Project
+
+If your iOS project uses Swift code, please refer to the guide in [example/ios-swift/README.md](example/ios-swift/README.md) for configuration instructions.
+
 ## 4. Quote
 
 ### 4.1 Android
