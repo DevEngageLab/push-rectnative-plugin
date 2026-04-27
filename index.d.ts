@@ -262,7 +262,7 @@ export default class MTPush {
   /**
    * 移除指定的本地通知
    *
-   * messageID:唯一标识通知消息的ID,可用于移除消息
+   * messageID:唯一标识通知消息的ID,可用于移除消息，通知ID
    */
   static removeLocalNotification(params: { messageID: string }): void;
 
@@ -303,6 +303,10 @@ export default class MTPush {
        *  messageID:唯一标识通知消息的 ID
        */
       messageID: string;
+      /**
+       *  系统通知 ID（Android，整型）
+       */
+      notificationId?: number;
       /**
        *  title:对应 Portal 推送通知界面上的“通知标题”字段
        */

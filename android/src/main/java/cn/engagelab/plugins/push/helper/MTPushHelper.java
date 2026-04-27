@@ -43,6 +43,7 @@ public class MTPushHelper {
         WritableMap writableMap = Arguments.createMap();
         writableMap.putString(MTConstants.NOTIFICATION_EVENT_TYPE, eventType);
         writableMap.putString(MTConstants.MESSAGE_ID, message.getMessageId());
+        writableMap.putInt(MTConstants.NOTIFICATION_ID, message.getNotificationId());
         writableMap.putString(MTConstants.TITLE, message.getTitle());
         writableMap.putString(MTConstants.CONTENT, message.getContent());
         if (message.getExtras() != null) {
