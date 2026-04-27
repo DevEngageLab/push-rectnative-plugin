@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.2.9] - 2026-04-27
+
+### Added
+- **Android**：通知相关事件回调（如 `addNotificationListener`）的 payload 中增加 `notificationId`（整型），对应系统通知 ID，便于与 `removeLocalNotification` 等能力配合使用。
+
+### Changed
+- 更新 `index.d.ts`：通知事件回调参数类型补充可选字段 `notificationId`（Android）。
+- 补充 `removeLocalNotification` 等注释说明（与通知 ID 相关表述）。
+
+### Migration Guide
+从 1.2.8 升级到 1.2.9 时：
+1. 业务代码可选：在 Android 上若需区分或移除指定通知，可在通知回调中读取 `notificationId`。
+2. 重新构建应用以生效原生侧改动。
+
 ## [1.2.8] - 2025-01-27
 
 ### Added
