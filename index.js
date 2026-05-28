@@ -53,9 +53,10 @@ export default class MTPush {
     * 设置数据采集控制
     *
     * 该接口需在 init 接口之前调用，否则无效
-    * 用于控制是否采集 AndroidId（GAID 和 AID）
-    * 默认情况下 gaid 和 aid 均为 true（默认采集），设置为 false 可关闭对应数据采集
+    * 用于控制是否采集 GAID
+    * 默认情况下 gaid 为 true（默认采集），设置为 false 可关闭对应数据采集
     * @param params = {gaid?: boolean, aid?: boolean}
+    * @deprecated params.aid - 自 Android SDK 5.4.0 起，AndroidId 默认不再采集，aid 参数已废弃，传入无效
     * */
     static setCollectControl(params) {
         if (Platform.OS === 'android') {

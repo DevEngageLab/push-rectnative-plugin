@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0] - 2026-05-26
+
+### Changed
+- 更新 Android SDK 到 5.4.0，iOS SDK 到 5.4.0
+- Android 5.4.0：AndroidId 默认不再采集，`setCollectControl` 中 `aid` 参数已废弃
+- Android 5.4.0：小米厂商 SDK 从 6.0.1 升级至 7.9.2，请参考最新集成文档更新小米通道配置
+
 ## [1.2.9] - 2026-04-27
 
 ### Added
