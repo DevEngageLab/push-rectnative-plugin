@@ -786,8 +786,34 @@ export default class MTPush {
         if (Platform.OS == "android") {
             MTPushModule.clearPlatformToken()
         } else {
-           
+
         }
+    }
+
+    /*
+    * 上报自定义消息展示
+    *
+    * @param params = {"messageID":String,"platform":int,"platformMessageId":String}
+    *
+    * messageID:         Engagelab消息id，不为空
+    * platform:          厂商，取值范围（0:Engagelab、2:huawei、7:honor、8:google），仅Android使用
+    * platformMessageId: 厂商消息id，可为空，仅Android使用
+    * */
+    static reportCustomDisplay(params) {
+        MTPushModule.reportCustomDisplay(params)
+    }
+
+    /*
+    * 上报自定义消息点击
+    *
+    * @param params = {"messageID":String,"platform":int,"platformMessageId":String}
+    *
+    * messageID:         Engagelab消息id，不为空
+    * platform:          厂商，取值范围（0:Engagelab、2:huawei、7:honor、8:google），仅Android使用
+    * platformMessageId: 厂商消息id，可为空，仅Android使用
+    * */
+    static reportCustomClick(params) {
+        MTPushModule.reportCustomClick(params)
     }
 
     /*

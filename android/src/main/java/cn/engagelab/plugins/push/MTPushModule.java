@@ -146,6 +146,30 @@ public class MTPushModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void reportCustomDisplay(ReadableMap readableMap) {
+        if (readableMap == null || !readableMap.hasKey(MTConstants.MESSAGE_ID)) {
+            MTLogger.w(MTConstants.PARAMS_NULL);
+            return;
+        }
+        String messageId = readableMap.getString(MTConstants.MESSAGE_ID);
+        byte platform = readableMap.hasKey(MTConstants.PLATFORM) ? (byte) readableMap.getInt(MTConstants.PLATFORM) : 0;
+        String platformMessageId = readableMap.hasKey(MTConstants.PLATFORM_MESSAGE_ID) ? readableMap.getString(MTConstants.PLATFORM_MESSAGE_ID) : null;
+        MTPushPrivatesApi.reportCustomDisplay(reactContext, messageId, platform, platformMessageId);
+    }
+
+    @ReactMethod
+    public void reportCustomClick(ReadableMap readableMap) {
+        if (readableMap == null || !readableMap.hasKey(MTConstants.MESSAGE_ID)) {
+            MTLogger.w(MTConstants.PARAMS_NULL);
+            return;
+        }
+        String messageId = readableMap.getString(MTConstants.MESSAGE_ID);
+        byte platform = readableMap.hasKey(MTConstants.PLATFORM) ? (byte) readableMap.getInt(MTConstants.PLATFORM) : 0;
+        String platformMessageId = readableMap.hasKey(MTConstants.PLATFORM_MESSAGE_ID) ? readableMap.getString(MTConstants.PLATFORM_MESSAGE_ID) : null;
+        MTPushPrivatesApi.reportCustomClick(reactContext, messageId, platform, platformMessageId);
+    }
+
+    @ReactMethod
     public void configAppKey(ReadableMap readableMap) {
         if (readableMap == null) {
             MTLogger.w(MTConstants.PARAMS_NULL);

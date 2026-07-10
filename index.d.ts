@@ -578,6 +578,34 @@ static addNotiInappMessageListener(
    static clearPlatformToken(): void;
 
    /**
+    * 上报自定义消息展示
+    */
+   static reportCustomDisplay(params: {
+     /** Engagelab消息id，不为空 */
+     messageID: string,
+     /**
+      * 厂商，取值范围（0:Engagelab、2:huawei、7:honor、8:google），仅Android使用
+      */
+     platform?: number,
+     /** 厂商消息id，可为空，仅Android使用 */
+     platformMessageId?: string
+   }): void;
+
+   /**
+    * 上报自定义消息点击
+    */
+   static reportCustomClick(params: {
+     /** Engagelab消息id，不为空 */
+     messageID: string,
+     /**
+      * 厂商，取值范围（0:Engagelab、2:huawei、7:honor、8:google），仅Android使用
+      */
+     platform?: number,
+     /** 厂商消息id，可为空，仅Android使用 */
+     platformMessageId?: string
+   }): void;
+
+   /**
    * 厂商token回调
    */
   static addPlatformListener(

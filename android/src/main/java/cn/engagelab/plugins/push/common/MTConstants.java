@@ -58,6 +58,7 @@ public class MTConstants {
     public static final String TOKEN = "token";
     public static final String REGION = "region";
     public static final String APPKEY = "appkey";
+    public static final String PLATFORM_MESSAGE_ID = "platformMessageId";
 
     //error
     public static final String PARAMS_NULL = "params cant be null";

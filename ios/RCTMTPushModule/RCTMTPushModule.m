@@ -232,6 +232,22 @@ RCT_EXPORT_METHOD(getRegisterId:(RCTResponseSenderBlock) callback)
 }
 
 
+//上报自定义消息展示，仅使用 messageID，platform/platformMessageId 供 Android 使用
+RCT_EXPORT_METHOD(reportCustomDisplay:(NSDictionary *)params)
+{
+    NSString *messageId = params[MESSAGE_ID];
+    if (messageId.length == 0) return;
+    [MTPushService reportCustomDisplay:messageId];
+}
+
+//上报自定义消息点击，仅使用 messageID，platform/platformMessageId 供 Android 使用
+RCT_EXPORT_METHOD(reportCustomClick:(NSDictionary *)params)
+{
+    NSString *messageId = params[MESSAGE_ID];
+    if (messageId.length == 0) return;
+    [MTPushService reportCustomClick:messageId];
+}
+
 //badge 角标
 RCT_EXPORT_METHOD(setBadge:(NSDictionary *)params)
 {

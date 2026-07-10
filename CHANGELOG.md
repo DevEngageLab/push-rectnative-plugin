@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.3.1] - 2026-07-02
+
+### Added
+- 新增 `reportCustomDisplay(params)`：上报自定义消息展示数据（Android/iOS）。`params = {messageID, platform?, platformMessageId?}`，platform/platformMessageId 仅 Android 使用
+- 新增 `reportCustomClick(params)`：上报自定义消息点击数据（Android/iOS），参数同上
+
+### Changed
+- 更新 Android SDK 到 5.4.1，iOS SDK 到 5.4.1
+
 ## [1.3.0] - 2026-05-26
 
 ### Changed
