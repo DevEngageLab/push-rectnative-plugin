@@ -18,6 +18,7 @@ import com.engagelab.privates.push.api.CustomMessage;
 import com.engagelab.privates.push.api.MobileNumberMessage;
 import com.engagelab.privates.push.api.NotificationMessage;
 import com.engagelab.privates.push.api.PlatformTokenMessage;
+import com.engagelab.privates.push.api.VoipDataMessage;
 import com.facebook.react.bridge.WritableNativeArray;
 
 import java.sql.Array;
@@ -161,5 +162,18 @@ public class MTPushModuleReceiver extends MTCommonReceiver {
     MTLogger.d("onInAppMessageClick:" + inAppMessage.toString());
     WritableMap writableMap = MTPushHelper.convertInappToMap(MTConstants.INAPP_OPENED, inAppMessage);
     MTPushHelper.sendEvent(MTConstants.INAPPMESSAGE_EVENT, writableMap);
+  }
+
+  /**
+   * VoIP消息回调，支持厂商：小米、OPPO、vivo、荣耀
+   *
+   * @param context         不为空
+   * @param voipDataMessage VoIP消息
+   */
+  @Override
+  public void onVoipMessage(Context context, VoipDataMessage voipDataMessage) {
+    MTLogger.d("onVoipMessage:" + voipDataMessage.toString());
+    WritableMap writableMap = MTPushHelper.convertVoipMessage(voipDataMessage);
+    MTPushHelper.sendEvent(MTConstants.VOIP_MESSAGE_EVENT, writableMap);
   }
 }

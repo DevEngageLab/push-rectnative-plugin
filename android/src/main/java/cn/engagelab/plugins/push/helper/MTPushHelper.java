@@ -27,6 +27,7 @@ import cn.engagelab.plugins.push.common.MTLogger;
 
 import com.engagelab.privates.push.api.CustomMessage;
 import com.engagelab.privates.push.api.NotificationMessage;
+import com.engagelab.privates.push.api.VoipDataMessage;
 
 
 public class MTPushHelper {
@@ -73,6 +74,15 @@ public class MTPushHelper {
 //            writableMap.putString(MTConstants.EXTRAS, bundleToJson(customMessage.getExtras()));
             convertExtras(bundleToJson(customMessage.getExtras()), writableMap);
         }
+        return writableMap;
+    }
+
+    public static WritableMap convertVoipMessage(VoipDataMessage voipDataMessage) {
+        WritableMap writableMap = Arguments.createMap();
+        writableMap.putString(MTConstants.MESSAGE_ID, voipDataMessage.getMessageId());
+        writableMap.putString(MTConstants.APPKEY, voipDataMessage.getAppkey());
+        writableMap.putString(MTConstants.EXTRA_DATA, voipDataMessage.getExtraData());
+        writableMap.putInt(MTConstants.PLATFORM, voipDataMessage.getPlatform());
         return writableMap;
     }
 

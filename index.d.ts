@@ -383,6 +383,30 @@ export default class MTPush {
   ): void;
 
   /**
+   * VoIP消息事件，支持厂商：小米、OPPO、vivo、荣耀
+   */
+  static addVoipMessageListener(
+    callback: Callback<{
+      /**
+       * 唯一标识VoIP消息的 ID
+       */
+      messageID: string;
+      /**
+       * 应用的appkey
+       */
+      appkey: string;
+      /**
+       * 业务自定义数据，对应服务端下发的 extraData 字段
+       */
+      extraData: string;
+      /**
+       * 厂商类型（1:小米、4:OPPO、5:vivo、7:荣耀）
+       */
+      platform: number;
+    }>
+  ): void;
+
+  /**
    * 手机号码事件
    */
   static addMobileNumberListener(

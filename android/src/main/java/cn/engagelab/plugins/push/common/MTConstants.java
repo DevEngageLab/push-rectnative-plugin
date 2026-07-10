@@ -59,6 +59,7 @@ public class MTConstants {
     public static final String REGION = "region";
     public static final String APPKEY = "appkey";
     public static final String PLATFORM_MESSAGE_ID = "platformMessageId";
+    public static final String EXTRA_DATA = "extraData";
 
     //error
     public static final String PARAMS_NULL = "params cant be null";
@@ -75,6 +76,7 @@ public class MTConstants {
     public static final String TAG_ALIAS_EVENT = "TagAliasEvent";
     public static final String MOBILE_NUMBER_EVENT = "MobileNumberEvent";
     public static final String COMMAND_EVENT = "CommandEvent";
+    public static final String VOIP_MESSAGE_EVENT = "VoipMessageEvent";
     public static final String BADGE_NUMBER = "appBadge";
     public static final String PROPERTIES = "pros";
 }

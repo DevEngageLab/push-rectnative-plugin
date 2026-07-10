@@ -1,13 +1,14 @@
 # Changelog
 
-## [1.3.1] - 2026-07-02
+## [1.3.1] - 2026-07-10
 
 ### Added
 - 新增 `reportCustomDisplay(params)`：上报自定义消息展示数据（Android/iOS）。`params = {messageID, platform?, platformMessageId?}`，platform/platformMessageId 仅 Android 使用
 - 新增 `reportCustomClick(params)`：上报自定义消息点击数据（Android/iOS），参数同上
+- Android 5.4.2：新增 `addVoipMessageListener` 事件监听（VoIP 消息，支持小米/OPPO/vivo/荣耀四大厂商通道）
 
 ### Changed
-- 更新 Android SDK 到 5.4.1，iOS SDK 到 5.4.1
+- 更新 Android SDK 到 5.4.2，iOS SDK 保持 5.4.1
 
 ## [1.3.0] - 2026-05-26
 
