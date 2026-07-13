@@ -32,12 +32,12 @@ buildscript {
         maven { url 'https://developer.huawei.com/repo/' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.0'
+        classpath 'com.android.tools.build:gradle:8.5.1'
         // google push need，and google push need AndroidX. If you do not need google channel，delete it.
         // Please add android.useAndroidX=true in gradle.properties
         classpath 'com.google.gms:google-services:4.3.15'
         // huawei push need，if you do not need huawei channel，delete it.
-        classpath 'com.huawei.agconnect:agcp:1.6.0.300'
+        classpath 'com.huawei.agconnect:agcp:1.9.1.301'
     }
 }
 
@@ -185,15 +185,17 @@ If your iOS project uses Swift code, please refer to the guide in [example/ios-s
 
 ### 4.1 Android
 
-refer to：[MainApplication.java](https://github.com/DevEngageLab/push-rectnative-plugin/tree/master/example/android/app/src/main/java/com/example/MainApplication.java)
+refer to：[MainApplication.kt](example/android/app/src/main/java/com/example/MainApplication.kt)
+and [MainActivity.kt](example/android/app/src/main/java/com/example/MainActivity.kt)
 
 ### 4.2 iOS
 
-refer to：[AppDelegate.m](https://github.com/DevEngageLab/push-rectnative-plugin/tree/master/example/ios/example/AppDelegate.mm) 
+refer to：[AppDelegate.swift](example/ios/example/AppDelegate.swift)
+and [MTPushAppDelegateHelper.m](example/ios/example/MTPushAppDelegateHelper.m)
 
-### 4.3 js
+### 4.3 JS
 
-refer to：[App.js](https://github.com/DevEngageLab/push-rectnative-plugin/blob/main/example/App.js) 
+refer to：[App.tsx](example/App.tsx)
 
 ## 5. API
 
@@ -205,4 +207,3 @@ refer to：[index.js](https://github.com/DevEngageLab/push-rectnative-plugin/blo
 * If you want to report a problem, please call `MTPush.setLoggerEnable(true}` first to get the debug log.
 
  
-
