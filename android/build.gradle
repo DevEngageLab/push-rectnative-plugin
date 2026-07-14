@@ -1,6 +1,10 @@
 group 'cn.engagelab.plugins.push'
 version '1.0'
 
+def isNewArchitectureEnabled() {
+    return project.hasProperty("newArchEnabled") && project.newArchEnabled == "true"
+}
+
 buildscript {
     repositories {
         google()
@@ -23,6 +27,14 @@ rootProject.allprojects {
 }
 
 apply plugin: 'com.android.library'
+if (isNewArchitectureEnabled()) {
+    apply plugin: 'com.facebook.react'
+
+    react {
+        libraryName = "MTPushEventSpec"
+        codegenJavaPackageName = "cn.engagelab.plugins.push"
+    }
+}
 
 def safeExtGet(prop, fallback) {
     rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
@@ -36,6 +48,12 @@ android {
         versionCode 1
         versionName "1.0"
 
+    }
+
+    sourceSets {
+        main.java.srcDirs += isNewArchitectureEnabled()
+                ? ['src/newarch/java']
+                : ['src/oldarch/java']
     }
 
 }

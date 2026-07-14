@@ -17,5 +17,13 @@
   ],
   "peerDependencies": {
     "react-native": ">= 0.50"
+  },
+  "codegenConfig": {
+    "name": "MTPushEventSpec",
+    "type": "modules",
+    "jsSrcsDir": "specs",
+    "android": {
+      "javaPackageName": "cn.engagelab.plugins.push"
+    }
   }
 }

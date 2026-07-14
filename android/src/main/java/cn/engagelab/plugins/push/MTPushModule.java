@@ -47,7 +47,7 @@ public class MTPushModule extends ReactContextBaseJavaModule {
     public static boolean isAppForeground = false;
 
     public MTPushModule(ReactApplicationContext reactApplicationContext) {
-        super(reactContext);
+        super(reactApplicationContext);
         reactContext = reactApplicationContext;
     }
 

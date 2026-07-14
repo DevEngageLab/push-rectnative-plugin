@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.engagelab.plugins.push.MTPushModule;
+import cn.engagelab.plugins.push.MTPushEventModule;
 import cn.engagelab.plugins.push.common.MTLogger;
 import cn.engagelab.plugins.push.common.MTConstants;
 import cn.engagelab.plugins.push.helper.MTPushHelper;
@@ -48,6 +49,7 @@ public class MTPushModuleReceiver extends MTCommonReceiver {
   public void onCustomMessage(Context context, CustomMessage customMessage) {
     MTLogger.d("onCustomMessage:" + customMessage.toString());
     WritableMap writableMap = MTPushHelper.convertCustomMessage(customMessage);
+    MTPushEventModule.emitCustomMessageEvent(writableMap.copy());
     MTPushHelper.sendEvent(MTConstants.CUSTOM_MESSAGE_EVENT, writableMap);
   }
 
@@ -56,8 +58,10 @@ public class MTPushModuleReceiver extends MTCommonReceiver {
     MTLogger.d("onNotificationArrived:" + notificationMessage.toString());
     WritableMap writableMap = MTPushHelper.convertNotificationToMap(MTConstants.NOTIFICATION_ARRIVED, notificationMessage);
     if(notificationMessage.getStyle()!=1){
+      MTPushEventModule.emitNotificationEvent(writableMap.copy());
       MTPushHelper.sendEvent(MTConstants.NOTIFICATION_EVENT, writableMap);
     }else {
+      MTPushEventModule.emitLocalNotificationEvent(writableMap.copy());
       MTPushHelper.sendEvent(MTConstants.LOCAL_NOTIFICATION_EVENT, writableMap);
     }
   }
@@ -72,6 +76,7 @@ public class MTPushModuleReceiver extends MTCommonReceiver {
         MTPushHelper.launchApp(context);
       }
       WritableMap writableMap = MTPushHelper.convertNotificationToMap(MTConstants.NOTIFICATION_OPENED, notificationMessage);
+      MTPushEventModule.emitNotificationEvent(writableMap.copy());
       MTPushHelper.sendEvent(MTConstants.NOTIFICATION_EVENT, writableMap);
     } else {
       Log.i("TAG", "onNotificationClicked: - reactContext null");
@@ -88,6 +93,7 @@ public class MTPushModuleReceiver extends MTCommonReceiver {
   public void onNotificationDeleted(Context context, NotificationMessage notificationMessage) {
     MTLogger.d("onNotificationDeleted:" + notificationMessage.toString());
     WritableMap writableMap = MTPushHelper.convertNotificationToMap(MTConstants.NOTIFICATION_DISMISSED, notificationMessage);
+    MTPushEventModule.emitNotificationEvent(writableMap.copy());
     MTPushHelper.sendEvent(MTConstants.NOTIFICATION_EVENT, writableMap);
   }
 
@@ -96,6 +102,7 @@ public class MTPushModuleReceiver extends MTCommonReceiver {
     MTLogger.d("onConnected state:" + state);
     WritableMap writableMap = Arguments.createMap();
     writableMap.putBoolean(MTConstants.CONNECT_ENABLE, state);
+    MTPushEventModule.emitConnectEvent(writableMap.copy());
     MTPushHelper.sendEvent(MTConstants.CONNECT_EVENT, writableMap);
   }
 
@@ -114,6 +121,7 @@ public class MTPushModuleReceiver extends MTCommonReceiver {
       }
       writableMap.putArray(MTConstants.TAGS,writableArray);
     }
+    MTPushEventModule.emitTagAliasEvent(writableMap.copy());
     MTPushHelper.sendEvent(MTConstants.TAG_ALIAS_EVENT, writableMap);
   }
 
@@ -124,6 +132,7 @@ public class MTPushModuleReceiver extends MTCommonReceiver {
     writableMap.putInt(MTConstants.CODE,aliasMessage.getCode());
     writableMap.putString(MTConstants.ALIAS,aliasMessage.getAlias());
     writableMap.putInt(MTConstants.SEQUENCE,aliasMessage.getSequence());
+    MTPushEventModule.emitTagAliasEvent(writableMap.copy());
     MTPushHelper.sendEvent(MTConstants.TAG_ALIAS_EVENT, writableMap);
   }
 
@@ -133,6 +142,7 @@ public class MTPushModuleReceiver extends MTCommonReceiver {
     WritableMap writableMap = Arguments.createMap();
     writableMap.putInt(MTConstants.CODE, mobileNumberMessage.getCode());
     writableMap.putInt(MTConstants.SEQUENCE, mobileNumberMessage.getSequence());
+    MTPushEventModule.emitMobileNumberEvent(writableMap.copy());
     MTPushHelper.sendEvent(MTConstants.MOBILE_NUMBER_EVENT, writableMap);
   }
 
@@ -147,6 +157,7 @@ public class MTPushModuleReceiver extends MTCommonReceiver {
     WritableMap writableMap = Arguments.createMap();
     writableMap.putInt(MTConstants.PLATFORM, platformMessage.getPlatform());
     writableMap.putString(MTConstants.TOKEN, platformMessage.getToken());
+    MTPushEventModule.emitPlatformTokenEvent(writableMap.copy());
     MTPushHelper.sendEvent(MTConstants.PLATFORM_TOKEN_EVENT, writableMap);
   }
 
@@ -154,6 +165,7 @@ public class MTPushModuleReceiver extends MTCommonReceiver {
   public void onInAppMessageShow(Context context, InAppMessage inAppMessage) {
     MTLogger.d("onInAppMessageShow:" + inAppMessage.toString());
     WritableMap writableMap = MTPushHelper.convertInappToMap(MTConstants.INAPP_ARRIVED, inAppMessage);
+    MTPushEventModule.emitInappMessageEvent(writableMap.copy());
     MTPushHelper.sendEvent(MTConstants.INAPPMESSAGE_EVENT, writableMap);
   }
 
@@ -161,6 +173,7 @@ public class MTPushModuleReceiver extends MTCommonReceiver {
   public void onInAppMessageClick(Context context, InAppMessage inAppMessage) {
     MTLogger.d("onInAppMessageClick:" + inAppMessage.toString());
     WritableMap writableMap = MTPushHelper.convertInappToMap(MTConstants.INAPP_OPENED, inAppMessage);
+    MTPushEventModule.emitInappMessageEvent(writableMap.copy());
     MTPushHelper.sendEvent(MTConstants.INAPPMESSAGE_EVENT, writableMap);
   }
 
@@ -174,6 +187,7 @@ public class MTPushModuleReceiver extends MTCommonReceiver {
   public void onVoipMessage(Context context, VoipDataMessage voipDataMessage) {
     MTLogger.d("onVoipMessage:" + voipDataMessage.toString());
     WritableMap writableMap = MTPushHelper.convertVoipMessage(voipDataMessage);
+    MTPushEventModule.emitVoipMessageEvent(writableMap.copy());
     MTPushHelper.sendEvent(MTConstants.VOIP_MESSAGE_EVENT, writableMap);
   }
 }

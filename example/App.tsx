@@ -78,12 +78,6 @@ export default class App extends React.Component<Record<string, never>, AppState
     // MTPush.setCollectControl({gaid: true, aid: true});
     // MTPush.testConfigGoogle(true);
     // MTPush.setSiteName('USA_Virginia');
-    MTPush.init({
-      appKey: '8344af5668f374579426ce6d',
-      channel: 'dev',
-      production: true,
-    });
-
     this.connectListener = result => {
       this.recordResult('connectListener', result);
     };
@@ -124,6 +118,14 @@ export default class App extends React.Component<Record<string, never>, AppState
       this.recordResult('mobileNumberListener', result);
     };
     MTPush.addMobileNumberListener(this.mobileNumberListener);
+
+    // Register listeners before init. Initialization can synchronously flush a
+    // cold-start notification, which would otherwise be missed by JavaScript.
+    MTPush.init({
+      appKey: '8344af5668f374579426ce6d',
+      channel: 'dev',
+      production: true,
+    });
   }
 
   componentWillUnmount() {

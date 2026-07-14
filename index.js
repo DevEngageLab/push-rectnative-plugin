@@ -5,6 +5,12 @@ import {
 } from 'react-native'
 
 const MTPushModule = NativeModules.MTPushModule
+let MTPushEventModule = null
+try {
+    MTPushEventModule = require('./specs/NativeMTPushEventModule').default
+} catch (error) {
+    // Older React Native versions do not provide TurboModule Codegen events.
+}
 
 const listeners = {}
 const ConnectEvent           = 'ConnectEvent'            //连接状态
@@ -17,6 +23,13 @@ const InappMessageEvent      = 'InappMessageEvent'       //应用内消息事件
 const NotiInappMessageEvent  = 'NotiInappMessageEvent'   //增强提醒消息事件
 const PlatformTokenEvent     = 'PlatformTokenEvent'  // 安卓厂商token回调
 const VoipMessageEvent       = 'VoipMessageEvent'    // VoIP消息事件
+
+function addEventListener(callback, turboEventName, legacyEventName) {
+    if (MTPushEventModule && MTPushEventModule[turboEventName]) {
+        return MTPushEventModule[turboEventName](callback)
+    }
+    return DeviceEventEmitter.addListener(legacyEventName, callback)
+}
 
 export default class MTPush {
 
@@ -497,10 +510,9 @@ export default class MTPush {
 
     //连接状态
     static addConnectEventListener(callback) {
-        listeners[callback] = DeviceEventEmitter.addListener(
-                ConnectEvent, result => {
+        listeners[callback] = addEventListener(result => {
                 callback(result)
-            })
+            }, 'onConnect', ConnectEvent)
     }
 
     /*
@@ -526,10 +538,9 @@ export default class MTPush {
     *
     * */
     static addNotificationListener(callback) {
-        listeners[callback] = DeviceEventEmitter.addListener(
-            NotificationEvent, result => {
+        listeners[callback] = addEventListener(result => {
                 callback(result)
-            })
+            }, 'onNotification', NotificationEvent)
     }
 
     /*
@@ -551,10 +562,9 @@ export default class MTPush {
     *
     * */
     static addLocalNotificationListener(callback) {
-        listeners[callback] = DeviceEventEmitter.addListener(
-            LocalNotificationEvent, result => {
+        listeners[callback] = addEventListener(result => {
                 callback(result)
-            })
+            }, 'onLocalNotification', LocalNotificationEvent)
     }
 
     /*
@@ -570,10 +580,9 @@ export default class MTPush {
     *
     * */
     static addCustomMessageListener(callback) {
-        listeners[callback] = DeviceEventEmitter.addListener(
-            CustomMessageEvent, result => {
+        listeners[callback] = addEventListener(result => {
                 callback(result)
-            })
+            }, 'onCustomMessage', CustomMessageEvent)
     }
 
     /*
@@ -591,10 +600,9 @@ export default class MTPush {
     *
     * */
     static addVoipMessageListener(callback) {
-        listeners[callback] = DeviceEventEmitter.addListener(
-            VoipMessageEvent, result => {
+        listeners[callback] = addEventListener(result => {
                 callback(result)
-            })
+            }, 'onVoipMessage', VoipMessageEvent)
     }
 
 
@@ -610,10 +618,9 @@ export default class MTPush {
     *
     * */
     static addMobileNumberListener(callback) {
-        listeners[callback] = DeviceEventEmitter.addListener(
-            MobileNumberEvent, message => {
+        listeners[callback] = addEventListener(message => {
                 callback(message)
-            })
+            }, 'onMobileNumber', MobileNumberEvent)
     }
 
     /*
@@ -633,10 +640,9 @@ export default class MTPush {
     *
     * */
     static addTagAliasListener(callback) {
-        listeners[callback] = DeviceEventEmitter.addListener(
-            TagAliasEvent, result => {
+        listeners[callback] = addEventListener(result => {
                 callback(result)
-            })
+            }, 'onTagAlias', TagAliasEvent)
     }
 
     /*
@@ -658,10 +664,9 @@ export default class MTPush {
     *
     * */
     static addInappMessageListener(callback) {
-        listeners[callback] = DeviceEventEmitter.addListener(
-            InappMessageEvent, result => {
+        listeners[callback] = addEventListener(result => {
                 callback(result)
-            })
+            }, 'onInappMessage', InappMessageEvent)
     }
 
     /*
@@ -687,10 +692,9 @@ export default class MTPush {
     *
     * */
     static addNotiInappMessageListener(callback) {
-        listeners[callback] = DeviceEventEmitter.addListener(
-            NotiInappMessageEvent, result => {
+        listeners[callback] = addEventListener(result => {
                 callback(result)
-            })
+            }, 'onNotiInappMessage', NotiInappMessageEvent)
     }
 
     //移除事件
@@ -850,10 +854,9 @@ export default class MTPush {
     *
     * */
         static addPlatformListener(callback) {
-            listeners[callback] = DeviceEventEmitter.addListener(
-                PlatformTokenEvent, result => {
+            listeners[callback] = addEventListener(result => {
                     callback(result)
-                })
+                }, 'onPlatformToken', PlatformTokenEvent)
         }
 
 

@@ -1,4 +1,5 @@
 #import "RCTMTPushModule.h"
+#import "MTPushEventModule.h"
 #import <CoreLocation/CoreLocation.h>
 
 //常量
@@ -512,23 +513,27 @@ RCT_EXPORT_METHOD(pageLeave:(NSString *)pageName)
     return @[CONNECT_EVENT,NOTIFICATION_EVENT,CUSTOM_MESSAGE_EVENT,LOCAL_NOTIFICATION_EVENT,MOBILE_NUMBER_EVENT,TAG_ALIAS_EVENT, INAPP_MESSAGE_EVENT, NOTI_INAPP_MESSAGE_EVENT];
 }
 
+- (void)sendLegacyEvent:(NSString *)eventName body:(NSDictionary *)body
+{
+    [self.bridge enqueueJSCall:@"RCTDeviceEventEmitter"
+                        method:@"emit"
+                          args:@[eventName, body]
+                    completion:NULL];
+}
+
 //长连接登录
 - (void)sendConnectEvent:(NSNotification *)data {
     NSDictionary *responseData = [self convertConnect:data];
-    [self.bridge enqueueJSCall:@"RCTDeviceEventEmitter"
-                        method:@"emit"
-                          args:@[CONNECT_EVENT,responseData]
-                    completion:NULL];
+    [self sendLegacyEvent:CONNECT_EVENT body:responseData];
+    [MTPushEventDispatcher emitConnect:responseData];
 }
 
 //APNS通知消息
 - (void)sendApnsNotificationEvent:(NSNotification *)data
 {
     NSDictionary *responseData = [self convertApnsMessage:data];
-    [self.bridge enqueueJSCall:@"RCTDeviceEventEmitter"
-                        method:@"emit"
-                          args:@[NOTIFICATION_EVENT, responseData]
-                    completion:NULL];
+    [self sendLegacyEvent:NOTIFICATION_EVENT body:responseData];
+    [MTPushEventDispatcher emitNotification:responseData];
     if([RCTMTPushEventQueue sharedInstance]._notificationQueue.count){
         [[RCTMTPushEventQueue sharedInstance]._notificationQueue removeAllObjects];
     }
@@ -537,10 +542,8 @@ RCT_EXPORT_METHOD(pageLeave:(NSString *)pageName)
 - (void)sendApnsNotificationEventByDictionary:(NSDictionary *)data
 {
     NSDictionary *responseData = [self convertApnsMessage:data];
-    [self.bridge enqueueJSCall:@"RCTDeviceEventEmitter"
-                        method:@"emit"
-                          args:@[NOTIFICATION_EVENT, responseData]
-                    completion:NULL];
+    [self sendLegacyEvent:NOTIFICATION_EVENT body:responseData];
+    [MTPushEventDispatcher emitNotification:responseData];
     if([RCTMTPushEventQueue sharedInstance]._notificationQueue.count){
         [[RCTMTPushEventQueue sharedInstance]._notificationQueue removeAllObjects];
     }
@@ -549,10 +552,8 @@ RCT_EXPORT_METHOD(pageLeave:(NSString *)pageName)
 - (void)sendLocalNotificationEventByDictionary:(NSDictionary *)data
 {
     NSDictionary *responseData = [self convertLocalMessage:data];
-    [self.bridge enqueueJSCall:@"RCTDeviceEventEmitter"
-                        method:@"emit"
-                          args:@[LOCAL_NOTIFICATION_EVENT, responseData]
-                    completion:NULL];
+    [self sendLegacyEvent:LOCAL_NOTIFICATION_EVENT body:responseData];
+    [MTPushEventDispatcher emitLocalNotification:responseData];
     if([RCTMTPushEventQueue sharedInstance]._localNotificationQueue.count){
         [[RCTMTPushEventQueue sharedInstance]._localNotificationQueue removeAllObjects];
     }
@@ -562,75 +563,59 @@ RCT_EXPORT_METHOD(pageLeave:(NSString *)pageName)
 - (void)sendCustomNotificationEvent:(NSNotification *)data
 {
     NSDictionary *responseData = [self convertCustomMessage:data];
-    [self.bridge enqueueJSCall:@"RCTDeviceEventEmitter"
-                        method:@"emit"
-                          args:@[CUSTOM_MESSAGE_EVENT,responseData ]
-                    completion:NULL];
+    [self sendLegacyEvent:CUSTOM_MESSAGE_EVENT body:responseData];
+    [MTPushEventDispatcher emitCustomMessage:responseData];
 }
 
 //本地通知
 - (void)sendLocalNotificationEvent:(NSNotification *)data
 {
     NSDictionary *responseData = [self convertLocalMessage:data];
-    [self.bridge enqueueJSCall:@"RCTDeviceEventEmitter"
-                        method:@"emit"
-                          args:@[LOCAL_NOTIFICATION_EVENT, responseData]
-                    completion:NULL];
+    [self sendLegacyEvent:LOCAL_NOTIFICATION_EVENT body:responseData];
+    [MTPushEventDispatcher emitLocalNotification:responseData];
 }
 
 
 //电话号码
 - (void)sendMobileNumberEvent:(NSDictionary *)data
 {
-    [self.bridge enqueueJSCall:@"RCTDeviceEventEmitter"
-                        method:@"emit"
-                          args:@[MOBILE_NUMBER_EVENT, data]
-                    completion:NULL];
+    [self sendLegacyEvent:MOBILE_NUMBER_EVENT body:data];
+    [MTPushEventDispatcher emitMobileNumber:data];
 }
 
 //TagAlias
 - (void)sendTagAliasEvent:(NSDictionary *)data
 {
-    [self.bridge enqueueJSCall:@"RCTDeviceEventEmitter"
-                        method:@"emit"
-                          args:@[TAG_ALIAS_EVENT, data]
-                    completion:NULL];
+    [self sendLegacyEvent:TAG_ALIAS_EVENT body:data];
+    [MTPushEventDispatcher emitTagAlias:data];
 }
 
 #pragma mark - MTPushInAppMessageDelegate
 //应用内消息 代理
 - (void)mtPushInAppMessageDidShow:(MTPushInAppMessage *)inAppMessage {
     NSDictionary *responseData = [self convertInappMsg:inAppMessage isShow:YES];
-    [self.bridge enqueueJSCall:@"RCTDeviceEventEmitter"
-                        method:@"emit"
-                          args:@[INAPP_MESSAGE_EVENT,responseData ]
-                    completion:NULL];
+    [self sendLegacyEvent:INAPP_MESSAGE_EVENT body:responseData];
+    [MTPushEventDispatcher emitInappMessage:responseData];
     
 }
 
 - (void)mtPushInAppMessageDidClick:(MTPushInAppMessage *)inAppMessage {
     NSDictionary *responseData = [self convertInappMsg:inAppMessage isShow:NO];
-    [self.bridge enqueueJSCall:@"RCTDeviceEventEmitter"
-                        method:@"emit"
-                          args:@[INAPP_MESSAGE_EVENT,responseData ]
-                    completion:NULL];
+    [self sendLegacyEvent:INAPP_MESSAGE_EVENT body:responseData];
+    [MTPushEventDispatcher emitInappMessage:responseData];
 }
 
 #pragma mark - MTPushNotiInMessageDelegate
 - (void)mtPushNotiInMessageDidShowWithContent:(NSDictionary *)content {
     NSDictionary *responseData = [self convertNotiInappMsg:content isShow:YES];
-    [self.bridge enqueueJSCall:@"RCTDeviceEventEmitter"
-                        method:@"emit"
-                          args:@[NOTI_INAPP_MESSAGE_EVENT,responseData ]
-                    completion:NULL];
+    [self sendLegacyEvent:NOTI_INAPP_MESSAGE_EVENT body:responseData];
+    [MTPushEventDispatcher emitNotiInappMessage:responseData];
 }
 
 - (void)mtPushNotiInMessageDidClickWithContent:(NSDictionary *)content {
     NSDictionary *responseData = [self convertNotiInappMsg:content isShow:NO];
-    [self.bridge enqueueJSCall:@"RCTDeviceEventEmitter"
-                        method:@"emit"
-                          args:@[NOTI_INAPP_MESSAGE_EVENT,responseData ]
-                    completion:NULL];
+    [self sendLegacyEvent:NOTI_INAPP_MESSAGE_EVENT body:responseData];
+    [MTPushEventDispatcher emitNotiInappMessage:responseData];
 }
 
 
