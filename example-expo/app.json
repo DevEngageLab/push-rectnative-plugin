@@ -1,0 +1,60 @@
+{
+  "expo": {
+    "name": "example-expo",
+    "slug": "example-expo",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "cn.jiguang.hxhg"
+    },
+    "android": {
+      "package": "com.enterprise.jpushdemo",
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "mtpush-react-native",
+        {
+          "appKey": "8344af5668f374579426ce6d",
+          "channel": "dev",
+          "process": ":remote",
+          "iosPushEnvironment": "development",
+          "xiaomiAppId": "",
+          "xiaomiAppKey": "",
+          "meizuAppId": "",
+          "meizuAppKey": "",
+          "oppoAppId": "",
+          "oppoAppKey": "",
+          "oppoAppSecret": "",
+          "vivoAppId": "",
+          "vivoAppKey": "",
+          "honorAppId": "",
+          "googleServicesFile": "",
+          "agconnectServicesFile": ""
+        }
+      ],
+      [
+        "react-native-expo-signed",
+        {
+          "ios": {
+            "CODE_SIGN_STYLE": "Manual",
+            "CODE_SIGN_IDENTITY": "\"Apple Development\"",
+            "DEVELOPMENT_TEAM": "UT282795WK",
+            "PROVISIONING_PROFILE_SPECIFIER": "cn.jiguang.hxhg"
+          }
+        }
+      ]
+    ]
+  }
+}

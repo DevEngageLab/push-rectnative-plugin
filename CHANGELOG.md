@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.4.0] - 2026-07-15
+
+### Added
+- 从 1.4.0 开始支持 Expo 架构，最低支持 Expo SDK 52，通过内置 config plugin 自动生成 Android 和 iOS 原生配置。
+- 支持 React Native 新架构和旧架构下的原生事件回调。
+
+### Changed
+- 最低支持版本调整为 React Native 0.76.0。
+- Android 厂商参数及 Google/Huawei 服务配置文件调整为可选配置。
+
 ## [1.3.1] - 2026-07-10
 
 ### Added
@@ -140,4 +150,4 @@ MTPush.setEnableResetOnDeviceChange(false);
 
 ### Migration Guide
 从1.2.5升级到1.2.6版本时，需要：
-1. 如果需要使用设备迁移功能，请在初始化前调用`setEnableResetOnDeviceChange(true)` 
+1. 如果需要使用设备迁移功能，请在初始化前调用`setEnableResetOnDeviceChange(true)`

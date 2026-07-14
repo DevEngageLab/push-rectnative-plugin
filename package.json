@@ -6,7 +6,7 @@
   "types": "index.d.ts",
   "license": "ISC",
   "author": "wicked.tc130",
-  "version": "1.3.1",
+  "version": "1.4.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/DevEngageLab/push-rectnative-plugin"
@@ -15,8 +15,20 @@
     "react-native",
     "MTPush"
   ],
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "app.plugin.js",
+    "plugin",
+    "android/build.gradle",
+    "android/src",
+    "ios/RCTMTPushModule",
+    "react-native.config.js",
+    "specs",
+    "MTPushRN.podspec"
+  ],
   "peerDependencies": {
-    "react-native": ">= 0.50"
+    "react-native": ">=0.76.0"
   },
   "codegenConfig": {
     "name": "MTPushEventSpec",
@@ -25,5 +37,8 @@
     "android": {
       "javaPackageName": "cn.engagelab.plugins.push"
     }
+  },
+  "devDependencies": {
+    "expo": "~57.0.4"
   }
 }

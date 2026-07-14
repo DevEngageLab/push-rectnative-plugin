@@ -1,0 +1,22 @@
+{
+  "name": "example-expo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "expo": "~57.0.4",
+    "expo-status-bar": "~57.0.0",
+    "mtpush-react-native": "file:..",
+    "react": "19.2.3",
+    "react-native": "0.86.0"
+  },
+  "scripts": {
+    "start": "expo start",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
+    "web": "expo start --web"
+  },
+  "private": true,
+  "devDependencies": {
+    "react-native-expo-signed": "^2.1.0"
+  }
+}
