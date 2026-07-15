@@ -1,4 +1,11 @@
 example/
 cursor.md
 .cursor/
+.claude/
+.idea/
+.github/
+android/.idea/
+android/build/
+**/build/
+
 
