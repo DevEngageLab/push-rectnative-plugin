@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.4.1] - 2026-07-28
+
+- 修复 Expo SDK 57 中 iOS `AppDelegate` 通知回调因访问级别不足导致的 Swift 编译错误。
+
 ## [1.4.0] - 2026-07-15
 
 ### Added
