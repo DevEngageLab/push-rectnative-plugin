@@ -289,7 +289,7 @@ function injectSwiftAppDelegateCode(contents) {
     const closeBraceIndex = findMatchingBraceIndex(contents, openBraceIndex);
 
     const injectedMethods = `
-  override func application(
+  public override func application(
     _ application: UIApplication,
     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
   ) {
@@ -301,7 +301,7 @@ function injectSwiftAppDelegateCode(contents) {
     )
   }
 
-  override func application(
+  public override func application(
     _ application: UIApplication,
     didReceiveRemoteNotification userInfo: [AnyHashable: Any],
     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
