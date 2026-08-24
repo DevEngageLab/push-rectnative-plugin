@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.4.2] - 2026-08-19
+
+### Changed
+- 更新 Android SDK 至 5.4.3；支持 OPPO 与 vivo 厂商消息角标处理。
+
 ## [1.4.1] - 2026-07-28
 
 - 修复 Expo SDK 57 中 iOS `AppDelegate` 通知回调因访问级别不足导致的 Swift 编译错误。
