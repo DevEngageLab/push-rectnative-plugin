@@ -78,7 +78,7 @@ dependencies {
     implementation 'com.engagelab.plugin:oppo:5.4.3'
     implementation 'com.engagelab.plugin:oppo_th_push:5.4.3'
     //可选，vivo厂商
-    implementation 'com.engagelab.plugin:vivo:5.4.3'
+    implementation 'com.engagelab.plugin:vivo:5.4.3.1'
 
     // google push need，不需要 google 通道，则删除
     implementation 'com.google.firebase:firebase-messaging:25.0.1'
