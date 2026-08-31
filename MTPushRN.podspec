@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   s.frameworks      = 'UIKit','CFNetwork','CoreFoundation','CoreTelephony','SystemConfiguration','CoreGraphics','Foundation','Security'
   s.weak_frameworks = 'UserNotifications'
   s.libraries       = 'z','resolv'
-  s.dependency 'MTPush','5.4.1'
+  s.dependency 'MTPush','5.4.4'
   if defined?(install_modules_dependencies)
     install_modules_dependencies(s)
   else
