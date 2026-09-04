@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.4.5] - 2026-09-04
+
+### Changed
+- 更新 Android SDK 及厂商插件至 5.4.4；iOS SDK 保持 5.4.4。
+
 ## [1.4.4] - 2026-08-31
 
 ### Changed
