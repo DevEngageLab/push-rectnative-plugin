@@ -208,6 +208,46 @@ refer to：[App.tsx](example/App.tsx)
 
 refer to：[index.js](https://github.com/DevEngageLab/push-rectnative-plugin/blob/master/index.js)
 
+### 5.1 Subscribe to Xiaomi message channels (Android only)
+
+`requestSubscribeChannel` requests subscription to one or more Xiaomi message channels. This feature currently
+supports only the Xiaomi channel. Register the command-result listener before making the request.
+See the [EngageLab Android SDK documentation](https://www.engagelab.com/zh_CN/docs/app-push/developer-guide/client-sdk-reference/android-sdk/sdk-api-guide#requestsubscribechannel) for the native behavior and limits.
+
+```js
+import MTPush from 'mtpush-react-native';
+
+MTPush.addCommandResultListener(result => {
+  if (result.cmd === 2012) {
+    console.log('Subscription result:', result.errorCode, result.extra);
+    if (result.errorCode === 0 && result.extra.open_channel_result) {
+      console.log('Per-channel results:', JSON.parse(result.extra.open_channel_result));
+    }
+  }
+});
+
+MTPush.requestSubscribeChannel(['channel_id_1', 'channel_id_2']);
+```
+
+At most three channel IDs can be passed per call; Xiaomi discards additional entries. The subscription dialog can be
+requested at most once every 30 seconds, and the same channel can be requested at most twice per month.
+
+The subscription callback fields are:
+
+- `cmd`: Always `2012`
+- `errorCode`: Overall result. `0` means the dialog was displayed and user choices were returned, not that every channel succeeded
+- `msg`: Currently usually an empty string for this command
+- `extra`: Xiaomi result fields, plus `subscribe_code` (same as `errorCode`) and `platform` (`1` for Xiaomi)
+
+`errorCode` values: `0` dialog displayed; `-100` unsupported version; `-200` authentication failed; `-300` app not
+foreground or screen off; `-400` another request is in progress; `-500` frequency limited; `-600` invalid parameters;
+`-700` user cancelled; `-800` no notification permission; `-900` unknown error; `-10000` Xiaomi Push is not registered;
+`-2147483648` Xiaomi SDK invocation exception.
+
+When present, `extra.open_channel_result` is a JSON string containing per-channel results. Channel result codes are
+`100` created successfully, `-100` creation failed, `-200` rejected, `-300` already created and enabled, `-400`
+already created but disabled, and `-500` invalid channel.
+
 ## 6.  Other
 * Be sure to run the example project before integration.
 * If you have urgent needs, please go to [EngageLab Community](https://www.engagelab.com/)

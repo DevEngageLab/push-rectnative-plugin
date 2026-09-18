@@ -23,6 +23,7 @@ const InappMessageEvent      = 'InappMessageEvent'       //应用内消息事件
 const NotiInappMessageEvent  = 'NotiInappMessageEvent'   //增强提醒消息事件
 const PlatformTokenEvent     = 'PlatformTokenEvent'  // 安卓厂商token回调
 const VoipMessageEvent       = 'VoipMessageEvent'    // VoIP消息事件
+const CommandEvent           = 'CommandEvent'        // 通用命令结果事件
 
 function addEventListener(callback, turboEventName, legacyEventName) {
     if (MTPushEventModule && MTPushEventModule[turboEventName]) {
@@ -605,6 +606,16 @@ export default class MTPush {
             }, 'onVoipMessage', VoipMessageEvent)
     }
 
+    /*
+    * 通用命令结果事件（Android only）。
+    * 小米订阅消息结果也通过此事件返回。
+    * */
+    static addCommandResultListener(callback) {
+        listeners[callback] = addEventListener(result => {
+                callback(result)
+            }, 'onCommandResult', CommandEvent)
+    }
+
 
 
     /*
@@ -723,6 +734,15 @@ export default class MTPush {
     static resumePush() {
         if (Platform.OS == "android") {
             MTPushModule.resumePush()
+        }
+    }
+
+    /*
+    * 请求订阅小米消息频道，结果通过 addCommandResultListener 返回。
+    * */
+    static requestSubscribeChannel(channelIds) {
+        if (Platform.OS == "android") {
+            MTPushModule.requestSubscribeChannel(channelIds)
         }
     }
 

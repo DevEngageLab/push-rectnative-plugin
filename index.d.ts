@@ -5,6 +5,16 @@ type Extra = {
   [key: string]: string;
 };
 
+export type CommandExtra = {
+  /** 与 errorCode 一致的小米整体结果码。 */
+  subscribe_code?: number;
+  /** 回调来源厂商 ID，小米为 1。 */
+  platform?: number;
+  /** 小米返回的各频道操作结果 JSON 字符串。 */
+  open_channel_result?: string;
+  [key: string]: unknown;
+};
+
 export type Sequence = {
   /**
    * 请求时传入的序列号,会在回调时原样返回
@@ -407,6 +417,22 @@ export default class MTPush {
   ): void;
 
   /**
+   * 通用命令结果事件（Android only）。
+   * 小米订阅消息结果也通过此事件返回。
+   */
+  static addCommandResultListener(
+    callback: Callback<{
+      /** 小米频道订阅回调固定为 2012。 */
+      cmd: number;
+      /** 小米整体结果码；0 表示弹窗正常展示并返回用户操作结果。 */
+      errorCode: number;
+      /** 结果描述；当前订阅命令通常为空字符串。 */
+      msg: string;
+      extra: CommandExtra;
+    }>
+  ): void;
+
+  /**
    * 手机号码事件
    */
   static addMobileNumberListener(
@@ -504,6 +530,13 @@ static addNotiInappMessageListener(
    * @platform Android
    */
   static resumePush(): void;
+
+  /**
+   * 请求订阅小米消息频道，结果通过 addCommandResultListener 返回。
+   *
+   * @platform Android
+   */
+  static requestSubscribeChannel(channelIds: string[]): void;
 
 
   /**

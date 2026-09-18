@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.engagelab.privates.push.api.AliasMessage;
+import com.engagelab.privates.push.api.CmdMessage;
 import com.engagelab.privates.push.api.InAppMessage;
 import com.engagelab.privates.push.api.TagMessage;
 import com.facebook.react.bridge.Arguments;
@@ -175,6 +176,23 @@ public class MTPushModuleReceiver extends MTCommonReceiver {
     WritableMap writableMap = MTPushHelper.convertInappToMap(MTConstants.INAPP_OPENED, inAppMessage);
     MTPushEventModule.emitInappMessageEvent(writableMap.copy());
     MTPushHelper.sendEvent(MTConstants.INAPPMESSAGE_EVENT, writableMap);
+  }
+
+  /**
+   * 通用命令结果回调，小米订阅消息结果也通过此回调返回。
+   */
+  @Override
+  public void onCommandResult(Context context, CmdMessage cmdMessage) {
+    MTLogger.d("onCommandResult:" + cmdMessage.toString());
+    WritableMap writableMap = Arguments.createMap();
+    writableMap.putInt("cmd", cmdMessage.cmd);
+    writableMap.putInt("errorCode", cmdMessage.errorCode);
+    writableMap.putString("msg", cmdMessage.msg);
+    writableMap.putMap("extra", cmdMessage.extra == null
+        ? Arguments.createMap()
+        : Arguments.fromBundle(cmdMessage.extra));
+    MTPushEventModule.emitCommandResultEvent(writableMap.copy());
+    MTPushHelper.sendEvent(MTConstants.COMMAND_EVENT, writableMap);
   }
 
   /**

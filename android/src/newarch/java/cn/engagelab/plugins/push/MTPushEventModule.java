@@ -28,4 +28,5 @@ public class MTPushEventModule extends NativeMTPushEventModuleSpec {
     public static void emitInappMessageEvent(WritableMap payload) { if (instance != null) instance.emitOnInappMessage(payload); }
     public static void emitPlatformTokenEvent(WritableMap payload) { if (instance != null) instance.emitOnPlatformToken(payload); }
     public static void emitVoipMessageEvent(WritableMap payload) { if (instance != null) instance.emitOnVoipMessage(payload); }
+    public static void emitCommandResultEvent(WritableMap payload) { if (instance != null) instance.emitOnCommandResult(payload); }
 }

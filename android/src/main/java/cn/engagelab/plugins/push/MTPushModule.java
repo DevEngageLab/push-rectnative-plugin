@@ -25,6 +25,7 @@ import com.facebook.react.bridge.WritableMap;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -321,6 +322,22 @@ public class MTPushModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void resumePush() {
         MTPushPrivatesApi.turnOnPush(reactContext);
+    }
+
+    /**
+     * 请求订阅小米消息频道，结果通过 onCommandResult 回调返回。
+     */
+    @ReactMethod
+    public void requestSubscribeChannel(ReadableArray channelIds) {
+        if (channelIds == null) {
+            MTLogger.w(MTConstants.PARAMS_NULL);
+            return;
+        }
+        ArrayList<String> channels = new ArrayList<String>();
+        for (int i = 0; i < channelIds.size(); i++) {
+            channels.add(channelIds.getString(i));
+        }
+        MTPushPrivatesApi.requestSubscribeChannel(reactContext, channels);
     }
 
     @ReactMethod

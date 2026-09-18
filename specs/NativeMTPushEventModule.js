@@ -21,6 +21,7 @@ export interface Spec extends TurboModule {
   +onNotiInappMessage: EventEmitter<UnsafeObject>;
   +onPlatformToken: EventEmitter<UnsafeObject>;
   +onVoipMessage: EventEmitter<UnsafeObject>;
+  +onCommandResult: EventEmitter<UnsafeObject>;
 }
 
 export default TurboModuleRegistry.get<Spec>('MTPushEventModule');

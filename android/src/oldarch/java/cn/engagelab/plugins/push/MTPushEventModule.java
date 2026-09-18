@@ -16,4 +16,5 @@ public class MTPushEventModule extends ReactContextBaseJavaModule {
     public static void emitInappMessageEvent(WritableMap payload) {}
     public static void emitPlatformTokenEvent(WritableMap payload) {}
     public static void emitVoipMessageEvent(WritableMap payload) {}
+    public static void emitCommandResultEvent(WritableMap payload) {}
 }
