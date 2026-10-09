@@ -740,6 +740,13 @@ export default class MTPush {
     /*
     * 请求订阅小米消息频道，结果通过 addCommandResultListener 返回。
     * */
+    static requestVivoSubscribeChannel(channelIds) {
+        if (Platform.OS == "android") {
+            return MTPushModule.requestVivoSubscribeChannel(channelIds)
+        }
+        return Promise.resolve()
+    }
+
     static requestSubscribeChannel(channelIds) {
         if (Platform.OS == "android") {
             MTPushModule.requestSubscribeChannel(channelIds)

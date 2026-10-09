@@ -536,6 +536,7 @@ static addNotiInappMessageListener(
    *
    * @platform Android
    */
+  static requestVivoSubscribeChannel(channelIds: string[]): Promise<void>;
   static requestSubscribeChannel(channelIds: string[]): void;
 
 

@@ -325,8 +325,23 @@ public class MTPushModule extends ReactContextBaseJavaModule {
     }
 
     /**
-     * 请求订阅小米消息频道，结果通过 onCommandResult 回调返回。
+     * 请求订阅 vivo 通知渠道，最终结果通过 onCommandResult 回调返回。
      */
+    @ReactMethod
+    public void requestVivoSubscribeChannel(ReadableArray channelIds, com.facebook.react.bridge.Promise promise) {
+        if (!"vivo".equalsIgnoreCase(android.os.Build.MANUFACTURER)) { promise.resolve(null); return; }
+        final android.app.Activity activity = getCurrentActivity();
+        if (activity == null) { promise.reject("ACTIVITY_UNAVAILABLE", "A foreground Activity is required"); return; }
+        if (channelIds == null) { promise.reject("PARAMETERS_ERROR", "Expected channel ID list"); return; }
+        try {
+            final ArrayList<String> channels = new ArrayList<String>();
+            for (int i = 0; i < channelIds.size(); i++) channels.add(channelIds.getString(i));
+            activity.runOnUiThread(new Runnable() {
+                @Override public void run() { try { MTPushPrivatesApi.requestVivoSubscribeChannel(activity, channels); promise.resolve(null); } catch (Throwable error) { promise.reject("VIVO_SUBSCRIBE_ERROR", "Update the EngageLab SDK and vivo package", error); } }
+            });
+        } catch (RuntimeException error) { promise.reject("PARAMETERS_ERROR", error); }
+    }
+
     @ReactMethod
     public void requestSubscribeChannel(ReadableArray channelIds) {
         if (channelIds == null) {
