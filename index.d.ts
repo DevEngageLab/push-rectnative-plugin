@@ -531,12 +531,13 @@ static addNotiInappMessageListener(
    */
   static resumePush(): void;
 
+  /** 请求订阅 vivo 通知渠道；Promise 仅表示提交成功，最终结果通过 addCommandResultListener (cmd 2013) 返回。 */
+  static requestVivoSubscribeChannel(channelIds: string[]): Promise<void>;
   /**
    * 请求订阅小米消息频道，结果通过 addCommandResultListener 返回。
    *
    * @platform Android
    */
-  static requestVivoSubscribeChannel(channelIds: string[]): Promise<void>;
   static requestSubscribeChannel(channelIds: string[]): void;
 
 

@@ -44,6 +44,7 @@ export default class App extends React.Component<Record<string, never>, AppState
     resultText: '等待操作结果',
   };
 
+  private commandResultListener?: Listener;
   private connectListener?: Listener;
   private notificationListener?: Listener;
   private localNotificationListener?: Listener;
@@ -73,6 +74,10 @@ export default class App extends React.Component<Record<string, never>, AppState
 
   componentDidMount() {
     MTPush.setLoggerEnable(true);
+    this.commandResultListener = result => {
+      this.recordResult('commandResult (vivo cmd 2013, Xiaomi cmd 2012)', result);
+    };
+    MTPush.addCommandResultListener(this.commandResultListener);
     // MTPush.setTcpSSL(true);
     // MTPush.setEnableResetOnDeviceChange(true);
     // MTPush.setCollectControl({gaid: true, aid: true});
@@ -131,6 +136,7 @@ export default class App extends React.Component<Record<string, never>, AppState
   componentWillUnmount() {
     MTPush.pageLeave('HomePage');
     [
+      this.commandResultListener,
       this.connectListener,
       this.notificationListener,
       this.localNotificationListener,
@@ -154,6 +160,15 @@ export default class App extends React.Component<Record<string, never>, AppState
           <Text style={styles.resultText}>{this.state.resultText}</Text>
         </View>
 
+        <DemoButton
+          title="vivo 通知渠道订阅"
+          onPress={() => {
+            // 初始化并开启通知权限后，替换为 vivo 后台的通知渠道 ID。
+            // Promise 仅表示提交成功，最终结果通过 commandResultListener 返回。
+            MTPush.requestVivoSubscribeChannel(['your_vivo_channel_id'])
+              .catch(error => this.recordResult('vivo request failed', String(error)));
+          }}
+        />
         <DemoButton
           title="setLoggerEnable"
           onPress={() => MTPush.setLoggerEnable(true)}
