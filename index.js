@@ -737,6 +737,14 @@ export default class MTPush {
         }
     }
 
+    /** 请求订阅 vivo 通知渠道；Promise 仅表示提交成功，最终结果通过 addCommandResultListener (cmd 2013) 返回。 */
+    static requestVivoSubscribeChannel(channelIds) {
+        if (Platform.OS == "android") {
+            return MTPushModule.requestVivoSubscribeChannel(channelIds)
+        }
+        return Promise.resolve()
+    }
+
     /*
     * 请求订阅小米消息频道，结果通过 addCommandResultListener 返回。
     * */

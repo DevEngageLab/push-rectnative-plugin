@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.8] - 2026-10-27
+
+### Changed
+- Android SDK 依赖升级至 5.5.3；iOS SDK 保持 5.4.4。
+- 新增 `MTPush.requestVivoSubscribeChannel(channelIds)`；最终订阅结果通过 `addCommandResultListener` 返回（`cmd = 2013`），Promise 仅表示请求已提交。
+- vivo Push SDK 升级至 4.1.7.0_517，补充 API 文档及按钮调用示例。
+
 ## [1.4.7] - 2026-09-18
 
 ### Changed
